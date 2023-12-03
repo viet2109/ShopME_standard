@@ -9,7 +9,7 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
 	rel="stylesheet">
 <link href="${pageContext.servletContext.contextPath}/assets/css/tiny-slider.css?version=5" rel="stylesheet">
-<link href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=5" rel="stylesheet">
+<link href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=6" rel="stylesheet">
 
 
 </head>

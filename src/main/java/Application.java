@@ -82,13 +82,14 @@ public class Application implements ServletContextListener, HttpSessionListener,
 			result = statement.executeQuery();
 
 			while (result.next()) {
+				int id = result.getInt("id");
 				String firstName = result.getString("first_name");
 				String lastName = result.getString("last_name");
 				String email = result.getString("email");
 				String phone = result.getString("phone");
 				Date dob = result.getDate("dob");
 
-				user = new User(firstName, lastName, email, phone, dob);
+				user = new User(id,firstName, lastName, email, phone, dob);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

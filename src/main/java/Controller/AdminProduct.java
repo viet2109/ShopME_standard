@@ -5,21 +5,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
 
 /**
- * Servlet implementation class LogOut
+ * Servlet implementation class Admin
  */
-@WebServlet("/logout")
-public class LogOut extends HttpServlet {
+@WebServlet("/admin/products")
+public class AdminProduct extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogOut() {
+    public AdminProduct() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,23 +27,7 @@ public class LogOut extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("logout");
-		HttpSession session = request.getSession();
-		session.setAttribute("user", null);
-		
-		// Lấy URL trước đó (referer)
-        String referer = request.getHeader("referer");
-
-        // Kiểm tra nếu referer không rỗng và nếu cần thực hiện xử lý dựa trên referer
-        if (referer != null && !referer.isEmpty()) {
-            // quay trở lại trang trước khi logout
-        	
-        	response.sendRedirect(referer);
-            
-        } else {
-            // Không có referer hoặc referer không hợp lệ
-        	response.sendRedirect("home");
-        }
+		request.getRequestDispatcher("/pages/admin_product.jsp").forward(request, response);
 	}
 
 	/**

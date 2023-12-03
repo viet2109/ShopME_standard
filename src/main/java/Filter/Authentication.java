@@ -19,8 +19,8 @@ import Model.User;
 /**
  * Servlet Filter implementation class CommentFilter
  */
-@WebFilter(filterName = "comment-filter", urlPatterns = "/comments/*")
-public class CommentFilter extends HttpFilter implements Filter {
+@WebFilter(filterName = "auth-filter", urlPatterns = {"/comments/*","/admin/*"})
+public class Authentication extends HttpFilter implements Filter {
        
     /**
 	 * 
@@ -30,7 +30,7 @@ public class CommentFilter extends HttpFilter implements Filter {
 	/**
      * @see HttpFilter#HttpFilter()
      */
-    public CommentFilter() {
+    public Authentication() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,7 +50,7 @@ public class CommentFilter extends HttpFilter implements Filter {
 		HttpSession session = httpRequest.getSession();
 		User user = (User) session.getAttribute("user");
 		if(user == null) {
-			request.getRequestDispatcher("pages/login.jsp").include(request, response);
+			request.getRequestDispatcher("../pages/login.jsp").include(request, response);
 			return;
 		}
 			chain.doFilter(request, response);

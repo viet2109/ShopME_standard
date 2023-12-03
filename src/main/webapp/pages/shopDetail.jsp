@@ -36,7 +36,7 @@
 	href="${pageContext.servletContext.contextPath}/assets/css/tiny-slider.css?version=5"
 	rel="stylesheet">
 <link
-	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=8"
+	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=4"
 	rel="stylesheet">
 <title>Furni Free Bootstrap 5 Template for Furniture and
 	Interior Design Websites by Untree.co</title>
@@ -191,15 +191,18 @@
 												</div>
 												<div class="user-name">
 													<span class="name">${_user.last_name}
-														${_user.first_name}</span> <span class="rating"> <i
-														class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-														class='bx bxs-star'></i> <i class='bx bxs-star'></i> <i
-														class='bx bxs-star'></i>
+														${_user.first_name}</span> <span class="rating" style="justify-content: flex-start;margin-bottom: 10px"> 
+														<c:forEach var="user-rate" begin="1" end="${comment.rate}">
+															<i class='bx bxs-star'></i>
+														</c:forEach>
+														
 													</span>
+													<span class="rate-datetime"><fmt:formatDate type = "both" 
+         dateStyle = "short" timeStyle = "short" pattern="dd-MM-yyyy HH:mm" value="${MathUtils.convertToDate(comment.create_date)}"/></span>
 												</div>
 											</div>
 											
-											<div class="user-rate-content">${comment.content}</div><span><fmt:formatDate pattern="dd-MM-yyyy" value="${Date.parse(comment.create_date.format(DateTimeFormatter.ofPattern('dd-MM-yyyy')))}"/></span>
+											<div class="user-rate-content">${comment.content}</div>
 										</div>
 									</c:forEach>
 

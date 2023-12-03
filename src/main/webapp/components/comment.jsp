@@ -35,7 +35,8 @@
 		<form
 			action="${pageContext.request.contextPath }/comments?product_id=${product_id}"
 			method="post" id="form" onsubmit=" if (validateForm()) handleSubmit()">
-			<input type="hidden" id="checkCmt" value="${param.checkCmt}">
+			
+			<input type="hidden" id="checkCmt" value="">
 			<input type="hidden" name="product_id" value="${product_id }">
 			<input type="hidden" value="${sessionScope.user }" id="user">
 			<div class=" mt-4 mx-5 d-flex flex-row">
@@ -88,19 +89,21 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		crossorigin="anonymous"></script>
-	<script src="${pageContext.request.contextPath }/assets/js/comment.js"></script>
+	<script src="${pageContext.request.contextPath }/assets/js/comment.js?version=2"></script>
 	<script type="text/javascript" >
 	const commentForm = document.getElementById('form');
 					const handleSubmit = () => {
 				event.preventDefault();
-				console.log("open confirm box");
+				
 				
 				const user = document.getElementById('user').value;
 				if (user === 'no exist') {
-					console.log("open confirm box");
+					
 					showSweetAlert();
 				} else {
+					localStorage.setItem('cmt', 'true');
 					commentForm.submit();
+					
 				}
 			}
 			  function showSweetAlert() {

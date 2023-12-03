@@ -21,7 +21,7 @@
 	href="${pageContext.servletContext.contextPath}/assets/css/tiny-slider.css?version=5"
 	rel="stylesheet">
 <link
-	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=5"
+	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=9"
 	rel="stylesheet">
 
 </head>

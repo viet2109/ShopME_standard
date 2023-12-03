@@ -14,13 +14,13 @@
     <location>/pages/404page.jsp</location>
   </error-page>
   <filter>
-    <display-name>CommentFilter</display-name>
-    <filter-name>CommentFilter</filter-name>
-    <filter-class>Filter.CommentFilter</filter-class>
+    <display-name>Authentication</display-name>
+    <filter-name>Authentication</filter-name>
+    <filter-class>Filter.Authentication</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>CommentFilter</filter-name>
-    <url-pattern>/CommentFilter</url-pattern>
+    <filter-name>Authentication</filter-name>
+    <url-pattern>/Authentication</url-pattern>
   </filter-mapping>
   <servlet>
     <description></description>
@@ -31,5 +31,15 @@
   <servlet-mapping>
     <servlet-name>Comment</servlet-name>
     <url-pattern>/Comment</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Admin</display-name>
+    <servlet-name>Admin</servlet-name>
+    <servlet-class>Controller.Admin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Admin</servlet-name>
+    <url-pattern>/Admin</url-pattern>
   </servlet-mapping>
 </web-app>

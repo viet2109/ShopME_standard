@@ -28,7 +28,7 @@
 	href="${pageContext.servletContext.contextPath}/assets/css/tiny-slider.css"
 	rel="stylesheet">
 <link
-	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=5"
+	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=6"
 	rel="stylesheet">
 <title>Furni Free Bootstrap 5 Template for Furniture and
 	Interior Design Websites by Untree.co</title>

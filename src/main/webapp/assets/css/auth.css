@@ -794,4 +794,27 @@ label.valid:after {
 	accent-color: transparent;
 }
 
+.home-href {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	padding-top: 20px;
+	margin-left: 20px;
+	max-width: fit-content;
+	border-bottom:2px solid transparent ;
+	font-weight: 600;
+	transition: 0.5s;
+	color: #333;
+	opacity: 1;
+}
+
+.home-href:hover {
+	opacity: 0.4;
+	border-bottom-color: #333 ;
+}
+
+.home-href svg {
+	margin-right: 7px;
+}
+
 /*# sourceMappingURL=style.css.map */

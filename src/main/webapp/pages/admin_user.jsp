@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="Database.DBConnection"%>
+<%@ page import="Utils.DynamicPagination"%>
+<%@ page import="Utils.MathUtils"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,6 +24,18 @@
 </head>
 
 <body>
+	<sql:setDataSource var="users" driver="${DBConnection.driver}"
+		user="${DBConnection.dbUserName}"
+		password="${DBConnection.dbUserPassWord}" url="${DBConnection.dbUri}" />
+
+	<sql:query var="results" dataSource="${users}">
+	select * from customers
+	</sql:query>
+	<sql:query var="us" dataSource="${users}">
+	select * from customers
+	limit ${DynamicPagination.totalUserOfPage}
+	offset ${MathUtils.roundUp( (param.page-1) * DynamicPagination.totalUserOfPage, 1)}
+	</sql:query>
 	<!-- Dashboard -->
 	<div
 		class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
@@ -37,8 +56,8 @@
 									<div class="row">
 										<div class="col">
 											<span
-												class="h6 font-semibold text-muted text-sm d-block mb-2">Total users</span>
-											<span class="h3 font-bold mb-0">11590</span>
+												class="h6 font-semibold text-muted text-sm d-block mb-2">Total
+												users</span> <span class="h3 font-bold mb-0">11590</span>
 										</div>
 										<div class="col-auto">
 											<div
@@ -147,259 +166,59 @@
 										<th scope="col">Date</th>
 										<th scope="col">Email</th>
 										<th scope="col">Phone</th>
-										<th scope="col">Address</th>
+										<th scope="col">Role</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Jason
-												Martinez </a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://bytewebster.com/img/logo.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold"
-											href="https://www.bytewebster.com/"> Bytewebster </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end">
-										<a href="#"
-										class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
-										<span class=" pe-2"> <i class="bi bi-pencil"></i>
-									</span> <span>Edit</span>
-									</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Ashley
-												Williams </a></td>
-										<td>Apr 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-2.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Netguru </a></td>
-										<td>$2.750</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-warning"></i>Postponed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<a href="#"
-										class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
-										<span class=" pe-2"> <i class="bi bi-pencil"></i>
-									</span> <span>Edit</span>
-									</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Melissa Chen
-										</a></td>
-										<td>Mar 20, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-3.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Figma </a></td>
-										<td>$4.200</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Emily Davis
-										</a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-4.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Mailchimp </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-dark"></i>Not discussed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Thomas
-												Nguyen </a></td>
-										<td>Apr 10, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-5.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Webpixels </a></td>
-										<td>$1.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-danger"></i>Canceled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Jason
-												Martinez </a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://bytewebster.com/img/logo.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold"
-											href="https://www.bytewebster.com/"> Bytewebster </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Ashley
-												Williams </a></td>
-										<td>Apr 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-2.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Netguru </a></td>
-										<td>$2.750</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-warning"></i>Postponed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Melissa Chen
-										</a></td>
-										<td>Mar 20, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-3.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Figma </a></td>
-										<td>$4.200</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Emily Davis
-										</a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-4.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Mailchimp </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-dark"></i>Not discussed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Thomas
-												Nguyen </a></td>
-										<td>Apr 10, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-5.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Webpixels </a></td>
-										<td>$1.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-danger"></i>Canceled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
+
+
+									<c:forEach var="u" items="${us.rows}">
+										<tr>
+											<td><img alt="..."
+												src="${pageContext.servletContext.contextPath}/assets/images/user-avatar.png"
+												class="avatar avatar-sm rounded-circle me-2"> <a
+												class="text-heading font-semibold" href="#">
+													${u.last_name} ${u.first_name} </a></td>
+											<td><fmt:formatDate pattern="dd-MM-yyyy"
+													value="${u.dob}" /></td>
+											<td>${u.email}</td>
+											<td>${u.phone}</td>
+											<td>${not u.roles eq true?'Admin':'User' }</td>
+
+											<td class="text-end"><c:choose>
+
+													<c:when test="${sessionScope.user.id != u.id and not u.roles eq true}">
+													</c:when>
+
+													<c:otherwise>
+														<a href="#"
+															class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+															<span class=" pe-2"> <i class="bi bi-pencil"></i>
+														</span> <span>Edit</span>
+														</a>
+														<button type="button" onclick="showSweetAlert()"
+															class="btn btn-sm btn-square btn-neutral text-danger-hover">
+															<i class="bi bi-trash"></i>
+														</button>
+													</c:otherwise>
+
+												</c:choose></td>
+										</tr>
+									</c:forEach>
+
 								</tbody>
 							</table>
 						</div>
 						<div class="card-footer border-0 py-5">
-							<span class="text-muted text-sm">Showing 10 items out of
-								250 results found</span>
-							<nav aria-label="Page navigation example">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link disabled"
-										href="#">Previous</a></li>
-									<li class="page-item"><a
-										class="page-link bg-info text-white" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">Next</a></li>
-								</ul>
-							</nav>
+							<span class="text-muted text-sm">Showing ${fn:length(us.rows)} users out of
+								${fn:length(results.rows)} results found</span>
+							<jsp:include page="../components/dynamicPagination.jsp">
+								<jsp:param
+									value="${MathUtils.roundUp(fn:length(results.rows),DynamicPagination.totalUserOfPage)}"
+									name="totalPage" />
+								<jsp:param value="${param.page}" name="currentPage" />
+							</jsp:include>
 						</div>
 					</div>
 				</div>

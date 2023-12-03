@@ -142,6 +142,7 @@ function renderPage(index, active = "") {
 	// param product detail page
 	else if (param.get('id') != null) {
 		param.set('comment_page', index);
+		
 	}
 	
 	

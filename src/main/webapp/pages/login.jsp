@@ -17,10 +17,10 @@
 
 <!-- Main css -->
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=1">
+	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=4">
 </head>
 <body>
-	<c:set var="product_id" value="${param.id }"/>
+	<c:set var="product_id" value="${param.id }" />
 	<input type="hidden" id="status" value="${requestScope.status}" />
 	<input type="hidden" id="register_status"
 		value="${sessionScope.register_status}" />
@@ -30,6 +30,13 @@
 		<!-- Sing in  Form -->
 		<section class="sign-in">
 			<div class="container">
+				<a class="home-href" href="${pageContext.servletContext.contextPath}/home"> <svg
+						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+							d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+</svg>Back to home
+				</a>
 				<div class="signin-content">
 					<div class="signin-image">
 						<figure>
@@ -43,13 +50,15 @@
 
 					<div class="signin-form">
 						<h2 class="form-title">Sign in</h2>
-						
+
 						<form method="post"
 							action="${pageContext.servletContext.contextPath}/login"
 							class="register-form" id="login-form">
-							<input type="hidden" value="${param.product_id }" name="product_id" >
-							<input type="hidden" value="${param.rating }" name="rating" >
-							<input type="hidden" value="${param.content_comment}" name="content_comment" >
+							<input type="hidden" value="${param.product_id }"
+								name="product_id"> <input type="hidden"
+								value="${param.rating }" name="rating"> <input
+								type="hidden" value="${param.content_comment}"
+								name="content_comment">
 							<div class="form-group">
 								<label for="username"><i
 									class="zmdi zmdi-account material-icons-name"></i></label> <input

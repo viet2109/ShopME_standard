@@ -61,6 +61,7 @@ public class LogIn extends HttpServlet {
 		String product_id = request.getParameter("product_id");
 		String rating = request.getParameter("rating");
 		String content_comment = request.getParameter("content_comment");
+		int role = 0;
 		
 		request.setAttribute("rating",rating);
 		request.setAttribute("product_id",product_id);
@@ -102,7 +103,24 @@ public class LogIn extends HttpServlet {
 				return;
 			}
 			
-			response.sendRedirect("home");
+			// get role to redirect
+			
+			while(result.next()) {
+				role = result.getInt("roles");
+				
+				result.previous();
+				break;
+			}
+			
+			if (role==0) {
+				// redirect admin page
+				response.sendRedirect("admin/users?page=1");
+				
+			} else {
+				
+				response.sendRedirect("home");
+			}
+			
 		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -137,6 +155,7 @@ public class LogIn extends HttpServlet {
 		while (result.next()) {
 
 			user = new User(
+					result.getInt("id"),
 					result.getString("first_name"),
 					result.getString("last_name"),
 					result.getString("email"),
@@ -144,6 +163,8 @@ public class LogIn extends HttpServlet {
 					
 					result.getDate("dob")
 					);
+			result.previous();
+			break;
 
 		}
 		

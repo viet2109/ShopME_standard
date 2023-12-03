@@ -3,6 +3,23 @@
  *//**
  * 
  */
+
+const cmt = localStorage.getItem("cmt");
+if (cmt === 'true') {
+	document.getElementById('checkCmt').value = cmt;
+}
+
+window.onload = function () {
+
+    if(user.value !== ''){
+		checkCmt()
+		if(check === 'null'){
+			displayStars(rating)
+		}
+	}
+	
+};
+
 const allStar = document.querySelectorAll('.rating .star')
 const ratingValue = document.querySelector('.rating input')
 allStar.forEach((item, idx) => {
@@ -30,6 +47,7 @@ allStar.forEach((item, idx) => {
 
 
 var star = document.getElementById('rating');
+
 var comment = document.getElementById('content-comment').value;
 
 var form = document.getElementById('form');
@@ -43,11 +61,14 @@ function validateForm() {
 	
 	return true;
 }
+
 var checkCmtValue = document.getElementById('checkCmt').value;
-var check
+
 function checkCmt() {
 		if(checkCmtValue == 'true'){
-			swal("Congrats", "Review submitted successfully. !", "success");
+			swal("Congrats", "Review submitted successfully. !", "success").then(() => {
+				localStorage.removeItem("cmt")
+			});
 			return true;
 		}else if(checkCmtValue == 'false'){
 			swal("Sorry", "Review submission failed. !", "error");
@@ -77,15 +98,6 @@ function displayStars(rating) {
         }
     }
 }
-window.onload = function () {
-    if(user.value !== ''){
-		checkCmt()
-		if(check === 'null'){
-			displayStars(rating)
-		}
-	}
-	
-};
 
 
 
@@ -107,4 +119,6 @@ document.getElementById('cancelButton').addEventListener('click', function() {
 		
 	})
 });
+
+
 

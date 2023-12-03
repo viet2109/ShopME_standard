@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="Database.DBConnection"%>
+<%@ page import="Utils.DynamicPagination"%>
+<%@ page import="Utils.MathUtils"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +15,7 @@
 <title>Responsive Bootstrap Dashboard and Admin Template -
 	ByteWebster</title>
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/admin.css">
+	href="${pageContext.servletContext.contextPath}/assets/css/admin.css?version=2">
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">
@@ -17,6 +24,19 @@
 </head>
 
 <body>
+
+	<sql:setDataSource var="products" driver="${DBConnection.driver}"
+		user="${DBConnection.dbUserName}"
+		password="${DBConnection.dbUserPassWord}" url="${DBConnection.dbUri}" />
+
+	<sql:query var="results" dataSource="${products}">
+	select * from products
+	</sql:query>
+	<sql:query var="prd" dataSource="${products}">
+	select * from products
+	limit ${DynamicPagination.totalProductOfPage}
+	offset ${MathUtils.roundUp( (param.page-1) * DynamicPagination.totalProductOfPage, 1)}
+	</sql:query>
 	<!-- Dashboard -->
 	<div
 		class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
@@ -36,13 +56,17 @@
 									<div class="row">
 										<div class="col">
 											<span
-												class="h6 font-semibold text-muted text-sm d-block mb-2">Total products</span>
-											<span class="h3 font-bold mb-0">250</span>
+												class="h6 font-semibold text-muted text-sm d-block mb-2">Total
+												products</span> <span class="h3 font-bold mb-0">250</span>
 										</div>
 										<div class="col-auto">
 											<div
 												class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
-												<svg style="fill: #fff" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M64 160C64 89.3 121.3 32 192 32H448c70.7 0 128 57.3 128 128v33.6c-36.5 7.4-64 39.7-64 78.4v48H128V272c0-38.7-27.5-71-64-78.4V160zM544 272c0-20.9 13.4-38.7 32-45.3c5-1.8 10.4-2.7 16-2.7c26.5 0 48 21.5 48 48V448c0 17.7-14.3 32-32 32H576c-17.7 0-32-14.3-32-32H96c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V272c0-26.5 21.5-48 48-48c5.6 0 11 1 16 2.7c18.6 6.6 32 24.4 32 45.3v48 32h32H512h32V320 272z"/></svg>
+												<svg style="fill: #fff" xmlns="http://www.w3.org/2000/svg"
+													height="1em" viewBox="0 0 640 512">
+													<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+													<path
+														d="M64 160C64 89.3 121.3 32 192 32H448c70.7 0 128 57.3 128 128v33.6c-36.5 7.4-64 39.7-64 78.4v48H128V272c0-38.7-27.5-71-64-78.4V160zM544 272c0-20.9 13.4-38.7 32-45.3c5-1.8 10.4-2.7 16-2.7c26.5 0 48 21.5 48 48V448c0 17.7-14.3 32-32 32H576c-17.7 0-32-14.3-32-32H96c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V272c0-26.5 21.5-48 48-48c5.6 0 11 1 16 2.7c18.6 6.6 32 24.4 32 45.3v48 32h32H512h32V320 272z" /></svg>
 											</div>
 										</div>
 									</div>
@@ -142,256 +166,64 @@
 							<table class="table table-hover table-nowrap">
 								<thead class="thead-light">
 									<tr>
-										<th scope="col">Name</th>
-										<th scope="col">Description</th>
-										<th scope="col">Price</th>
+										<th class="txt-cet" scope="col">Name</th>
+										<th class="txt-cet" scope="col">Description</th>
+										<th class="txt-cet" scope="col">Price</th>
+										<th class="txt-cet" scope="col">Percent Sale</th>
+										<th class="txt-cet" scope="col">Final Price</th>
+										<th class="txt-cet" scope="col">Rate</th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Jason
-												Martinez </a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://bytewebster.com/img/logo.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold"
-											href="https://www.bytewebster.com/"> Bytewebster </a></td>
-										
-										<td class="text-end"><a href="#"
-										class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
-										<span class=" pe-2"> <i class="bi bi-pencil"></i>
-									</span> <span>Edit</span>
-									</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Ashley
-												Williams </a></td>
-										<td>Apr 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-2.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Netguru </a></td>
-										<td>$2.750</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-warning"></i>Postponed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a> <a href="#"
-											class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
-												<span class=" pe-2"> <i class="bi bi-pencil"></i>
-											</span> <span>Edit</span>
-										</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Melissa Chen
-										</a></td>
-										<td>Mar 20, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-3.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Figma </a></td>
-										<td>$4.200</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Emily Davis
-										</a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-4.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Mailchimp </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-dark"></i>Not discussed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Thomas
-												Nguyen </a></td>
-										<td>Apr 10, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-5.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Webpixels </a></td>
-										<td>$1.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-danger"></i>Canceled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Jason
-												Martinez </a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://bytewebster.com/img/logo.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold"
-											href="https://www.bytewebster.com/"> Bytewebster </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610271340738-726e199f0258?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Ashley
-												Williams </a></td>
-										<td>Apr 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-2.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Netguru </a></td>
-										<td>$2.750</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-warning"></i>Postponed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1610878722345-79c5eaf6a48c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Melissa Chen
-										</a></td>
-										<td>Mar 20, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-3.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Figma </a></td>
-										<td>$4.200</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-success"></i>Scheduled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Emily Davis
-										</a></td>
-										<td>Feb 15, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-4.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Mailchimp </a></td>
-										<td>$3.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-dark"></i>Not discussed
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
-									<tr>
-										<td><img alt="..."
-											src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-											class="avatar avatar-sm rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Thomas
-												Nguyen </a></td>
-										<td>Apr 10, 2023</td>
-										<td><img alt="..."
-											src="https://preview.webpixels.io/web/img/other/logos/logo-5.png"
-											class="avatar avatar-xs rounded-circle me-2"> <a
-											class="text-heading font-semibold" href="#"> Webpixels </a></td>
-										<td>$1.500</td>
-										<td><span class="badge badge-lg badge-dot"> <i
-												class="bg-danger"></i>Canceled
-										</span></td>
-										<td class="text-end"><a href="#"
-											class="btn btn-sm btn-neutral">View</a>
-											<button type="button" onclick="showSweetAlert()"
-												class="btn btn-sm btn-square btn-neutral text-danger-hover">
-												<i class="bi bi-trash"></i>
-											</button></td>
-									</tr>
+
+									<c:forEach var="p" items="${prd.rows}">
+										<tr>
+											<td><img alt="..." src="${p.image}"
+												class="avatar avatar-sm rounded-circle me-2">
+												<div class="text-heading font-semibold"
+													style="text-transform: capitalize; display: inline-block;">
+													${ p.product_name }</div></td>
+											<td
+												style="max-width: 300px; overflow: hidden; text-overflow: ellipsis;">${p.des }</td>
+											<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+													maxFractionDigits="2" type="currency" value="${p.price}"></fmt:formatNumber>
+											</td>
+											<td class="txt-cet"><fmt:formatNumber type="percent"
+													value="${(1 - p.percent_sale) }"></fmt:formatNumber></td>
+											<td class="txt-cet"><fmt:setLocale value="en_US" /> <fmt:formatNumber
+													maxFractionDigits="2" type="currency"
+													value="${p.price * (p.percent_sale)}"></fmt:formatNumber></td>
+											<td class="txt-cet">${p.rate}</td>
+
+											<td class="text-end"><a href="#"
+												class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+													<span class=" pe-2"> <i class="bi bi-pencil"></i>
+												</span> <span>Edit</span>
+											</a>
+												<button type="button" onclick="showSweetAlert()"
+													class="btn btn-sm btn-square btn-neutral text-danger-hover">
+													<i class="bi bi-trash"></i>
+												</button></td>
+
+										</tr>
+
+									</c:forEach>
+
 								</tbody>
 							</table>
 						</div>
 						<div class="card-footer border-0 py-5">
-							<span class="text-muted text-sm">Showing 10 items out of
-								250 results found</span>
-							<nav aria-label="Page navigation example">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link disabled"
-										href="#">Previous</a></li>
-									<li class="page-item"><a
-										class="page-link bg-info text-white" href="#">1</a></li>
-									<li class="page-item"><a class="page-link" href="#">2</a></li>
-									<li class="page-item"><a class="page-link" href="#">3</a></li>
-									<li class="page-item"><a class="page-link" href="#">Next</a></li>
-								</ul>
-							</nav>
+							<span class="text-muted text-sm">Showing
+								${fn:length(prd.rows)} products out of
+								${fn:length(results.rows)} results found</span>
+							<jsp:include page="../components/dynamicPagination.jsp">
+								<jsp:param
+									value="${MathUtils.roundUp(fn:length(results.rows),DynamicPagination.totalProductOfPage)}"
+									name="totalPage" />
+								<jsp:param value="${param.page}" name="currentPage" />
+							</jsp:include>
+
 						</div>
 					</div>
 				</div>
