@@ -9,7 +9,9 @@ import java.util.Enumeration;
 
 import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 
+import DAO.CartDAO;
 import Database.DBConnection;
+import Model.Cart;
 import Model.User;
 import Utils.CountRowSQL;
 import jakarta.servlet.ServletContextEvent;
@@ -28,6 +30,7 @@ public class Application implements ServletContextListener, HttpSessionListener,
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+		
 		new DBConnection();
 	}
 	
@@ -54,7 +57,8 @@ public class Application implements ServletContextListener, HttpSessionListener,
 		// TODO Auto-generated method stub
 
 		request = sre;
-
+		
+		
 		ServletRequestListener.super.requestInitialized(sre);
 	}
 
@@ -70,6 +74,7 @@ public class Application implements ServletContextListener, HttpSessionListener,
 		HttpSession session = se.getSession();
 
 		User user = null;
+		Cart cart = null;
 		String ip = request.getServletRequest().getRemoteAddr();
 		String sql;
 		PreparedStatement statement;
@@ -88,8 +93,11 @@ public class Application implements ServletContextListener, HttpSessionListener,
 				String email = result.getString("email");
 				String phone = result.getString("phone");
 				Date dob = result.getDate("dob");
+				String passwd = result.getString("passwd");
+				int roles = result.getInt("roles");
 
-				user = new User(id,firstName, lastName, email, phone, dob);
+				user = new User(id, firstName, lastName, email, phone, dob, passwd, roles);
+				cart = CartDAO.getByUserId(id);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -97,7 +105,11 @@ public class Application implements ServletContextListener, HttpSessionListener,
 		}
 		session.setAttribute("ip", request.getServletRequest().getRemoteAddr());
 		session.setAttribute("user", user);
-
+		session.setAttribute("cart", cart);
+		
+		
+		session.setAttribute("lang", "vi");
+		
 		HttpSessionListener.super.sessionCreated(se);
 	}
 
@@ -110,25 +122,13 @@ public class Application implements ServletContextListener, HttpSessionListener,
 		String sql;
 		PreparedStatement statement;
 		ResultSet result;
-		int id = 0;
+		int id;
 		String ip = (String) session.getAttribute("ip");
 		// save user
 		if (user != null) {
-			String email = user.getEmail();
+			id = user.getId();
 			try {
-				sql = "SELECT id FROM customers WHERE email=?";
-
-				statement = DBConnection.connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_SENSITIVE,
-						ResultSet.CONCUR_UPDATABLE);
-
-				statement.setString(1, email);
-
-				result = statement.executeQuery();
-
-				while (result.next()) {
-					id = result.getInt("id");
-				}
-
+				
 				// check if ip exist
 				sql = "SELECT * FROM user_re_login WHERE ip=?";
 
@@ -140,7 +140,7 @@ public class Application implements ServletContextListener, HttpSessionListener,
 				CountRowSQL row = new CountRowSQL(result);
 				if (row.getRow() > 0) {
 
-					sql = "UPDATE  user_re_login SET id_user = ? WHERE ip= ?";
+					sql = "UPDATE user_re_login SET id_user = ? WHERE ip= ?";
 
 					statement = DBConnection.connection.prepareStatement(sql);
 					statement.setInt(1, id);

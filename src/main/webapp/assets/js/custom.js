@@ -1,5 +1,9 @@
+
+
 (function() {
 	'use strict';
+
+
 
 	var tinyslider = function() {
 		var el = document.querySelectorAll('.testimonial-slider');
@@ -23,51 +27,78 @@
 	};
 	tinyslider();
 
-	
+
 
 
 	var sitePlusMinus = function() {
 
 		var value,
-    		quantity = document.getElementsByClassName('quantity-container');
+			quantity = document.getElementsByClassName('quantity-container');
 
 		function createBindings(quantityContainer) {
-	      var quantityAmount = quantityContainer.getElementsByClassName('quantity-amount')[0];
-	      var increase = quantityContainer.getElementsByClassName('increase')[0];
-	      var decrease = quantityContainer.getElementsByClassName('decrease')[0];
-	      increase.addEventListener('click', function (e) { increaseValue(e, quantityAmount); });
-	      decrease.addEventListener('click', function (e) { decreaseValue(e, quantityAmount); });
-	    }
+			var quantityAmount = quantityContainer.getElementsByClassName('quantity-amount')[0];
+			var increase = quantityContainer.getElementsByClassName('increase')[0];
+			var decrease = quantityContainer.getElementsByClassName('decrease')[0];
+			increase.addEventListener('click', function(e) { increaseValue(e, quantityAmount, quantityAmount.dataset.id); });
+			decrease.addEventListener('click', function(e) { decreaseValue(e, quantityAmount, quantityAmount.dataset.id); });
+		}
 
-	    function init() {
-	        for (var i = 0; i < quantity.length; i++ ) {
-						createBindings(quantity[i]);
-	        }
-	    };
+		function init() {
+			for (var i = 0; i < quantity.length; i++) {
+				createBindings(quantity[i]);
+			}
+		};
 
-	    function increaseValue(event, quantityAmount) {
-	        value = parseInt(quantityAmount.value, 10);
+		function increaseValue(event, quantityAmount, product_id) {
+			value = parseInt(quantityAmount.value, 10);
 
-	        console.log(quantityAmount, quantityAmount.value);
+			value = isNaN(value) ? 1 : value;
+			value++;
+			quantityAmount.value = value;
 
-	        value = isNaN(value) ? 0 : value;
-	        value++;
-	        quantityAmount.value = value;
-	    }
+			const selected = document.getElementById(`check-product-${product_id}`).checked ? 1 : 0;
+			updateProduct(product_id, value, selected)
 
-	    function decreaseValue(event, quantityAmount) {
-	        value = parseInt(quantityAmount.value, 10);
+		}
 
-	        value = isNaN(value) ? 0 : value;
-	        if (value > 0) value--;
+		function decreaseValue(event, quantityAmount, product_id) {
+			value = parseInt(quantityAmount.value, 10);
 
-	        quantityAmount.value = value;
-	    }
-	    
-	    init();
-		
+			value = isNaN(value) ? 1 : value;
+			if (value > 1) value--;
+
+			const selected = document.getElementById(`check-product-${product_id}`).checked ? 1 : 0;
+			updateProduct(product_id, value, selected)
+		}
+
+
+
+		init();
+
 	};
 	sitePlusMinus();
+	const updateProduct = (product_id, quantity, selected) => {
+		document.getElementById("update_input_quantity").value = quantity;
+		document.getElementById("update_input_selected").value = selected;
+		document.getElementById("update_input_id").value = product_id;
+		
+		document.getElementById("update_product").submit();
 
 
-})()
+	}
+
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+

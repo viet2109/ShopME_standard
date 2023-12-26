@@ -5,7 +5,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry excluding="Filter/|Filter/|Filter/" kind="src" path="src/main/java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v10.1">
 		<attributes>
 			<attribute name="owner.project.facets" value="jst.web"/>
@@ -18,7 +18,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="D:/Download/apache-tomcat-10.1.13/lib/servlet-api.jar">
+	<classpathentry exported="true" kind="lib" path="D:/Download/apache-tomcat-10.1.13/lib/servlet-api.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="https://jakarta.ee/specifications/servlet/6.0/apidocs/"/>
 		</attributes>

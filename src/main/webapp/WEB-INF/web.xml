@@ -16,7 +16,7 @@
   <filter>
     <display-name>Authentication</display-name>
     <filter-name>Authentication</filter-name>
-    <filter-class>Filter.Authentication</filter-class>
+    <filter-class>Fillter.Authentication</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>Authentication</filter-name>
@@ -41,5 +41,73 @@
   <servlet-mapping>
     <servlet-name>Admin</servlet-name>
     <url-pattern>/Admin</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Cart</display-name>
+    <servlet-name>Cart</servlet-name>
+    <servlet-class>Controller.Cart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Cart</servlet-name>
+    <url-pattern>/Cart</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Test</display-name>
+    <servlet-name>Test</servlet-name>
+    <servlet-class>Controller.Test</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Test</servlet-name>
+    <url-pattern>/Test</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Language</display-name>
+    <servlet-name>Language</servlet-name>
+    <servlet-class>Controller.Language</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Language</servlet-name>
+    <url-pattern>/Language</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <display-name>AuthAuthorization</display-name>
+    <filter-name>AuthAuthorization</filter-name>
+    <filter-class>Fillter.AuthAuthorization</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthAuthorization</filter-name>
+    <url-pattern>/AuthAuthorization</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>Auth</display-name>
+    <filter-name>Auth</filter-name>
+    <filter-class>Fillter.Auth</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Auth</filter-name>
+    <url-pattern>/Auth</url-pattern>
+  </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CheckOut</display-name>
+    <servlet-name>CheckOut</servlet-name>
+    <servlet-class>Controller.CheckOut</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckOut</servlet-name>
+    <url-pattern>/CheckOut</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Payment</display-name>
+    <servlet-name>Payment</servlet-name>
+    <servlet-class>Controller.Payment</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Payment</servlet-name>
+    <url-pattern>/Payment</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -67,7 +67,6 @@ numLinksTwoSide.onchange = function() {
 
 checks.forEach((check) => {
 	check.onclick = (e) => {
-		console.log(e.target);
 		handleCheckTruncate();
 		pagination();
 	};
@@ -130,25 +129,25 @@ function pagination() {
 }
 
 function renderPage(index, active = "") {
-	
+
 	const path = window.location.pathname;
 	const param = new URLSearchParams(window.location.search);
-	
+
 	// param products page
 	if (param.get('page') != null) {
 		param.set('page', index);
-	} 
+	}
 
 	// param product detail page
 	else if (param.get('id') != null) {
 		param.set('comment_page', index);
-		
+
 	}
-	
-	
+
+
 	const newParam = param.toString();
-	
-	
+
+
 	const result = ` <li class="pg-item ${active}" data-page="${index}">
 	        <a class="pg-link" href="${path}?${newParam}" >${index}</a>
 	    </li>`
@@ -187,18 +186,35 @@ function handleCheckTruncate() {
 }
 
 document.querySelector(".page-container").onclick = function(e) {
-	handleButton(e.target);
-	const pg_item = document.querySelector('.pg-item.active');
 
-	pg_item.firstElementChild.click();
+
+	if (e.target != e.currentTarget) {
+	
+		const beforeRedirect = document.querySelector('.pg-item.active');
+		handleButton(e.target);
+		const afterRedirect = document.querySelector('.pg-item.active');
+		
+		const href = afterRedirect.firstElementChild.href;
+
+		if (href) {
+			
+			if (beforeRedirect.dataset.page !== afterRedirect.dataset.page) {
+				console.log("ok haha")
+			window.location.href = href
+			}
+		}
+		
+	}
+	
+
 };
 
 
-	
+
 
 
 function handleButton(element) {
-	
+
 	if (element.classList.contains("first-page")) {
 		console.log("first-page")
 		valuePage.curPage = 1;
@@ -223,7 +239,7 @@ function handleButton(element) {
 	pagination();
 }
 function handleButtonLeft() {
-	
+
 	if (valuePage.totalPages === 1) {
 		console.log("not prev")
 		btnPrevPg.disabled = true;
@@ -244,7 +260,7 @@ function handleButtonLeft() {
 	}
 }
 function handleButtonRight() {
-	
+
 	if (valuePage.totalPages === 1) {
 		console.log("not prev")
 		btnPrevPg.disabled = true;
@@ -266,7 +282,7 @@ function handleButtonRight() {
 
 
 handleButtonLeft();
-	handleButtonRight();
+handleButtonRight();
 
 
 

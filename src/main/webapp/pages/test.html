@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nominatim Address Autocomplete</title>
+<style>
+#addressInput {
+	width: 300px;
+	padding: 8px;
+	font-size: 14px;
+}
+
+#addressOptions {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	border: 1px solid #ccc;
+	border-top: none;
+}
+
+#addressOptions li {
+	padding: 8px;
+	cursor: pointer;
+}
+
+#addressOptions li:hover {
+	background-color: #f2f2f2;
+}
+
+#selectedAddress {
+	margin-top: 16px;
+	font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+	<form action="/ShopMe_standard/payment" method="post">
+		<input type="text" name="c_fname" value="Gumball" required="required"><input
+			type="text" name="c_lname" value="Waterson" required="required"><input
+			type="text" name="c_address" value="" required="required"><input
+			type="email" name="c_email_address" value="gumball@gmail.com"
+			required="required"><input type="tel" name="c_phone"
+			value="0393003398" pattern="^\s*\d(?:\s*\d){9}\s*$"
+			required="required"><input type="text" name="coupon" value=""><input
+			type="radio" name="payment" value="1"><input type="radio"
+			name="payment" value="2"><input type="radio" name="payment"
+			value="3"><select name="p_province" value=""
+			required="required"></select><select name="d_district" value=""
+			required="required"></select><select name="w_ward" value=""
+			required="required"></select>
+			<button type="submit">Submit</button>
+	</form>
+
+</body>
+</html>

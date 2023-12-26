@@ -1,27 +1,21 @@
 package Controller;
 
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.Map;
+
+import DAO.CartDAO;
+import DAO.UserDAO;
+import Model.Cart;
+import Model.User;
+import Utils.BCrypt;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-
-import Database.DBConnection;
-import Model.User;
-import Utils.BCrypt;
-import Utils.CountRowSQL;
 
 /**
  * Servlet implementation class Login
@@ -52,130 +46,94 @@ public class LogIn extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		HttpSession session = request.getSession(true);
+
+		HttpSession session = request.getSession();
+		Map<String, String[]> paramaterMap = request.getParameterMap();
 		String user_name_phone = request.getParameter("username");
 		String password = request.getParameter("password");
-		String product_id = request.getParameter("product_id");
-		String rating = request.getParameter("rating");
-		String content_comment = request.getParameter("content_comment");
-		int role = 0;
-		
-		request.setAttribute("rating",rating);
-		request.setAttribute("product_id",product_id);
-		request.setAttribute("content_comment",content_comment);
-		
-		
-		if (user_name_phone == null || password == null) {
+
+		if (paramaterMap.isEmpty()) {
 			return;
-		}
-		
-		try {
-			String sql = "select * from customers where email=? or phone=?";
-			PreparedStatement statement = DBConnection.connection.prepareStatement(sql,ResultSet.TYPE_SCROLL_SENSITIVE, 
-                    ResultSet.CONCUR_UPDATABLE);
-			statement.setString(1, user_name_phone);
-			statement.setString(2, user_name_phone);
-
-			ResultSet result = statement.executeQuery();
-			
-			CountRowSQL countRow = new CountRowSQL(result);
-			
-			if (countRow.getRow() == 0) {
-				
-					request.setAttribute("status", "failed");
-					request.setAttribute("username", user_name_phone);
-					request.setAttribute("password", password);
-					System.out.println("login fail");
-					doGet(request, response);
-					return;
-				
-			}
-			if (!login(result, password, user_name_phone, request, response, session)) {
-				return;
-			};
-			
-			
-			if(!product_id.isEmpty()) {
-				response.sendRedirect("products?id="+product_id+"&rating="+rating+"&content_comment="+content_comment);
-				return;
-			}
-			
-			// get role to redirect
-			
-			while(result.next()) {
-				role = result.getInt("roles");
-				
-				result.previous();
-				break;
-			}
-			
-			if (role==0) {
-				// redirect admin page
-				response.sendRedirect("admin/users?page=1");
-				
-			} else {
-				
-				response.sendRedirect("home");
-			}
-			
-		} catch (SQLException e) {
-			// TODO: handle exception
-			e.printStackTrace();
+		} else {
+			doGet(request, response);
 		}
 
-	}
-	private boolean login(ResultSet result, String password, String user_name_phone, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		
-		try {
-			String hashPass="";
-			
-			
-			if(result.next()) {
-				
-				hashPass = result.getString("passwd");
-				
-				result.previous();
-			}
-		
+		User user = UserDAO.getByPhoneOrEmail(user_name_phone);
 
-		if (!BCrypt.checkpw(password, hashPass)) {
-			
+		if (user == null) {
 			request.setAttribute("status", "failed");
 			request.setAttribute("username", user_name_phone);
 			request.setAttribute("password", password);
 			doGet(request, response);
-			return false;
-		}
-		
-		User user = null;
-		
-		while (result.next()) {
+			return;
 
-			user = new User(
-					result.getInt("id"),
-					result.getString("first_name"),
-					result.getString("last_name"),
-					result.getString("email"),
-					result.getString("phone"),
+		}
+
+		if (!login(user, password, user_name_phone, request, response, session)) {
+			return;
+		}
+
+		if (request.getParameter("originalUri") != null) {
+			String url = request.getParameter("originalUri");
+			String method = request.getParameter("method");
+			
+			StringBuffer data = new StringBuffer();
+			paramaterMap.forEach((key, value) -> {
+				Arrays.asList(value).forEach(v -> {
+					if (!(key.equals("username") || key.equals("password"))) {					
+						data.append("<input type='hidden' name='" + key + "' value='" + v + "'>");
+					}
 					
-					result.getDate("dob")
-					);
-			result.previous();
-			break;
+				});
+			});
 
+
+			response.getWriter()
+					.write("<html><body>" + "<form id='redirectForm' action='" + url + "' method='" + method + "'>"
+							+ data + "</form>" + "<script>document.getElementById('redirectForm').submit();</script>"
+							+ "</body></html>");
+			return;
 		}
-		
-		
-	
-		session.setAttribute("user", user);
+
+		// get role to redirect
+		if (user.getRoles() == 0) {
+			// redirect admin page
+			response.sendRedirect("admin/users?page=1");
+
+		} else {
+
+			response.sendRedirect("home");
+		}
+
+	}
+
+	private boolean login(User user, String password, String user_name_phone, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+
+		try {
+			String hashPass = user.getPassword();
+
+			if (!BCrypt.checkpw(password, hashPass)) {
+
+				request.setAttribute("status", "failed");
+				request.setAttribute("username", user_name_phone);
+				request.setAttribute("password", password);
+				doGet(request, response);
+				return false;
+			}
+
+			Cart cart = CartDAO.getByUserId(user.getId());
+			session.setAttribute("cart", cart);
+			session.setAttribute("user", user);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 		return true;
-		
+
 	}
 
 }

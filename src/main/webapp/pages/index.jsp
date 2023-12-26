@@ -1,11 +1,18 @@
+<%@page import="java.util.Base64"%>
+<%@page import="Utils.MathUtils"%>
+<%@page import="DAO.*"%>
 <%@page import="Database.DBConnection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!doctype html>
-<html lang="en">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:set var="lang" value="${lang}" scope="session"></c:set>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="Utils.text" />
+<!DOCTYPE html>
+<html lang="${lang}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport"
@@ -34,22 +41,12 @@
 
 <body>
 
-
-	<sql:setDataSource var="products" driver="com.mysql.cj.jdbc.Driver"
-		url="${DBConnection.dbUri}" user="${DBConnection.dbUserName}"
-		password="${DBConnection.dbUserPassWord}" />
-
-	<sql:query var="results" dataSource="${products}">
-		
-			SELECT * FROM products
-			ORDER BY rate
-			limit 3
-		
-		</sql:query>
+	<c:set var="results" value="${ProductDAO.getBestSale(3)}"></c:set>
 
 	<!-- Start Header/Navigation -->
 	<jsp:include page="../components/header.jsp"></jsp:include>
 	<!-- End Header/Navigation -->
+
 
 	<!-- Start Hero Section -->
 	<div class="hero">
@@ -84,36 +81,36 @@
 		<div class="container">
 			<div class="row">
 
-
-
 				<!-- Start Column 1 -->
 				<div class="col-md-12 col-lg-3 mb-5 mb-lg-0">
-					<h2 class="mb-4 section-title">Crafted with excellent
-						material.</h2>
+					<h2 class="mb-4 section-title"><fmt:message key="descript_product"></fmt:message></h2>
 					<p class="mb-4">Donec vitae odio quis nisl dapibus malesuada.
 						Nullam ac aliquet velit. Aliquam vulputate velit imperdiet dolor
 						tempor tristique.</p>
 					<p>
-						<a href="shop.html" class="btn">Explore</a>
+						<a href="shop.html" class="btn"><fmt:message key="button.explore"></fmt:message></a>
 					</p>
 				</div>
 				<!-- End Column 1 -->
 
 				<div class="row col-md-12 col-lg-9">
 
-					<c:forEach var="product" items="${results.rows}">
-
+					<c:forEach var="product" items="${results}">
+						
 						<jsp:include page="../components/cardProduct.jsp">
+						 	
 							<jsp:param value="${product.id }" name="id" />
-							<jsp:param value="${product.image}" name="src" />
-							<jsp:param value="${product.product_name }" name="des" />
+							<jsp:param value="${MathUtils.covertBlobToByteString(product.image)}" name="src" />
+							<jsp:param value="${product.name}" name="des" />
 							<jsp:param value="${product.price }" name="price" />
 						</jsp:include>
 
 					</c:forEach>
 				</div>
 
-
+				
+				
+				
 
 			</div>
 		</div>
@@ -125,7 +122,7 @@
 		<div class="container">
 			<div class="row justify-content-between">
 				<div class="col-lg-6">
-					<h2 class="section-title">Why Choose Us</h2>
+					<h2 class="section-title"><fmt:message key="reason_choose_title"></fmt:message></h2>
 					<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac
 						aliquet velit. Aliquam vulputate velit imperdiet dolor tempor
 						tristique.</p>
@@ -138,7 +135,7 @@
 										src="${pageContext.servletContext.contextPath}/assets/images/truck.svg"
 										alt="Image" class="imf-fluid">
 								</div>
-								<h3>Fast &amp; Free Shipping</h3>
+								<h3><fmt:message key="reason_fastandfree"></fmt:message></h3>
 								<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac
 									aliquet velit. Aliquam vulputate.</p>
 							</div>
@@ -151,7 +148,7 @@
 										src="${pageContext.servletContext.contextPath}/assets/images/bag.svg"
 										alt="Image" class="imf-fluid">
 								</div>
-								<h3>Easy to Shop</h3>
+								<h3><fmt:message key="reason_easyshopping"></fmt:message></h3>
 								<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac
 									aliquet velit. Aliquam vulputate.</p>
 							</div>
@@ -164,7 +161,7 @@
 										src="${pageContext.servletContext.contextPath}/assets/images/support.svg"
 										alt="Image" class="imf-fluid">
 								</div>
-								<h3>24/7 Support</h3>
+								<h3><fmt:message key="reason_timesupport"></fmt:message></h3>
 								<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac
 									aliquet velit. Aliquam vulputate.</p>
 							</div>
@@ -177,7 +174,7 @@
 										src="${pageContext.servletContext.contextPath}/assets/images/return.svg"
 										alt="Image" class="imf-fluid">
 								</div>
-								<h3>Hassle Free Returns</h3>
+								<h3><fmt:message key="reason_freereturn"></fmt:message></h3>
 								<p>Donec vitae odio quis nisl dapibus malesuada. Nullam ac
 									aliquet velit. Aliquam vulputate.</p>
 							</div>
@@ -223,8 +220,7 @@
 					</div>
 				</div>
 				<div class="col-lg-5 ps-lg-5">
-					<h2 class="section-title mb-4">We Help You Make Modern
-						Interior Design</h2>
+					<h2 class="section-title mb-4"><fmt:message key="descript_design"></fmt:message></h2>
 					<p>Donec facilisis quam ut purus rutrum lobortis. Donec vitae
 						odio quis nisl dapibus malesuada. Nullam ac aliquet velit. Aliquam
 						vulputate velit imperdiet dolor tempor tristique. Pellentesque
@@ -237,7 +233,7 @@
 						<li>Donec vitae odio quis nisl dapibus malesuada</li>
 					</ul>
 					<p>
-						<a herf="#" class="btn">Explore</a>
+						<a herf="#" class="btn"><fmt:message key="button.explore"></fmt:message></a>
 					</p>
 				</div>
 			</div>
@@ -314,7 +310,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-7 mx-auto text-center">
-					<h2 class="section-title">Testimonials</h2>
+					<h2 class="section-title"><fmt:message key="descript_testimonial"></fmt:message></h2>
 				</div>
 			</div>
 
@@ -437,10 +433,10 @@
 		<div class="container">
 			<div class="row mb-5">
 				<div class="col-md-6">
-					<h2 class="section-title">Recent Blog</h2>
+					<h2 class="section-title"><fmt:message key="text.recent_blog"></fmt:message></h2>
 				</div>
 				<div class="col-md-6 text-start text-md-end">
-					<a href="#" class="more">View All Posts</a>
+					<a href="#" class="more"><fmt:message key="text.view_all_blog"></fmt:message></a>
 				</div>
 			</div>
 

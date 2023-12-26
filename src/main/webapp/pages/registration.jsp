@@ -1,9 +1,13 @@
-<%@page import="java.util.Date"%>
+<%@page import="java.sql.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:set var="lang" value="${lang}" scope="session"></c:set>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="Utils.text" />
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,24 +22,21 @@
 
 <!-- Main css -->
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=3">
+	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=6">
 <link rel="stylesheet" href="alert/dist/sweetalert.css">
 </head>
 <body>
 
-	<%
-	String status = (String) request.getAttribute("status");
-	String firstName = (String) request.getAttribute("firstName");
-	String lastName = (String) request.getAttribute("lastName");
-	String email = (String) request.getAttribute("email");
-	String phone = (String) request.getAttribute("phone");
-	String date = (String) request.getAttribute("date");
-	String pass = (String) request.getAttribute("pass");
-
-	String re_pass = (String) request.getAttribute("re_pass");
-	boolean isSuccessRegister = status == null ? false : status.equals("success");
-	%>
-
+	<c:set var="status" value="${status}" />
+	<c:set var="firstName" value="${firstName}" />
+	<c:set var="lastName" value="${lastName}" />
+	<c:set var="email" value="${email}" />
+	<c:set var="phone" value="${phone}" />
+	<c:set var="date" value="${date}" />
+	<c:set var="pass" value="${pass}" />
+	<c:set var="re_pass" value="${re_pass}" />
+	<c:set var="isSuccessRegister"
+		value="${status == null ? false : status eq 'success'}" />
 
 	<input required type="hidden" id="status"
 		value="${requestScope.status}" />
@@ -44,18 +45,19 @@
 		<!-- Sign up form -->
 		<section class="signup">
 			<div class="container">
-				<a class="home-href" style="margin-left: 75px;padding-top: 40px
-				"
+				<a class="home-href" style="margin-left: 75px; padding-top: 40px"
 					href="${pageContext.servletContext.contextPath}/home"> <svg
 						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
 						fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd"
 							d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-</svg>Back to home
+</svg><fmt:message key="nav.home"></fmt:message>
 				</a>
 				<div class="signup-content">
 					<div class="signup-form" style="margin-right: 0; padding: 0">
-						<h2 class="form-title">Sign up</h2>
+						<h2 class="form-title">
+							<fmt:message key="button.register"></fmt:message>
+						</h2>
 
 						<form method="post"
 							action="${pageContext.servletContext.contextPath}/register"
@@ -65,19 +67,19 @@
 									class="zmdi zmdi-account material-icons-name"></i></label> <input
 									onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="text" name="firstName" id="firstName"
-									placeholder="Your First Name" style="margin-right: 20px"
-									value="<%=firstName != null ? firstName : ""%>" /> <input
+									placeholder="<fmt:message key="form.first_name"></fmt:message>"
+									style="margin-right: 20px" value="${firstName}" /> <input
 									onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="text" name="lastName" id="lastName"
-									placeholder="Your Last Name"
-									value="<%=lastName != null ? lastName : ""%>" />
+									placeholder="<fmt:message key="form.last_name"></fmt:message>"
+									value="${lastName}" />
 							</div>
 							<div class="form-group">
 								<label for="email"><i class="zmdi zmdi-email"></i></label> <input
 									onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="email" name="email" id="email"
-									placeholder="Your Email"
-									value="<%=email != null ? email : ""%>" />
+									placeholder="<fmt:message key="form.email"></fmt:message>"
+									value="${email}" />
 							</div>
 
 							<div class="form-group">
@@ -89,8 +91,8 @@
 											d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" /></svg></label>
 								<input onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="text" name="contact" id="contact"
-									placeholder="Your Phone Number"
-									value="<%=phone != null ? phone : ""%>" />
+									placeholder="<fmt:message key="form.phone"></fmt:message>"
+									value="${phone}" />
 							</div>
 							<div class="form-group">
 								<label for="dob"><svg xmlns="http://www.w3.org/2000/svg"
@@ -101,16 +103,17 @@
 								<input onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="date" placeholder="MM/DD/YYYY"
 									onfocus="(this.type='date')" onblur="(this.type='text')"
-									name="dob" id="dob" value="<%=date != null ? date : ""%>" />
+									name="dob" id="dob" value="${date}" />
 							</div>
 
 							<div class="form-group">
 								<label for="pass"><i class="zmdi zmdi-lock"></i></label> <input
 									onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="password" name="pass" id="pass"
-									placeholder="Password" value="<%=pass != null ? pass : ""%>" />
-								<input style="display: none" type="checkbox" name="show_pass"
-									id="show_pass" /> <label for="show_pass" class="show-pass"
+									placeholder="<fmt:message key="form.pass"></fmt:message>"
+									value="${pass}" /> <input style="display: none"
+									type="checkbox" name="show_pass" id="show_pass" /> <label
+									for="show_pass" class="show-pass"
 									onclick="handleShowPass(this)"> <svg
 										xmlns="http://www.w3.org/2000/svg" height="1em"
 										viewBox="0 0 576 512">
@@ -130,11 +133,11 @@
 								<label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
 								<input onblur="handleOnBlur(this)" onfocus="hanleOnFocus(this)"
 									required type="password" name="re_pass" id="re_pass"
-									placeholder="Repeat your password"
-									value="<%=re_pass != null ? re_pass : ""%>" /> <input
-									style="display: none" type="checkbox" name="show_pass"
-									id="show_re_pass" cla /> <label for="show_re_pass"
-									class="show-pass" onclick="handleShowPass(this)"> <svg
+									placeholder="<fmt:message key="form.re_pass"></fmt:message>"
+									value="${re_pass}" /> <input style="display: none"
+									type="checkbox" name="show_pass" id="show_re_pass" cla /> <label
+									for="show_re_pass" class="show-pass"
+									onclick="handleShowPass(this)"> <svg
 										xmlns="http://www.w3.org/2000/svg" height="1em"
 										viewBox="0 0 576 512">
 										<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -153,14 +156,15 @@
 								style="display: flex; align-items: center; margin-top: 6px">
 								<input required type="checkbox" name="agree-term"
 									id="agree-term" class="agree-term" /> <label for="agree-term"
-									class="label-agree-term" style="margin: 0"> I agree all
-									statements in <a href="#" class="term-service">Terms of
-										service</a>
+									class="label-agree-term" style="margin: 0"> <fmt:message
+										key="form.agree_term_service"></fmt:message> <a href="#"
+									class="term-service"><fmt:message key="form.term_service"></fmt:message></a>
 								</label>
 							</div>
 							<div class="form-group form-button">
 								<input type="submit" name="signup" id="signup"
-									class="form-submit" value="Register" />
+									class="form-submit"
+									value="<fmt:message key="button.register"></fmt:message>" />
 							</div>
 						</form>
 					</div>
@@ -171,7 +175,7 @@
 								alt="sing up image">
 						</figure>
 						<a href="${pageContext.servletContext.contextPath}/login"
-							class="signup-image-link">I am already member</a>
+							class="signup-image-link"><fmt:message key="form.login"></fmt:message></a>
 					</div>
 				</div>
 			</div>

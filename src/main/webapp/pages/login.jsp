@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:set var="lang" value="${lang}" scope="session"></c:set>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="Utils.text" />
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +21,7 @@
 
 <!-- Main css -->
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=4">
+	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=6">
 </head>
 <body>
 	<c:set var="product_id" value="${param.id }" />
@@ -35,7 +39,7 @@
 						fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
   <path fill-rule="evenodd"
 							d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-</svg>Back to home
+</svg><fmt:message key="nav.home"></fmt:message>
 				</a>
 				<div class="signin-content">
 					<div class="signin-image">
@@ -45,33 +49,48 @@
 								alt="sing up image">
 						</figure>
 						<a href="${pageContext.servletContext.contextPath}/register"
-							class="signup-image-link">Create an account</a>
+							class="signup-image-link"><fmt:message key="form.register"></fmt:message></a>
 					</div>
 
 					<div class="signin-form">
-						<h2 class="form-title">Sign in</h2>
+						<h2 class="form-title"><fmt:message key="button.login"></fmt:message></h2>
 
 						<form method="post"
 							action="${pageContext.servletContext.contextPath}/login"
 							class="register-form" id="login-form">
-							<input type="hidden" value="${param.product_id }"
-								name="product_id"> <input type="hidden"
-								value="${param.rating }" name="rating"> <input
-								type="hidden" value="${param.content_comment}"
-								name="content_comment">
+							
+							
+							<c:forEach var="prm" items="${param}">
+								
+								<c:forEach var="value" items="${prm.value}">
+									
+									<c:choose>
+										
+										<c:when test="${not (prm.key eq 'username' or prm.key eq 'password')}">
+											
+											<input type="hidden" name="${prm.key}" value="${value}" >
+										
+										</c:when>
+										
+									</c:choose>
+									
+								</c:forEach>
+								
+							</c:forEach>
+							
 							<div class="form-group">
 								<label for="username"><i
 									class="zmdi zmdi-account material-icons-name"></i></label> <input
 									onblur='handleOnBlur(this)' onfocus="handleOnFocus(this)"
 									type="text" name="username" id="username"
-									placeholder="Your Email or Phone" required="required"
+									placeholder="<fmt:message key="form.emailorphone"></fmt:message>" required="required"
 									value="${requestScope.username==null?'':requestScope.username}" />
 							</div>
 							<div class="form-group">
 								<label for="password"><i class="zmdi zmdi-lock"></i></label> <input
 									onblur='handleOnBlur(this)' onfocus="handleOnFocus(this)"
 									type="password" name="password" id="password"
-									placeholder="Password" required="required"
+									placeholder="<fmt:message key="form.pass"></fmt:message>" required="required"
 									value="${requestScope.password==null?'':requestScope.password}" />
 								<input style="display: none" type="checkbox" name="show_pass"
 									id="show_pass" /> <label for="show_pass" class="show-pass"
@@ -99,11 +118,11 @@
 							</div>
 							<div class="form-group form-button">
 								<input type="submit" name="signin" id="signin"
-									class="form-submit" value="Log in" />
+									class="form-submit" value="<fmt:message key="button.login"></fmt:message>" />
 							</div>
 						</form>
 						<div class="social-login">
-							<span class="social-label">Or login with</span>
+							<span class="social-label"><fmt:message key="form.loginwith"></fmt:message></span>
 							<ul class="socials">
 								<li><a href="#"><i
 										class="display-flex-center zmdi zmdi-facebook"></i></a></li>

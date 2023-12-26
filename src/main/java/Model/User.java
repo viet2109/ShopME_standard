@@ -1,9 +1,7 @@
 package Model;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
-
-import com.mysql.cj.xdevapi.JsonString;
 
 public class User {
 	private int id;
@@ -12,16 +10,19 @@ public class User {
 	private String email;
 	private String phone;
 	private Date dob;
-	
-	public User() {};
-	
-	public User(int id,String firstName, String lastName, String email, String phone, Date dob) {
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.phone = phone;
-		this.dob = dob;
+	private String password;
+	private Address address;
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	private int roles;
+
+	public User() {
 	}
 
 	public int getId() {
@@ -48,13 +49,6 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	@Override
-	public String toString() {
-		
-		return "User [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone
-				 + ", dob=" + dob + "]";
-	}
-
 	public String getEmail() {
 		return email;
 	}
@@ -71,8 +65,6 @@ public class User {
 		this.phone = phone;
 	}
 
-	
-
 	public Date getDob() {
 		return dob;
 	}
@@ -81,9 +73,29 @@ public class User {
 		this.dob = dob;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public int getRoles() {
+		return roles;
+	}
+
+	public void setRoles(int roles) {
+		this.roles = roles;
+	}
+	
+	public String getFullName() {
+		return lastName + " " + firstName;
+	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(dob, email, firstName, lastName, phone);
+		return Objects.hash(dob, email, firstName, id, lastName, password, phone, roles);
 	}
 
 	@Override
@@ -95,14 +107,38 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(dob, other.dob)
-				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(phone, other.phone);
+		return Objects.equals(dob, other.dob) && Objects.equals(email, other.email)
+				&& Objects.equals(firstName, other.firstName) && id == other.id
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& Objects.equals(phone, other.phone) && roles == other.roles;
 	}
-	
-	
-	public String getFullName() {
-		return lastName + " " + firstName;
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", phone=" + phone + ", dob=" + dob + ", password=" + password + ", roles=" + roles + "]";
 	}
-	
+
+	public User(String firstName, String lastName, String email, String phone, Date dob, String password, int roles) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.dob = dob;
+		this.password = password;
+		this.roles = roles;
+	}
+
+	public User(int id, String firstName, String lastName, String email, String phone, Date dob, String password,
+			int roles) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.dob = dob;
+		this.password = password;
+		this.roles = roles;
+	}
+
 }

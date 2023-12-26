@@ -1,8 +1,9 @@
+<%@page import="Fillter.ProductFilter"%>
+<%@page import="DAO.ProductDAO"%>
 <%@page import="Database.DBConnection"%>
 <%@page import="Utils.MathUtils"%>
 <%@page import="Utils.DynamicPagination"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -39,64 +40,17 @@
 <body>
 
 
-	<c:set var="min_price" value="${fn:split(param.price, '-')[0] }"></c:set>
+	<c:set var="min_price"
+		value="${not empty param.price ? Integer.valueOf(fn:split(param.price, '-')[0]): -1}"></c:set>
 	<c:set var="max_price"
-		value="${MathUtils.isNumber(fn:split(param.price, '-')[1]) ? fn:split(param.price, '-')[1]: Integer.MAX_VALUE }"></c:set>
-	<c:set var="star" value="${paramValues.star }"></c:set>
-	<c:set var="page" value="${param.page }"></c:set>
-	<sql:setDataSource var="products" driver="com.mysql.cj.jdbc.Driver"
-		url="${DBConnection.dbUri}" user="${DBConnection.dbUserName}"
-		password="${DBConnection.dbUserPassWord}" />
-
-	<sql:query dataSource="${products}" var="result">
-         SELECT * 
-         from products
-         WHERE 1=1
-       		<c:if test="${not empty min_price}">
-        		AND price BETWEEN ${Integer.valueOf(min_price)} AND ${Integer.valueOf(max_price)}
-			</c:if>
-
-		<c:if test="${not empty star }">
-        		
-        		AND rate IN <c:forEach items="${star}" var="s"
-				varStatus="loop">
-				<c:if test="${loop.first}">( ${s}</c:if>
-				<c:if test="${!loop.first && !loop.last}">
-                						, ${s}
-                					</c:if>
-				<c:if test="${loop.last}">,${s} )</c:if>
-			</c:forEach>
-		</c:if>
-    		
-         limit ${DynamicPagination.totalProductOfPage} 
-         offset ${(requestScope.page-1)*DynamicPagination.totalProductOfPage};
-    </sql:query>
-
-
-	<sql:query dataSource="${products}" var="totalProduct">
-         SELECT * from products
-       	WHERE 1=1
-       		<c:if test="${not empty min_price}">
-        		AND price BETWEEN ${Integer.valueOf(min_price)} AND ${Integer.valueOf(max_price)}
-			</c:if>
-
-		<c:if test="${not empty star }">
-        		
-        		AND rate IN <c:forEach items="${star}" var="s"
-				varStatus="loop">
-				<c:if test="${loop.first}">( ${s}</c:if>
-				<c:if test="${!loop.first && !loop.last}">
-                						, ${s}
-                					</c:if>
-				<c:if test="${loop.last}">,${s} )</c:if>
-			</c:forEach>
-		</c:if>
-    		
-         ;
-    </sql:query>
-
-
-
+		value="${MathUtils.isNumber(fn:split(param.price, '-')[1]) ? Integer.valueOf(fn:split(param.price, '-')[1]): Integer.MAX_VALUE }"></c:set>
+	<c:set var="star"
+		value="${not empty paramValues.star ? MathUtils.convertStrArrToIntArr(paramValues.star) : fn:split('',',')}"></c:set>
+	<c:set var="page" value="${empty param.page ? 1: param.page }"></c:set>
+	<c:set var="totalProduct"
+		value="${ProductDAO.getProductByFilter(filter)}"></c:set>
+	<c:set var="result"
+		value="${ProductDAO.getProductByOffset(totalProduct, page)}"></c:set>
 
 	<!-- Start Header/Navigation -->
 	<jsp:include page="../components/header.jsp"></jsp:include>
@@ -116,6 +70,7 @@
 		</div>
 	</div>
 	<!-- End Hero Section -->
+
 
 	<div class="filter-button"
 		onclick="document.querySelector('.filter-wrapper').style.left =  0;
@@ -431,18 +386,18 @@
 
 			</form>
 
-			<div class="row" style="display: flex; flex: 1; margin-top: 40px" >
+			<div class="row" style="display: flex; flex: 1; margin-top: 40px">
 
 				<c:choose>
 
-					<c:when test="${fn:length(result.rows)>0}">
+					<c:when test="${fn:length(result)>0}">
 
-						<c:forEach var="product" items="${result.rows}">
+						<c:forEach var="product" items="${result}">
 
 							<jsp:include page="../components/cardProduct.jsp">
 								<jsp:param value="${product.id }" name="id" />
-								<jsp:param value="${product.image}" name="src" />
-								<jsp:param value="${product.product_name }" name="des" />
+								<jsp:param value="${MathUtils.covertBlobToByteString(product.image)}" name="src" />
+								<jsp:param value="${product.name }" name="des" />
 								<jsp:param value="${product.price }" name="price" />
 							</jsp:include>
 
@@ -452,27 +407,28 @@
 
 						<jsp:include page="../components/dynamicPagination.jsp">
 							<jsp:param
-								value="${MathUtils.roundUp(fn:length(totalProduct.rows), DynamicPagination.totalProductOfPage)}"
+								value="${MathUtils.roundUp(fn:length(totalProduct), DynamicPagination.totalProductOfPage)}"
 								name="totalPage" />
-							<jsp:param value="${param.page}" name="currentPage" />
+							<jsp:param value="${page}" name="currentPage" />
 						</jsp:include>
 
 					</c:when>
-					
+
 					<c:otherwise>
-					
-					<div class="empty-state">
-									<div class="empty-state__content">
-										<div class="empty-state__icon">
-											<img
-												src="https://www.svgrepo.com/show/507688/face-id-error.svg"
-												alt="">
-										</div>
-										<div class="empty-state__message">Something went wrong !</div>
-										<div class="empty-state__help">Please check your wifi connect or refresh this page.</div>
-									</div>
+
+						<div class="empty-state">
+							<div class="empty-state__content">
+								<div class="empty-state__icon">
+									<img
+										src="https://www.svgrepo.com/show/507688/face-id-error.svg"
+										alt="">
 								</div>
-					
+								<div class="empty-state__message">Something went wrong !</div>
+								<div class="empty-state__help">Please check your wifi
+									connect or refresh this page.</div>
+							</div>
+						</div>
+
 					</c:otherwise>
 
 
@@ -488,7 +444,8 @@
 	<!-- Start Footer Section -->
 	<jsp:include page="../components/footer.jsp"></jsp:include>
 	<!-- End Footer Section -->
-
+	
+	
 
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/bootstrap.bundle.min.js"></script>

@@ -63,10 +63,13 @@ h1 {
 
 #pagination li.active {
 	background-color: #39f;
+	
 }
 
 #pagination li.active a {
 	color: #fff;
+	pointer-events: none;
+	
 }
 
 #pagination li a {
@@ -197,7 +200,7 @@ h1 {
 				type="number" id="delta" min="1" max="5" value="1" />
 		</div>
 	</div>
-	<script type="text/javascript" src="${pageContext.servletContext.contextPath}/assets/js/pagination.js?version=4"></script>
+	<script type="text/javascript" src="${pageContext.servletContext.contextPath}/assets/js/pagination.js?version=8"></script>
 	
 </body>
 </html>
