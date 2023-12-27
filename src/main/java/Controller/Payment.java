@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import Model.User;
+
 /**
  * Servlet implementation class Payment
  */
@@ -35,6 +37,15 @@ public class Payment extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		int userId = ((User) request.getSession().getAttribute("user")).getId();
+		
+		String province = request.getParameter("p_province");
+		String district = request.getParameter("d_district");
+		String ward = request.getParameter("w_ward");
+		String addressDetail = request.getParameter("c_address");
+		
+		
+		
 		doGet(request, response);
 	}
 

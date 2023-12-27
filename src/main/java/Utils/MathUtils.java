@@ -74,7 +74,28 @@ public class MathUtils {
 		return sum[0];
 	}
 
-	public static void main(String[] args) {
-		System.out.println(1-1*2);
-	}
+	public static String extractLocation(String text) {
+        // Tách chuỗi thành các từ
+        String[] words = text.split("\\s+");
+
+        // Tìm các từ có thể là tên địa điểm
+        StringBuilder locationBuilder = new StringBuilder();
+        for (String word : words) {
+            // Loại bỏ các ký tự đặc biệt và chấp nhận chữ cái và dấu cách
+            String cleanedWord = word.replaceAll("[^a-zA-Z\\s]", "").trim();
+
+            // Kiểm tra nếu từ có ít nhất 2 ký tự (ít nhất là "xa", "thị trấn", "thành phố", ...)
+            if (cleanedWord.length() >= 2) {
+                locationBuilder.append(cleanedWord).append(" ");
+            }
+        }
+
+        return locationBuilder.toString().trim();
+    }
+
+    public static void main(String[] args) {
+        String dia_diem = "thành phố Hồ Chí Minh";
+        String ten_dia_diem = extractLocation(dia_diem);
+        System.out.println(ten_dia_diem);
+    }
 }

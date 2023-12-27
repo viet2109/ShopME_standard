@@ -234,8 +234,7 @@
 										 autocomplete="off"
 										oninput="getAddressSuggestions()"
 										onfocus="document.getElementById('addressOptions').style.height = 'fit-content'; document.querySelector('.detail-add-notice').classList.remove('show')"
-										onblur="checkValidAddress(this.value); setTimeout(() => {document.getElementById('addressOptions').style.height = 0; }, 300)" />
-
+										onblur=" setTimeout(() => {checkValidAddress(this.value);document.getElementById('addressOptions').style.height = 0; }, 300)" />
 									<div class="loader-container">
 										<div class="dot"></div>
 										<div class="dot"></div>
@@ -250,6 +249,7 @@
 							</div>
 						</div>
 
+						<input style="height: 0; padding: 0; margin: 0; width: 0; border: none;position: absolute;" type="text" name='address-constraint' required="required" value="true" />
 
 
 
@@ -473,7 +473,7 @@
 		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=13"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/checkout.js?version=1"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/checkout.js?version=2"></script>
 
 </body>
 

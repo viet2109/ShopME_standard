@@ -162,6 +162,7 @@ const selectAddress = (value) => {
 
 };
 
+let addList = [];
 
 
 const getNominatimSuggestions = debounce((query) => {
@@ -173,50 +174,50 @@ const getNominatimSuggestions = debounce((query) => {
 			const addressOptions = document.getElementById("addressOptions");
 
 			if (data.length < 1) {
-
+				console.log('log2')
+				const province = document.getElementById("p_province").value;
+				const district = document.getElementById("d_district").value;
+				const ward = document.getElementById("w_ward").value;
 				query = document.getElementById("c_address").value;
-				apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
+				apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(`${query}`)}`;
 				fetch(apiUrl)
 					.then(response => response.json())
 					.then(data => {
 						// Xóa các tùy chọn cũ
-						addressOptions.innerHTML = "";
 
-						if (data.length < 1) {
+						addressOptions.innerHTML = "";
+						const addL = data.filter(add =>  removeVietnameseDiacritics(add.display_name).includes(removeVietnameseDiacritics(ward)) || removeVietnameseDiacritics(add.display_name).includes(removeVietnameseDiacritics(district)) || removeVietnameseDiacritics(add.display_name).includes(removeVietnameseDiacritics(province)))
+						if (addL.length < 1) {
 							const option = document.createElement("li");
 							option.style.cursor = "default";
 							option.textContent = "No result has found";
 							addressOptions.appendChild(option);
 						} else {
-
-							data.forEach(result => {
-								if (result.display_name.split(",").pop().trim().toLowerCase() === 'việt nam') {
-
-									const option = document.createElement("li");
-									option.textContent = result.display_name;
-									option.addEventListener('click', () => selectAddress(result.display_name));
-									addressOptions.appendChild(option);
-								}
+							addList = addL;
+							addList.forEach(result => {
+								const option = document.createElement("li");
+								option.textContent = result.display_name;
+								option.addEventListener('click', () => selectAddress(result.display_name));
+								addressOptions.appendChild(option);
+								
 							});
 						}
+
+
 
 					})
 
 			} else {
-
-
-
 				// Xóa các tùy chọn cũ
+				console.log("log1")
 				addressOptions.innerHTML = "";
-
+				addList = data
 				data.forEach(result => {
-					if (result.display_name.split(",").pop().trim().toLowerCase() === 'việt nam') {
-
-						const option = document.createElement("li");
-						option.textContent = result.display_name;
-						option.addEventListener('click', () => selectAddress(result.display_name));
-						addressOptions.appendChild(option);
-					}
+					const option = document.createElement("li");
+					option.textContent = result.display_name;
+					option.addEventListener('click', () => selectAddress(result.display_name));
+					addressOptions.appendChild(option);
+					
 				});
 			}
 
@@ -229,33 +230,16 @@ const getNominatimSuggestions = debounce((query) => {
 
 
 const checkValidAddress = (query) => {
-	let apiUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
 
-	fetch(apiUrl)
-		.then(response => response.json())
-		.then(data => {
-			if (data.length < 1) {
-				document.querySelector(".detail-add-notice").classList.add("show");
-			} else {
 
-				const province = document.getElementById("p_province").value;
-				const district = document.getElementById("d_district").value;
-				const ward = document.getElementById("w_ward").value;
-
-				const valuesToCheck = [province, district, ward];
-
-				if (valuesToCheck.some(value => data.includes(value))) {
-					// Nếu tất cả giá trị đều tồn tại trong chuỗi data
-					document.querySelector(".detail-add-notice").classList.remove("show");
-					console.log("Tất cả giá trị tồn tại trong chuỗi data.");
-				} else {
-					console.log("Ít nhất một giá trị không tồn tại trong chuỗi .");
-					document.querySelector(".detail-add-notice").classList.add("show");
-				}
-
-			}
-		})
-		.catch(error => console.error('Lỗi:', error));
+	if (!addList.some(add => removeCharactersBetweenCommas(add.display_name.trim()) === removeCharactersBetweenCommas(query.trim()))) {
+		document.querySelector(".detail-add-notice").classList.add("show");
+		document.querySelector('input[name="address-constraint"]').value=""
+		console.log("false")
+	} else {
+		console.log("true")
+		document.querySelector('input[name="address-constraint"]').value="true"
+	}
 
 }
 const getAddressSuggestions = () => {
@@ -267,11 +251,7 @@ const getAddressSuggestions = () => {
 	getNominatimSuggestions(inputAddress);
 };
 
-function addAddress(add) {
-	const province = document.getElementById("p_province").value;
-	const district = document.getElementById("d_district").value;
-	const ward = document.getElementById("w_ward").value;
-}
+
 
 
 // setting c_address input
@@ -363,5 +343,8 @@ function submitOrderForm(servlet, method = 'get') {
 
 	// Optional: Xóa form sau khi đã gửi đi (tùy thuộc vào yêu cầu của bạn)
 	document.body.removeChild(form);
+}
+function removeVietnameseDiacritics(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
