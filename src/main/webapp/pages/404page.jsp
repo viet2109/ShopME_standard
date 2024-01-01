@@ -123,7 +123,7 @@
 		<h1>404</h1>
 		<hr>
 		<div>Page Not Found</div>
-		<a class="home-button" href="${pageContext.servletContext.contextPath}/home">Go to home</a>
+		<a class="home-button" href="${pageContext.servletContext.contextPath}/${empty sessionScope.user ? 'home': sessionScope.user.roles == 1?'home': 'admin/users?page=1'}">Go to home</a>
 	</div>
 	
 

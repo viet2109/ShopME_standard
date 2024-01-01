@@ -18,14 +18,19 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class Auth
  */
-@WebFilter(filterName = "auth-filter", urlPatterns = { "/login", "/pages/login.jsp", "/register",
+@WebFilter(filterName = "Filter2_auth-filter", urlPatterns = { "/login", "/pages/login.jsp", "/register",
 		"/pages/registration.jsp" })
-public class Auth extends HttpFilter implements Filter {
+public class Filter2_Auth extends HttpFilter implements Filter {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9085170415815212141L;
 
 	/**
 	 * @see HttpFilter#HttpFilter()
 	 */
-	public Auth() {
+	public Filter2_Auth() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -44,7 +49,7 @@ public class Auth extends HttpFilter implements Filter {
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-
+	
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession();
 		HttpServletResponse httpResponse = (HttpServletResponse) response;

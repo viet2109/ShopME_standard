@@ -8,15 +8,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.util.http.fileupload.RequestContext;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
-
 import Database.DBConnection;
 import Model.User;
-import Utils.BCrypt;
 import Utils.CountRowSQL;
 import Utils.DynamicPagination;
-import jakarta.servlet.http.HttpServletRequest;
 
 public class UserDAO {
 	

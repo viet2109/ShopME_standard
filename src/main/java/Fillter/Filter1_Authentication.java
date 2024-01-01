@@ -1,7 +1,6 @@
 package Fillter;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -21,8 +20,8 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class CommentFilter
  */
-@WebFilter(filterName = "authentication-filter", urlPatterns = { "/comments/*", "/admin/*", "/cart/*", "/pages/cart.jsp" })
-public class Authentication extends HttpFilter implements Filter {
+@WebFilter(filterName = "Filter1_authentication-filter", urlPatterns = { "/comments/*", "/admin/*", "/pages/admin_user.jsp","/pages/admin_product.jsp", "/cart/*", "/pages/cart.jsp", "/checkout", "/pages/checkout.jsp", "/payment" })
+public class Filter1_Authentication extends HttpFilter implements Filter {
 
 	/**
 	 * 
@@ -32,7 +31,7 @@ public class Authentication extends HttpFilter implements Filter {
 	/**
 	 * @see HttpFilter#HttpFilter()
 	 */
-	public Authentication() {
+	public Filter1_Authentication() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -47,8 +46,8 @@ public class Authentication extends HttpFilter implements Filter {
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
-	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession();
 		HttpServletResponse httpResponse = (HttpServletResponse) response;

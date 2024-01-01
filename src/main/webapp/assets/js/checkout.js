@@ -292,57 +292,21 @@ function submitCouponForm(servlet, method = 'get') {
 	document.body.removeChild(form);
 }
 
-function submitOrderForm(servlet, method = 'get') {
-	// Lấy tham chiếu đến form
-	const formSub = document.getElementById('form');
-
-	// Tạo một form mới
-	const form = document.createElement('form');
-	form.setAttribute('action', servlet);
-	form.setAttribute('method', method.toLowerCase());
-
-	// Sao chép các input từ form cũ sang form mới
-	formSub.querySelectorAll('input').forEach(input => {
-		const inputCopy = document.createElement('input');
-		inputCopy.setAttribute('type', input.type);
-		inputCopy.setAttribute('name', input.name);
-		inputCopy.setAttribute('value', input.value);
-		if (input.pattern) {
-
-			inputCopy.setAttribute('pattern', input.pattern);
-		}
-
-		if (input.required) {
-
-			inputCopy.setAttribute('required', 'required');
-		}
-		form.appendChild(inputCopy);
-	});
-
-	// Sao chép các input từ form cũ sang form mới
-	formSub.querySelectorAll('select').forEach(input => {
-		const inputCopy = document.createElement('select');
-
-		inputCopy.setAttribute('name', input.name);
-		inputCopy.setAttribute('value', input.value);
-
-
-		if (input.required) {
-
-			inputCopy.setAttribute('required', 'required');
-		}
-		form.appendChild(inputCopy);
-	});
-
-	// Thêm form vào DOM
-	document.body.appendChild(form);
-
-	console.log(form)
-	// Gửi form
-	//form.submit();
-
-	// Optional: Xóa form sau khi đã gửi đi (tùy thuộc vào yêu cầu của bạn)
-	document.body.removeChild(form);
+function submitOrderForm(form) {
+	event.preventDefault();
+	Swal.fire({
+	    title: 'Are you sure?',
+	    text: "The order will be placed after you confirm!",
+	    icon: 'warning',
+	    showCancelButton: true,
+	    confirmButtonColor: '#3085d6',
+	    cancelButtonColor: '#d33',
+	    confirmButtonText: 'Yes, order it!'
+	  }).then((result) => {
+	    if (result.isConfirmed) {
+	      form.submit();
+	    }
+	  })
 }
 function removeVietnameseDiacritics(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");

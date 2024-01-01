@@ -108,7 +108,7 @@ public class Application implements ServletContextListener, HttpSessionListener,
 		session.setAttribute("cart", cart);
 		
 		
-		session.setAttribute("lang", "vi");
+		session.setAttribute("lang", "vi_VN");
 		
 		HttpSessionListener.super.sessionCreated(se);
 	}
@@ -150,14 +150,16 @@ public class Application implements ServletContextListener, HttpSessionListener,
 				} else {
 
 					sql = "INSERT INTO user_re_login VALUES (?, ?)";
-
+					
 					statement = DBConnection.connection.prepareStatement(sql);
 					statement.setInt(1, id);
 					statement.setString(2, ip);
 					statement.executeUpdate();
 					
+					
 				}
-
+				
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

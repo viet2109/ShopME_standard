@@ -121,24 +121,24 @@
 
 
 
-			<a href="${pageContext.servletContext.contextPath}/language?lang=en"
+			<a href="${pageContext.servletContext.contextPath}/language?lang=en_US"
 				style="display: inline-flex; align-items: center; position: relative; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 1rem; padding-right: 1rem; align-items: center; border-bottom-width: 1px; border-color: #E5E7EB; width: 100%; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; text-decoration: none; color: #fff; height: 50px"
 				onmouseover="this.style.backgroundColor = 'gray'"
 				onmouseout="this.style.backgroundColor = 'transparent'">
 
 				English <svg
-					style="margin-left: 8px; ${'en' eq lang?'':'display: none'};fill:#fff  "
+					style="margin-left: 8px; ${'en_US' eq lang?'':'display: none'};fill:#fff  "
 					xmlns="http://www.w3.org/2000/svg" height="16" width="14"
 					viewBox="0 0 448 512">
 					<path
 						d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" /></svg>
 
-			</a> <a href="${pageContext.servletContext.contextPath}/language?lang=vi"
+			</a> <a href="${pageContext.servletContext.contextPath}/language?lang=vi_VN"
 				style="display: inline-flex; align-items: center; position: relative; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 1rem; padding-right: 1rem; align-items: center; border-bottom-width: 1px; border-color: #E5E7EB; width: 100%; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; text-decoration: none; color: #fff; height: 50px"
 				onmouseover="this.style.backgroundColor = 'gray'"
 				onmouseout="this.style.backgroundColor = 'transparent'">
 				Việt Nam <svg
-					style="margin-left: 8px; ${'vi' eq lang?'':'display: none'}; fill:#fff "
+					style="margin-left: 8px; ${'vi_VN' eq lang?'':'display: none'}; fill:#fff "
 					xmlns="http://www.w3.org/2000/svg" height="16" width="14"
 					viewBox="0 0 448 512">
 					<path

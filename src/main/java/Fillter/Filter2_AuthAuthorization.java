@@ -19,13 +19,18 @@ import jakarta.servlet.annotation.WebFilter;
 /**
  * Servlet Filter implementation class AuthAuthorization
  */
-@WebFilter(filterName = "auth-authorization", urlPatterns = {"/admin/*"})
-public class AuthAuthorization extends HttpFilter implements Filter {
+@WebFilter(filterName = "Filter2_auth-authorization", urlPatterns = {"/admin/*", "/pages/admin_user.jsp", "/pages/admin_product.jsp"})
+public class Filter2_AuthAuthorization extends HttpFilter implements Filter {
        
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7894184097556549102L;
+
+	/**
      * @see HttpFilter#HttpFilter()
      */
-    public AuthAuthorization() {
+    public Filter2_AuthAuthorization() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -65,3 +70,6 @@ public class AuthAuthorization extends HttpFilter implements Filter {
 	}
 
 }
+
+
+

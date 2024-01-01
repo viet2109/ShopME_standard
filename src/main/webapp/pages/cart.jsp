@@ -224,8 +224,8 @@
 
 
 									<div class="row">
-										<div class="col-md-12">
-											<button class="btn btn-black btn-lg py-3 btn-block"
+										<div class="col-md-12" style="opacity: ${MathUtils.totalPriceCart(results) > 0 ? 1: 0.3};">
+											<button style="pointer-events: ${MathUtils.totalPriceCart(results) > 0 ? 'all': 'none'}" class="btn btn-black btn-lg py-3 btn-block"
 												onclick="window.location='${pageContext.servletContext.contextPath}/checkout'">Proceed
 												To Checkout</button>
 										</div>

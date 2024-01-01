@@ -3,6 +3,7 @@ package Utils;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Base64;
@@ -94,8 +95,8 @@ public class MathUtils {
     }
 
     public static void main(String[] args) {
-        String dia_diem = "thành phố Hồ Chí Minh";
-        String ten_dia_diem = extractLocation(dia_diem);
-        System.out.println(ten_dia_diem);
+        java.sql.Date date = java.sql.Date.valueOf(LocalDate.now());
+        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
+        System.out.println(timestamp);
     }
 }

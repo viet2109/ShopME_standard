@@ -1,18 +1,22 @@
 <%@page import="Utils.MathUtils"%>
+<%@page import="DAO.CartDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
+<c:set var="lang" value="${lang}" scope="session"></c:set>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="Utils.text" />
 <!doctype html>
 <html lang="en">
 <head>
+
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="author" content="Untree.co">
 <link rel="shortcut icon"
 	href="${pageContext.servletContext.contextPath}/assets/images/favicon.png">
-
 <meta name="description" content="" />
 <meta name="keywords" content="bootstrap, bootstrap4" />
 
@@ -30,6 +34,11 @@
 	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=8"
 	rel="stylesheet">
 <link rel="stylesheet" href="alert/dist/sweetalert.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <title>Furni Free Bootstrap 5 Template for Furniture and
 	Interior Design Websites by Untree.co</title>
 
@@ -67,10 +76,9 @@
 	top: 50%;
 	transform: translateY(-50%);
 	height: 82%;
-    width: 55px;
-    background: #fff;
-    padding-left: 10px;
-	
+	width: 55px;
+	background: #fff;
+	padding-left: 10px;
 }
 
 .loader-container.load {
@@ -109,33 +117,32 @@
 .detail-add-notice {
 	display: none;
 	padding: 0 12px;
-	color: rgb(220,53,69);
+	color: rgb(220, 53, 69);
 }
 
 .detail-add-notice.show {
 	display: block;
 }
 
-@keyframes bounce {
-	  0%, 20%, 50%, 80%, 100% {
-	    transform: translateY(0);
-	  }
-	  40% {
-	    transform: translateY(-10px);
-	  }
-	  60% {
-	    transform: translateY(-5px);
-	  }
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40%
+	{
+		transform:translateY(-10px);
+	}
+	60%
+	{
+	transform:translateY(-5px);
+	}
 }
-
-	
-
 </style>
 </head>
 
 <body>
 
-	<c:set var="products" value="${sessionScope.cart.product_quantity}"></c:set>
+	<c:set var="products"
+		value="${CartDAO.getSelectedProductList(sessionScope.user.id)}"></c:set>
 	<c:set var="coupon" value="${sessionScope.coupon}"></c:set>
 	<c:set var="user" value="${sessionScope.user}"></c:set>
 
@@ -165,12 +172,21 @@
 			<div class="row mb-5">
 				<div class="col-md-12">
 					<div class="border p-4 rounded" role="alert">
-						Returning customer? <a href="#">Click here</a> to login
+						<a class="home-href" href="${pageContext.servletContext.contextPath}/cart"> <svg
+						xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+						fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd"
+							d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+</svg>&nbsp;<fmt:message key="nav.cart"></fmt:message>
+
+				</a>
 					</div>
 				</div>
 			</div>
-			
-			<form id="form" class="row" action="${pageContext.servletContext.contextPath}/payment" method="post">
+
+			<form id="form" class="row"
+				action="${pageContext.servletContext.contextPath}/payment"
+				method="post" onsubmit="submitOrderForm(this)">
 				<div class="col-md-6 mb-5 mb-md-0">
 					<h2 class="h3 mb-3 text-black">Billing Details</h2>
 					<div class="p-3 p-lg-5 border bg-white">
@@ -179,20 +195,20 @@
 							<div class="col-md-6">
 								<label for="c_fname" class="text-black">First Name <span
 									class="text-danger">*</span></label> <input type="text"
-									class="form-control" id="c_fname" name="c_fname" required="required"
-									value="${user.firstName}">
+									class="form-control" id="c_fname" name="c_fname"
+									required="required" value="${user.firstName}">
 							</div>
 							<div class="col-md-6">
 								<label for="c_lname" class="text-black">Last Name <span
 									class="text-danger">*</span></label> <input type="text"
-									class="form-control" id="c_lname" name="c_lname" required="required"
-									value="${user.lastName}">
+									class="form-control" id="c_lname" name="c_lname"
+									required="required" value="${user.lastName}">
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="c_country" class="text-black">Country <span
-								class="text-danger">*</span></label> <select name="p_province" id="p_province" required="required"
-								class="form-control"
+								class="text-danger">*</span></label> <select name="p_province"
+								id="p_province" required="required" class="form-control"
 								onchange="setDataId(this.id); fetchDistricts()">
 								<option value="" disabled="disabled" selected hidden="hidden">Select
 									a country</option>
@@ -202,8 +218,8 @@
 
 						<div class="form-group">
 							<label for="c_country" class="text-black">District <span
-								class="text-danger">*</span></label> <select name="d_district" id="d_district" required="required"
-								class="form-control"
+								class="text-danger">*</span></label> <select name="d_district"
+								id="d_district" required="required" class="form-control"
 								onchange="setDataId(this.id);  fetchWards()">
 								<option value="" disabled="disabled" selected hidden="hidden">Select
 									a district</option>
@@ -213,8 +229,9 @@
 
 						<div class="form-group">
 							<label for="c_country" class="text-black">Ward<span
-								class="text-danger">*</span></label> <select name="w_ward" id="w_ward" required="required"
-								class="form-control" onchange="ableDetailAddress()">
+								class="text-danger">*</span></label> <select name="w_ward" id="w_ward"
+								required="required" class="form-control"
+								onchange="ableDetailAddress()">
 								<option value="" disabled="disabled" selected hidden="hidden">Select
 									a ward</option>
 
@@ -229,9 +246,9 @@
 
 								<div style="position: relative;">
 
-									<input required="required" type="text" class="form-control" id="c_address"
-										name="c_address" placeholder="Apartment, suite, unit etc."
-										 autocomplete="off"
+									<input required="required" type="text" class="form-control"
+										id="c_address" name="c_address"
+										placeholder="Apartment, suite, unit etc." autocomplete="off"
 										oninput="getAddressSuggestions()"
 										onfocus="document.getElementById('addressOptions').style.height = 'fit-content'; document.querySelector('.detail-add-notice').classList.remove('show')"
 										onblur=" setTimeout(() => {checkValidAddress(this.value);document.getElementById('addressOptions').style.height = 0; }, 300)" />
@@ -244,12 +261,15 @@
 									</div>
 								</div>
 								<ul style="margin-bottom: 0" id="addressOptions"></ul>
-								<p class="detail-add-notice" >Địa chỉ không chính xác, vui lòng kiểm tra lại địa chỉ
-								</p>
+								<p class="detail-add-notice">Địa chỉ không chính xác, vui
+									lòng kiểm tra lại địa chỉ</p>
 							</div>
 						</div>
 
-						<input style="height: 0; padding: 0; margin: 0; width: 0; border: none;position: absolute;" type="text" name='address-constraint' required="required" value="true" />
+						<input
+							style="height: 0; padding: 0; margin: 0; width: 0; border: none; position: absolute;"
+							type="text" name='address-constraint' required="required"
+							value="true" />
 
 
 
@@ -257,12 +277,13 @@
 							<div class="col-md-6">
 								<label for="c_email_address" class="text-black">Email
 									Address <span class="text-danger">*</span>
-								</label> <input type="email" class="form-control" id="c_email_address" required="required"
-									name="c_email_address" value="${user.email}">
+								</label> <input type="email" class="form-control" id="c_email_address"
+									required="required" name="c_email_address"
+									value="${user.email}">
 							</div>
 							<div class="col-md-6">
 								<label for="c_phone" class="text-black">Phone <span
-									class="text-danger">*</span></label> <input required="required" 
+									class="text-danger">*</span></label> <input required="required"
 									type="tel" class="form-control" id="c_phone" name="c_phone"
 									placeholder="Phone Number" value="${user.phone}"
 									pattern="^\s*\d(?:\s*\d){9}\s*$">
@@ -292,9 +313,7 @@
 								<label for="c_code" class="text-black mb-3">Enter your
 									coupon code if you have one</label>
 								<div class="input-group w-75 couponcode-wrap">
-									<div
-									
-										style="display: flex;" >
+									<div style="display: flex;">
 
 										<input style="cursor: text;" type="text"
 											class="form-control me-2" id="c_code"
@@ -302,7 +321,9 @@
 											name="coupon" aria-describedby="button-addon2"
 											value="${coupon.id}">
 										<div class="input-group-append">
-											<button onclick="submitCouponForm('${pageContext.servletContext.contextPath}/checkout','post')" style="cursor: pointer;" class="btn btn-black btn-sm"
+											<button
+												onclick="submitCouponForm('${pageContext.servletContext.contextPath}/checkout','post')"
+												style="cursor: pointer;" class="btn btn-black btn-sm"
 												type="button" id="button-addon2">Apply</button>
 										</div>
 									</div>
@@ -311,7 +332,8 @@
 							</div>
 						</div>
 					</div>
-
+					
+					
 					<div class="row mb-5">
 						<div class="col-md-12">
 							<h2 class="h3 mb-3 text-black">Your Order</h2>
@@ -329,9 +351,14 @@
 												<td style="text-transform: capitalize;">${product.key.name}<strong
 													class="mx-2">x</strong> ${product.value}
 												</td>
-												<td><fmt:setLocale value="en_US" /> <fmt:formatNumber
+												<td>
+													<fmt:setLocale value="en_US" /> 
+													<fmt:formatNumber
 														maxFractionDigits="2" type="currency"
-														value="${product.key.price*product.key.percentSale*product.value}"></fmt:formatNumber>
+														
+														currencySymbol="$"
+														value="${product.key.price*product.key.percentSale*product.value}">
+													</fmt:formatNumber>
 
 												</td>
 											</tr>
@@ -341,9 +368,11 @@
 										<tr>
 											<td class="text-black font-weight-bold"><strong>Cart
 													Subtotal</strong></td>
-											<td class="text-black"><fmt:setLocale value="en_US" />
-												<fmt:formatNumber maxFractionDigits="2" type="currency"
-													value="${MathUtils.totalPriceCart(sessionScope.cart)}"></fmt:formatNumber>
+											<td class="text-black">
+												<fmt:setLocale value="en_US" />
+												<fmt:formatNumber currencySymbol="$" maxFractionDigits="2" type="currency"
+													value="${MathUtils.totalPriceCart(sessionScope.cart)}">
+												</fmt:formatNumber>
 											</td>
 										</tr>
 										<c:choose>
@@ -352,11 +381,14 @@
 												<tr>
 													<td class="text-black font-weight-bold"><strong>Coupon
 													</strong></td>
-													<td class="text-black">-<fmt:setLocale value="en_US" />
-														<fmt:formatNumber maxFractionDigits="2" type="currency"
-															value="${MathUtils.totalPriceCart(sessionScope.cart)*coupon.percentSale}"></fmt:formatNumber>
+													<td class="text-black">-
+														<fmt:setLocale value="en_US" />
+														<fmt:formatNumber currencySymbol="$" maxFractionDigits="2" type="currency"
+															value="${MathUtils.totalPriceCart(sessionScope.cart)*coupon.percentSale}">
+														</fmt:formatNumber>
 														(<fmt:formatNumber type="percent"
-															value="${coupon.percentSale}"></fmt:formatNumber>)
+															value="${coupon.percentSale}">
+														</fmt:formatNumber>)
 
 													</td>
 												</tr>
@@ -367,10 +399,16 @@
 										<tr>
 											<td class="text-black font-weight-bold"><strong>Order
 													Total</strong></td>
-											<td class="text-black font-weight-bold"><strong><fmt:setLocale
-														value="en_US" /> <fmt:formatNumber maxFractionDigits="2"
+											<td class="text-black font-weight-bold">
+												<strong>
+													<fmt:setLocale
+														value="en_US" /> 
+													<fmt:formatNumber maxFractionDigits="2" currencySymbol="$"
 														type="currency"
-														value="${MathUtils.totalPriceCart(sessionScope.cart) - MathUtils.totalPriceCart(sessionScope.cart)*coupon.percentSale}"></fmt:formatNumber></strong></td>
+														value="${MathUtils.totalPriceCart(sessionScope.cart) - MathUtils.totalPriceCart(sessionScope.cart)*coupon.percentSale}">
+													</fmt:formatNumber>
+												</strong>
+											</td>
 										</tr>
 									</tbody>
 								</table>
@@ -446,8 +484,8 @@
 								</div>
 
 								<div class="form-group">
-									<button class="btn btn-black btn-lg py-3 btn-block" type="submit"
-										>Place Order</button>
+									<button class="btn btn-black btn-lg py-3 btn-block"
+										type="submit">Place Order</button>
 								</div>
 
 							</div>
@@ -455,10 +493,10 @@
 					</div>
 
 				</div>
-			</div>
-			<!-- </form> -->
+		</form>
+		<!-- </form> -->
 		</div>
-	</form>
+	</div>
 
 	<!-- Start Footer Section -->
 	<jsp:include page="../components/footer.jsp"></jsp:include>
@@ -473,7 +511,11 @@
 		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=13"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/checkout.js?version=2"></script>
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
+	<script
+		src="${pageContext.servletContext.contextPath}/assets/js/checkout.js?version=5"></script>
 
 </body>
 

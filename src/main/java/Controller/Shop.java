@@ -1,15 +1,14 @@
 package Controller;
 
+import java.io.IOException;
+
+import Fillter.ProductFilter;
+import Utils.MathUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-
-import Fillter.ProductFilter;
-import Utils.MathUtils;
 
 /**
  * Servlet implementation class Shop

@@ -4,6 +4,23 @@ import java.util.Objects;
 
 public class Address {
 	
+	private int id;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Address(int id, String country, String city, String ward, String detailAddress) {
+		this.id = id;
+		this.country = country;
+		this.city = city;
+		this.ward = ward;
+		this.detailAddress = detailAddress;
+	}
+
 	private String country;
 	private String city;
 	private String ward;
@@ -14,6 +31,10 @@ public class Address {
 		this.city = city;
 		this.ward = ward;
 		this.detailAddress = detailAddress;
+	}
+
+	public Address() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getCountry() {
@@ -50,7 +71,7 @@ public class Address {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(city, country, detailAddress, ward);
+		return Objects.hash(city, country, detailAddress, id, ward);
 	}
 
 	@Override
@@ -63,7 +84,8 @@ public class Address {
 			return false;
 		Address other = (Address) obj;
 		return Objects.equals(city, other.city) && Objects.equals(country, other.country)
-				&& Objects.equals(detailAddress, other.detailAddress) && Objects.equals(ward, other.ward);
+				&& Objects.equals(detailAddress, other.detailAddress) && id == other.id
+				&& Objects.equals(ward, other.ward);
 	}
 	
 	

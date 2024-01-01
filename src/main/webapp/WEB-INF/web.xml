@@ -14,13 +14,13 @@
     <location>/pages/404page.jsp</location>
   </error-page>
   <filter>
-    <display-name>Authentication</display-name>
-    <filter-name>Authentication</filter-name>
-    <filter-class>Fillter.Authentication</filter-class>
+    <display-name>Filter1_Authentication</display-name>
+    <filter-name>Filter1_Authentication</filter-name>
+    <filter-class>Fillter.Filter1_Authentication</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>Authentication</filter-name>
-    <url-pattern>/Authentication</url-pattern>
+    <filter-name>Filter1_Authentication</filter-name>
+    <url-pattern>/Filter1_Authentication</url-pattern>
   </filter-mapping>
   <servlet>
     <description></description>
@@ -73,22 +73,22 @@
     <url-pattern>/Language</url-pattern>
   </servlet-mapping>
   <filter>
-    <display-name>AuthAuthorization</display-name>
-    <filter-name>AuthAuthorization</filter-name>
-    <filter-class>Fillter.AuthAuthorization</filter-class>
+    <display-name>Filter2_AuthAuthorization</display-name>
+    <filter-name>Filter2_AuthAuthorization</filter-name>
+    <filter-class>Fillter.Filter2_AuthAuthorization</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>AuthAuthorization</filter-name>
-    <url-pattern>/AuthAuthorization</url-pattern>
+    <filter-name>Filter2_AuthAuthorization</filter-name>
+    <url-pattern>/Filter2_AuthAuthorization</url-pattern>
   </filter-mapping>
   <filter>
-    <display-name>Auth</display-name>
-    <filter-name>Auth</filter-name>
-    <filter-class>Fillter.Auth</filter-class>
+    <display-name>Filter2_Auth</display-name>
+    <filter-name>Filter2_Auth</filter-name>
+    <filter-class>Fillter.Filter2_Auth</filter-class>
   </filter>
   <filter-mapping>
-    <filter-name>Auth</filter-name>
-    <url-pattern>/Auth</url-pattern>
+    <filter-name>Filter2_Auth</filter-name>
+    <url-pattern>/Filter2_Auth</url-pattern>
   </filter-mapping>
   <servlet>
     <description></description>
@@ -110,4 +110,22 @@
     <servlet-name>Payment</servlet-name>
     <url-pattern>/Payment</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>Filter2_Payment</display-name>
+    <filter-name>Filter2_Payment</filter-name>
+    <filter-class>Fillter.Filter2_Payment</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Filter2_Payment</filter-name>
+    <url-pattern>/Filter2_Payment</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>Filter2_UserAuthorization</display-name>
+    <filter-name>Filter2_UserAuthorization</filter-name>
+    <filter-class>Fillter.Filter2_UserAuthorization</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Filter2_UserAuthorization</filter-name>
+    <url-pattern>/Filter2_UserAuthorization</url-pattern>
+  </filter-mapping>
 </web-app>

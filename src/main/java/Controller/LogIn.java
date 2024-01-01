@@ -1,7 +1,6 @@
 package Controller;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -39,14 +38,18 @@ public class LogIn extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("/pages/login.jsp").include(request, response);
+		if (!response.isCommitted()) {
+		    response.resetBuffer();
+		    response.setContentType("text/html");
+		    request.getRequestDispatcher("/pages/login.jsp").include(request, response);
+		}
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -60,6 +63,7 @@ public class LogIn extends HttpServlet {
 			return;
 		} else {
 			doGet(request, response);
+			
 		}
 
 		User user = UserDAO.getByPhoneOrEmail(user_name_phone);
@@ -69,6 +73,7 @@ public class LogIn extends HttpServlet {
 			request.setAttribute("username", user_name_phone);
 			request.setAttribute("password", password);
 			doGet(request, response);
+			
 			return;
 
 		}

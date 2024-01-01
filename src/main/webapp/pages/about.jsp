@@ -156,7 +156,7 @@
 
 				<!-- Start Column 1 -->
 				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-					<img
+					<img style="border-radius: 10px"
 						src="${pageContext.servletContext.contextPath}/assets/images/person_1.jpg"
 						class="img-fluid mb-5">
 					<h3>
@@ -175,7 +175,7 @@
 
 				<!-- Start Column 2 -->
 				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-					<img
+					<img style="border-radius: 10px"
 						src="${pageContext.servletContext.contextPath}/assets/images/person_2.jpg"
 						class="img-fluid mb-5">
 
@@ -196,7 +196,7 @@
 
 				<!-- Start Column 3 -->
 				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-					<img
+					<img style="border-radius: 10px"
 						src="${pageContext.servletContext.contextPath}/assets/images/person_3.jpg"
 						class="img-fluid mb-5">
 					<h3>
@@ -215,7 +215,7 @@
 
 				<!-- Start Column 4 -->
 				<div class="col-12 col-md-6 col-lg-3 mb-5 mb-md-0">
-					<img
+					<img style="border-radius: 10px"
 						src="${pageContext.servletContext.contextPath}/assets/images/person_4.jpg"
 						class="img-fluid mb-5">
 
