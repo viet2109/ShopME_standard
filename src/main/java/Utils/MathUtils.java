@@ -9,10 +9,12 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Fillter.*;
 import Model.Cart;
+import Model.Order;
 import Model.Product;
 
 public class MathUtils {
@@ -93,6 +95,24 @@ public class MathUtils {
 
         return locationBuilder.toString().trim();
     }
+	
+	public static StringBuilder ConvertOrderToJson(List<Order> orders) {
+		StringBuilder jsonBuilder = new StringBuilder("[");
+        for (Order order : orders) {
+            jsonBuilder.append("{")
+                       .append("\"id\":").append(order.getId()).append(",")
+                       .append("\"customerName\":\"").append(order.getReceiver().getLastName()).append(" ").append(order.getReceiver().getFirstName()).append("\",")
+                       .append("\"date\":\"").append(order.getOrderDate()).append("\",")
+                       .append("\"total\":").append(order.totalOrder()).append(",")
+                       .append("\"payment\":\"").append(order.getPayment().getName()).append("\"")
+                       .append("},");
+        }
+        if (orders.size() > 0) {
+            jsonBuilder.deleteCharAt(jsonBuilder.length() - 1); // Remove the last comma
+        }
+        jsonBuilder.append("]");
+        return jsonBuilder;
+	}
 
     public static void main(String[] args) {
         java.sql.Date date = java.sql.Date.valueOf(LocalDate.now());

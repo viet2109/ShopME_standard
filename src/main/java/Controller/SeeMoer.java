@@ -5,22 +5,23 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
+
+import DAO.OrderDAO;
+import Model.Order;
 
 /**
- * Servlet implementation class LogOut
+ * Servlet implementation class SeeMoer
  */
-@WebServlet("/logout")
-public class LogOut extends HttpServlet {
+@WebServlet("/purchase-history")
+public class SeeMoer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogOut() {
+    public SeeMoer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,22 +30,11 @@ public class LogOut extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		HttpSession session = request.getSession();
-		session.setAttribute("user", null);
+		List<Order> ordersOfUser = OrderDAO.getByUserId(Integer.parseInt(request.getParameter("customerId")));
 		
-		// Lấy URL trước đó (referer)
-        String referer = request.getHeader("referer");
-        // Kiểm tra nếu referer không rỗng và nếu cần thực hiện xử lý dựa trên referer
-        if (referer != null && !referer.isEmpty()) {
-            // quay trở lại trang trước khi logout
-        	
-        	response.sendRedirect(referer);
-            
-        } else {
-            // Không có referer hoặc referer không hợp lệ
-        	response.sendRedirect("home");
-        }
+		request.setAttribute("ordersOfUser", ordersOfUser);
+		request.getRequestDispatcher("/admin/users").forward(request, response);
+		
 	}
 
 	/**

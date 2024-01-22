@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
+
 public class Order {
 
 	private int id;
@@ -12,10 +14,26 @@ public class Order {
 	private Address orderAddress;
 	private Date orderDate;
 	private Coupon coupon;
-	private int paymentId;
+	private Payment payment;
 	private Map<Product, Integer> productAndQuantityList;
 	private User receiver;
 	private String notes;
+	private Map<Product, Double> price;// 
+
+	
+	public Order(int id, User sender, Address orderAddress, Date orderDate, Coupon coupon, Payment payment,
+			Map<Product, Integer> productAndQuantityList, User receiver, String notes, Map<Product, Double> price) {
+		this.id = id;
+		this.sender = sender;
+		this.orderAddress = orderAddress;
+		this.orderDate = orderDate;
+		this.coupon = coupon;
+		this.payment = payment;
+		this.productAndQuantityList = productAndQuantityList;
+		this.receiver = receiver;
+		this.notes = notes;
+		this.price = price;
+	}
 
 	public String getNotes() {
 		return notes;
@@ -25,37 +43,45 @@ public class Order {
 		this.notes = notes;
 	}
 
+	public Map<Product, Double> getPrice() {
+		return price;
+	}
+
+	public void setPrice(Map<Product, Double> price) {
+		this.price = price;
+	}
+
 	public Order() {
 
 		productAndQuantityList = new HashMap<Product, Integer>();
 	}
 
-	public Order(int id, User sender, Address orderAddress, Date orderDate, Coupon coupon, int paymentId,
+	public Order(int id, User sender, Address orderAddress, Date orderDate, Coupon coupon, Payment payment,
 			Map<Product, Integer> productAndQuantityList, User receiver) {
 		this.id = id;
 		this.sender = sender;
 		this.orderAddress = orderAddress;
 		this.orderDate = orderDate;
 		this.coupon = coupon;
-		this.paymentId = paymentId;
+		this.payment = payment;
 		this.productAndQuantityList = productAndQuantityList;
 		this.receiver = receiver;
 	}
 
-	public Order(User sender, Address orderAddress, Date orderDate, Coupon coupon, int paymentId,
+	public Order(User sender, Address orderAddress, Date orderDate, Coupon coupon, Payment payment,
 			Map<Product, Integer> productAndQuantityList, User receiver) {
 		this.sender = sender;
 		this.orderAddress = orderAddress;
 		this.orderDate = orderDate;
 		this.coupon = coupon;
-		this.paymentId = paymentId;
+		this.payment = payment;
 		this.productAndQuantityList = productAndQuantityList;
 		this.receiver = receiver;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(coupon, id, orderAddress, orderDate, paymentId, productAndQuantityList, receiver, sender);
+		return Objects.hash(coupon, id, orderAddress, orderDate, payment, productAndQuantityList, receiver, sender);
 	}
 
 	@Override
@@ -69,7 +95,7 @@ public class Order {
 		Order other = (Order) obj;
 		return Objects.equals(coupon, other.coupon) && id == other.id
 				&& Objects.equals(orderAddress, other.orderAddress) && Objects.equals(orderDate, other.orderDate)
-				&& paymentId == other.paymentId && Objects.equals(productAndQuantityList, other.productAndQuantityList)
+				&& payment == other.payment && Objects.equals(productAndQuantityList, other.productAndQuantityList)
 				&& Objects.equals(receiver, other.receiver) && Objects.equals(sender, other.sender);
 	}
 
@@ -113,12 +139,12 @@ public class Order {
 		this.coupon = coupon;
 	}
 
-	public int getPaymentId() {
-		return paymentId;
+	public Payment getPayment() {
+		return payment;
 	}
 
-	public void setPaymentId(int paymentId) {
-		this.paymentId = paymentId;
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 	public Map<Product, Integer> getProductAndQuantityList() {
@@ -136,5 +162,13 @@ public class Order {
 	public void setReceiver(User receiver) {
 		this.receiver = receiver;
 	}
+	
 
+	public double totalOrder() {
+		double total = 0;
+		for (Product p : price.keySet()) {
+			total += price.get(p)*productAndQuantityList.get(p);
+		}
+		return total;
+	}
 }

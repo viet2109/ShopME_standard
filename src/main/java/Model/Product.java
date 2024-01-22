@@ -28,6 +28,30 @@ public class Product {
 		this.rate = rate;
 		this.image = image;
 	}
+	
+
+	public Product(String name, int categoryId, String des, double price, double percentSale, Blob image) {
+		super();
+		this.name = name;
+		this.categoryId = categoryId;
+		this.des = des;
+		this.price = price;
+		this.percentSale = percentSale;
+		this.image = image;
+	}
+	
+
+	public Product(int id, String name, int categoryId, String des, double price, double percentSale, Blob image) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.categoryId = categoryId;
+		this.des = des;
+		this.price = price;
+		this.percentSale = percentSale;
+		this.image = image;
+	}
+
 
 	@Override
 	public String toString() {
@@ -36,8 +60,11 @@ public class Product {
 	}
 
 	@Override
+//	public int hashCode() {
+//		return Objects.hash(categoryId, des, image, name, percentSale, price, rate);
+//	}
 	public int hashCode() {
-		return Objects.hash(categoryId, des, id, image, name, percentSale, price, rate);
+		return Objects.hash(categoryId, des, name, percentSale, price, rate);
 	}
 
 	@Override
@@ -49,10 +76,13 @@ public class Product {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		return categoryId == other.categoryId && Objects.equals(des, other.des) && id == other.id
-				&& Objects.equals(image, other.image) && Objects.equals(name, other.name)
-				&& Double.doubleToLongBits(percentSale) == Double.doubleToLongBits(other.percentSale)
-				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price) && rate == other.rate;
+		return categoryId == other.categoryId
+		        && Objects.equals(des, other.des)
+//		        && Objects.equals(image, other.image)
+		        && Objects.equals(name, other.name)
+		        && Double.doubleToLongBits(percentSale) == Double.doubleToLongBits(other.percentSale)
+		        && Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
+		        && rate == other.rate;
 	}
 
 	public Product() {

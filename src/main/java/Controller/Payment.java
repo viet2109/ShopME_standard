@@ -5,9 +5,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Map;
 
+import DAO.AddressDAO;
 import DAO.CartDAO;
 import DAO.CouponDAO;
 import DAO.OrderDAO;
+import DAO.PaymentDAO;
 import Model.Address;
 import Model.Coupon;
 import Model.Order;
@@ -20,7 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Payment
+ * Servlet implementation class PaymentDAO
  */
 @WebServlet("/payment")
 public class Payment extends HttpServlet {
@@ -81,7 +83,7 @@ public class Payment extends HttpServlet {
 		order.setOrderAddress(address);
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		order.setCoupon(cp);
-		order.setPaymentId(Integer.valueOf(payment));
+		order.setPayment(PaymentDAO.getById(Integer.valueOf(payment)));
 		order.setProductAndQuantityList(orderProductList);
 		order.setSender((User) request.getSession().getAttribute("user"));
 		order.setReceiver(receiver);
@@ -89,7 +91,7 @@ public class Payment extends HttpServlet {
 		
 		
 		Model.Cart cart = (Model.Cart) request.getSession().getAttribute("cart");
-		OrderDAO.addOrder(order, cart);
+		OrderDAO.addOrder(order, userId);
 		
 		cart = CartDAO.getByUserId(userId);
 		request.getSession().setAttribute("cart", cart);

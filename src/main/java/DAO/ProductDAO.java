@@ -1,5 +1,8 @@
 package DAO;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,11 +15,11 @@ import Database.DBConnection;
 import Fillter.ProductFilter;
 import Model.Product;
 import Utils.DynamicPagination;
+import jakarta.servlet.http.Part;
 
 public class ProductDAO {
 
 	public static List<Product> getAllProduct() {
-		
 		List<Product> list = new ArrayList<Product>();
 		String sql = "select * from products";
 
@@ -39,9 +42,6 @@ public class ProductDAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
-		
-
 		return list;
 	}
 
@@ -119,6 +119,74 @@ public class ProductDAO {
 			return  product2.getRate() -  product1.getRate();
 		});
 		return list.subList(0, limit>list.size()?list.size():limit);
+	}
+	public static boolean delete(int id) {
+		String sql = "DELETE FROM products WHERE id = ?;";
+		try {
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setInt(1, id);
+			int result = statement.executeUpdate();
+			statement.close();
+			if(result >= 0) return true;
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+	
+	// Chua xong
+	// insert product in admin_product 
+//	public static boolean insert(String product_name, int category_id, float price, float percent_sale, Part image, String des  ) throws IOException {
+	public static boolean insert(Product product) throws IOException {
+		String sql = "INSERT INTO products (product_name, category_id, price, percent_sale, image, des) \r\n"
+				+ "VALUES (?, ?, ?, ?, ?, ?);";
+		try {
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setString(1, product.getName());
+			statement.setInt(2, product.getCategoryId());
+			statement.setFloat(3,(float) product.getPrice() );
+			statement.setFloat(4, (float) product.getPercentSale());
+			statement.setBlob(5, product.getImage());
+			statement.setString(6, product.getDes());
+			int result = statement.executeUpdate();
+			statement.close();
+			if(result > 0) return true;
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	// update admin_product
+	public static boolean update(Product product) {
+		String sql = "UPDATE products \r\n"
+				+ "SET product_name = ?,\r\n"
+				+ "	category_id =  ?,\r\n"
+				+ "    des = ?,\r\n"
+				+ "    price = ?,\r\n"
+				+ "    percent_sale = ?,\r\n"
+				+ "    image = ?\r\n"
+				+ "    WHERE (id = ?);";
+		try {
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setString(1, product.getName());
+			statement.setInt(2, product.getCategoryId());
+			statement.setString(3, product.getDes());
+			statement.setFloat(4, (float) product.getPrice());
+			statement.setFloat(5, (float) product.getPercentSale());
+			statement.setBlob(6, product.getImage());
+			statement.setInt(7, product.getId());
+			int result = statement.executeUpdate();
+			statement.close();
+			if(result>0) return true;
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

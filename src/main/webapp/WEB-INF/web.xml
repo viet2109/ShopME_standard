@@ -128,4 +128,24 @@
     <filter-name>Filter2_UserAuthorization</filter-name>
     <url-pattern>/Filter2_UserAuthorization</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserAPI</display-name>
+    <servlet-name>UserAPI</servlet-name>
+    <servlet-class>Controller.UserAPI</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAPI</servlet-name>
+    <url-pattern>/UserAPI</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SeeMoer</display-name>
+    <servlet-name>SeeMoer</servlet-name>
+    <servlet-class>Controller.SeeMoer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SeeMoer</servlet-name>
+    <url-pattern>/SeeMoer</url-pattern>
+  </servlet-mapping>
 </web-app>
