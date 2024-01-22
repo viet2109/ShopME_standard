@@ -21,6 +21,7 @@ import org.apache.tomcat.util.json.JSONParser;
 
 import DAO.OrderDAO;
 import DAO.UserDAO;
+import Model.Address;
 import Model.Order;
 import Model.User;
 import Utils.BCrypt;
@@ -99,8 +100,32 @@ public class AdminUser extends HttpServlet {
 		}
 		if(action.equals("edit_role")) {
 			user_id = Integer.parseInt(request.getParameter("user_id"));
+			
+			String firstName = request.getParameter("name").substring(request.getParameter("name").indexOf(" ")+1);
+			String lastName = request.getParameter("name").split(" ")[0];
+			Date dob = Date.valueOf(request.getParameter("dob"));
+			String email = request.getParameter("email");
+			String phone = request.getParameter("phone");
+			String country = request.getParameter("p_province");
+			String city = request.getParameter("d_district");
+			String ward = request.getParameter("w_ward");
+			String detailAddress = request.getParameter("c_address");
 			int role = Integer.parseInt(request.getParameter("role"));
-			boolean isSuccess = UserDAO.updateRole(user_id, role);
+			
+			Address address = new Address(country, city, ward, detailAddress);
+			User user = new User();
+			user.setId(user_id);
+			user.setFirstName(firstName);
+			user.setLastName(lastName);
+			user.setDob(dob);
+			user.setEmail(email);
+			user.setPhone(phone);
+			user.setAddress(address);
+			user.setRoles(role);
+			
+			boolean isSuccess = UserDAO.update(user);
+			doGet(request, response);
+			return;
 		}
 		if(action.equals("delete")) {
 			user_id = Integer.parseInt(request.getParameter("user_id"));

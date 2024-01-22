@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Database.DBConnection;
+import Model.Address;
 import Model.Order;
 import Model.User;
 import Utils.CountRowSQL;
@@ -33,6 +34,8 @@ public class UserDAO {
 				int roles = result.getInt("roles");
 				String password = result.getString("passwd");
 				Date createDate = result.getDate("created_date");
+				Address address = AddressDAO.getByUserId(userId);
+				System.out.println(address);
 				
 				user = new User();
 				user.setId(id);
@@ -44,6 +47,7 @@ public class UserDAO {
 				user.setRoles(roles);
 				user.setPassword(password);
 				user.setCreateDate(createDate);
+				user.setAddress(address);
 			}
 			statement.close();
 			result.close();
@@ -227,6 +231,33 @@ public class UserDAO {
 			statement.setInt(1, roles);
 			statement.setInt(2, id);
 			int result = statement.executeUpdate();
+			if(result >= 0) return true;
+			
+			statement.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	public static boolean update(User user) {
+		String sql = "UPDATE customers SET first_name=?, last_name=?, dob=?, email=?, phone=?, roles = ? WHERE id = ?;";
+		try {
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setString(1, user.getFirstName());
+			statement.setString(2, user.getLastName());
+			statement.setDate(3, user.getDob());
+			statement.setString(4, user.getEmail());
+			statement.setString(5, user.getPhone());
+			statement.setInt(6, user.getRoles());
+			statement.setInt(7, user.getId());
+			int result = statement.executeUpdate();
+			boolean isNewAddress = AddressDAO.addNewAddress(user.getAddress());
+			int idAddress = AddressDAO.getIdByAddress(user.getAddress());
+			if(isNewAddress) {
+				user.getAddress().setId(idAddress);
+			}
+			AddressDAO.addNewUserAddress(user.getAddress(), user);
 			if(result >= 0) return true;
 			
 			statement.close();
