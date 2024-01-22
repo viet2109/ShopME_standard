@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 
 import Database.DBConnection;
 import Model.Address;
+import Model.User;
 
 public class AddressDAO {
 
@@ -77,7 +78,21 @@ public class AddressDAO {
 			return false;
 		}
 	}
-	
+	public static boolean addNewUserAddress(Address address, User user) {
+		try {
+			String sql = "insert into customer_addresses (customer_id, address_id) values(?,?)";
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setInt(1, user.getId());
+			statement.setInt(2, address.getId());
+			int result = statement.executeUpdate();
+
+			return result == 1;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
 	
 	
 }

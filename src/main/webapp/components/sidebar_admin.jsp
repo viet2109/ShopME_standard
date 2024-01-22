@@ -89,6 +89,10 @@
 
 							</div> Products
 					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.servletContext.contextPath}/admin/orders?page=1">
+							<i class="fa-solid fa-clipboard-list"></i></i> Orders
+					</a></li>
 					<li class="nav-item"><a class="nav-link" href="#"> <i
 							class="bi bi-file-text"></i> Posts
 					</a></li>

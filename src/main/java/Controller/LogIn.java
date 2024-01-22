@@ -85,6 +85,7 @@ public class LogIn extends HttpServlet {
 		if (request.getParameter("originalUri") != null) {
 			String url = request.getParameter("originalUri");
 			String method = request.getParameter("method");
+			System.out.println("LogIn: "+url+"; "+method);
 			
 			StringBuffer data = new StringBuffer();
 			paramaterMap.forEach((key, value) -> {

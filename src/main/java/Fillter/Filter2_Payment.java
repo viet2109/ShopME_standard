@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 /**
- * Servlet Filter implementation class Payment
+ * Servlet Filter implementation class PaymentDAO
  */
 @WebFilter(filterName = "Filter2_payment-fillter", urlPatterns = { "/checkout", "/pages/checkout.jsp", "/payment" })
 public class Filter2_Payment extends HttpFilter implements Filter {

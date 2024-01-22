@@ -12,6 +12,7 @@ public class User {
 	private Date dob;
 	private String password;
 	private Address address;
+	private Date createDate;
 	public Address getAddress() {
 		return address;
 	}
@@ -93,6 +94,16 @@ public class User {
 		return lastName + " " + firstName;
 	}
 	
+	
+	
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(dob, email, firstName, id, lastName, password, phone, roles);

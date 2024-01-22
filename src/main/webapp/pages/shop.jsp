@@ -51,7 +51,8 @@
 		value="${ProductDAO.getProductByFilter(filter)}"></c:set>
 	<c:set var="result"
 		value="${ProductDAO.getProductByOffset(totalProduct, page)}"></c:set>
-
+		
+		
 	<!-- Start Header/Navigation -->
 	<jsp:include page="../components/header.jsp"></jsp:include>
 	<!-- End Header/Navigation -->

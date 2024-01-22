@@ -313,7 +313,7 @@ function showSweetAlert(button) {
 	}).then((result) => {
 		if (result.isConfirmed) {
 
-			delete_input.value = button.dataset.product;
+			delete_input.value = button.dataset.user;
 			delete_product.submit();
 			localStorage.setItem('delete', "true");
 
