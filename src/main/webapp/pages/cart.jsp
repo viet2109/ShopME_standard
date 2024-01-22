@@ -1,3 +1,4 @@
+<%@page import="Model.Cart"%>
 <%@page import="Utils.MathUtils"%>
 <%@page import="DAO.CartDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -84,7 +85,14 @@
 								<table class="table">
 									<thead>
 										<tr>
-											<th></th>
+										
+											<th>
+												<input type="checkbox" style="width: 20px; height: 20px; cursor: pointer;"
+														${MathUtils.isAllSelectedCart(results)  ? 'checked':''}
+													onchange="checkAllInputs(this.checked)"   
+												
+												>
+											</th>
 											<th class="product-thumbnail">Image</th>
 											<th class="product-name">Product</th>
 											<th class="product-price">Price</th>
@@ -277,7 +285,7 @@
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/tiny-slider.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=14"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=1"></script>
 	<script type="text/javascript">
 
 const delete_product = document.querySelector('#delete_product');

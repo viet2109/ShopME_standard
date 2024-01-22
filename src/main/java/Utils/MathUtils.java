@@ -93,10 +93,17 @@ public class MathUtils {
 
         return locationBuilder.toString().trim();
     }
+	
+	public static boolean isAllSelectedCart(Cart cart) {
+		boolean result = cart.getProduct_selected().entrySet().stream().allMatch(entry ->  {
+			
+			return entry.getValue() == 1;
+		});
+		return result;
+	}
 
     public static void main(String[] args) {
-        java.sql.Date date = java.sql.Date.valueOf(LocalDate.now());
-        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
-        System.out.println(timestamp);
+        Cart cart = new Cart();
+        cart.getProduct_selected().entrySet().stream().anyMatch(entry ->  entry.getValue() == 0);
     }
 }
