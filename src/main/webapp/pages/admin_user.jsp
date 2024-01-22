@@ -396,11 +396,13 @@
 																	<c:if test="${u.roles == 1 }">
 																		<h3 class="text-center text-dark mt-5">Purchase
 																			History</h3>
-																		<button id="see-more-button-${u.id }" type="button"
-																			data-customer-id="${u.id}"
-																			data-url="${pageContext.servletContext.contextPath }/admin/users"
-																			class="btn btn-primary w-auto justify-content-center align-items-center">See
-																			More</button>
+																		<div style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
+																			<button id="see-more-button-${u.id }" type="button"
+																				data-customer-id="${u.id}"
+																				data-url="${pageContext.servletContext.contextPath }/admin/users"
+																				class="btn btn-primary w-auto justify-content-center align-items-center">See
+																				More</button>
+																		</div>
 																		<div class="row mt-5 " id="purchaseHistory${u.id }"></div>
 																	</c:if>
 																</div>
