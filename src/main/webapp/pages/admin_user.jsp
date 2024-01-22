@@ -18,14 +18,110 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">
+<link
+	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=8"
+	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="alert/dist/sweetalert.css">
 <style type="text/css">
-	label[required]::before {
-           content: '* ';
-           color: red; /* Màu sắc của biểu tượng '*' */
-       }
+label[required]::before {
+	content: '* ';
+	color: red; /* Màu sắc của biểu tượng '*' */
+}
+#addressOptions {
+	box-shadow: 0 7px 16px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	border-radius: 10px;
+	overflow: hidden;
+	padding: 0;
+	margin-top: 4px;
+	height: fit-content;
+	transition: 1s;
+}
+
+#addressOptions li {
+	line-height: 56px;
+	text-overflow: ellipsis;
+	text-wrap: nowrap;
+	overflow: hidden;
+	padding: 0 16px;
+}
+
+#addressOptions li:hover {
+	background-color: rgba(0, 0, 0, 0.2);
+	color: #fff;
+}
+
+.loader-container {
+	display: none;
+	align-items: center;
+	position: absolute;
+	height: fit-content;
+	right: 6px;
+	top: 50%;
+	transform: translateY(-50%);
+	height: 82%;
+	width: 55px;
+	background: #fff;
+	padding-left: 10px;
+}
+
+.loader-container.load {
+	display: flex;
+}
+
+.loader-container .dot {
+	width: 5px;
+	height: 5px;
+	background-color: #3b5d50;
+	border-radius: 50%;
+	margin-right: 3px;
+	animation: bounce 1.1s ease infinite;
+}
+
+.loader-container .dot:nth-child(1) {
+	animation-delay: calc(0.10s * ( 1 - 1));
+}
+
+.loader-container .dot:nth-child(2) {
+	animation-delay: calc(0.10s * ( 2 - 1));
+}
+
+.loader-container .dot:nth-child(3) {
+	animation-delay: calc(0.10s * ( 3 - 1));
+}
+
+.loader-container .dot:nth-child(4) {
+	animation-delay: calc(0.10s * ( 4 - 1));
+}
+
+.loader-container .dot:nth-child(5) {
+	animation-delay: calc(0.10s * ( 5 - 1));
+}
+
+.detail-add-notice {
+	display: none;
+	padding: 0 12px;
+	color: rgb(220, 53, 69);
+}
+
+.detail-add-notice.show {
+	display: block;
+}
+
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% {
+		transform: translateY(0);
+	}
+	40%
+	{
+		transform:translateY(-10px);
+	}
+	60%
+	{
+	transform:translateY(-5px);
+	}
+}
 </style>
 </head>
 
@@ -213,16 +309,16 @@
 											value="${phone }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Date of birthday:</label> <input
-											class="form-control" onblur="handleOnBlur(this)"
-											onfocus="handleOnFocus(this)" required type="date"
-											placeholder="MM/DD/YYYY" onfocus="(this.type='date')"
-											onblur="(this.type='text')" name="dob" id="dob"
-											value="${date}">
+										<label class="control-label" required>Date of
+											birthday:</label> <input class="form-control"
+											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
+											required type="date" placeholder="MM/DD/YYYY"
+											onfocus="(this.type='date')" onblur="(this.type='text')"
+											name="dob" id="dob" value="${date}">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Do you want to create an
-											admin account or a customer account?</label>
+										<label class="control-label" required>Do you want to
+											create an admin account or a customer account?</label>
 										<div class="radio">
 											<label><input type="radio" name="roles" value="0"
 												required ${(u.roles==0)?'selected':'' }>Admin</label>
@@ -240,8 +336,8 @@
 											value="${pass}" />
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Repeat your password:</label> <input
-											class="form-control" type="password"
+										<label class="control-label" required>Repeat your
+											password:</label> <input class="form-control" type="password"
 											placeholder="Enter repeat your password" required
 											type="password" name="re_pass" id="re_pass"
 											value="${re_pass }">
@@ -279,7 +375,7 @@
 												src="${pageContext.servletContext.contextPath}/assets/images/user-avatar.png"
 												class="avatar avatar-sm rounded-circle me-2"> <a
 												class="text-heading font-semibold" href="#"
-												data-bs-target="#showProfile_u${u.id }"
+												data-bs-target="#showProfile"
 												data-bs-toggle="modal"> ${u.lastName} ${u.firstName} </a></td>
 											<td><fmt:formatDate pattern="dd-MM-yyyy"
 													value="${u.dob}" /></td>
@@ -294,129 +390,26 @@
 													</c:when>
 
 													<c:otherwise>
-														<a data-bs-toggle="modal"
-															data-bs-target="#showProfile_u${u.id }"
-															data-user="${u.id}"
+														<div data-user-id="${u.id}"  data-user-name="${u.lastName } ${u.firstName }"
+														 data-user-email="${u.email }" data-user-phone="${u.phone }"
+														data-user-dob="${u.dob }" data-user-province="${u.address.country }"
+														data-user-district="${u.address.city }"
+														data-user-ward="${u.address.ward }"
+														data-user-detailAddress="${u.address.detailAddress }"
+														 onclick="showProfile(this)"
 															class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
 															<span class=" pe-2"> <i class="bi bi-pencil"></i>
 														</span> <span>Edit</span>
-														</a>
-														<button type="button" onclick="showDeleteConfirmation('delete_user','delete_input',this)"
+														</div>
+														<button type="button"
+															onclick="showDeleteConfirmation('delete_user','delete_input',this)"
 															data-id="${u.id}"
 															class="btn btn-sm btn-square btn-neutral text-danger-hover">
 															<i class="bi bi-trash"></i>
 														</button>
 													</c:otherwise>
 
-												</c:choose> <!-- Start Product dialog box -->
-												<div class="modal " id="showProfile_u${u.id }">
-													<div class="modal-dialog modal-lg " style="max-width: 50%;">
-														<div class="modal-content">
-
-															<!-- Modal Header -->
-															<div class="modal-header">
-																<h4 class="modal-title">Edit user</h4>
-																<button type="button" class="btn-close"
-																	data-bs-dismiss="modal"></button>
-															</div>
-															<!-- Modal body -->
-															<form
-																action="${pageContext.servletContext.contextPath}/admin/users"
-																method="post">
-																<input type="hidden" value="edit_role" name="action">
-																<input type="hidden" value="${u.id }" name="user_id">
-																<input type="text" class="d-none" value="${p.id }"
-																	name="product_id">
-																<div class="modal-body row" style="overflow-x: hidden;">
-																	<h3 class="text-center text-dark">Customer
-																		Information</h3>
-																	<div class="row mt-5 ">
-																		<div class="col-md-3">
-																			<img alt="..."
-																				src="${pageContext.servletContext.contextPath}/assets/images/user-avatar.png"
-																				class="avatar avatar-sm rounded-circle me-2"
-																				style="width: 100px; height: auto">
-																		</div>
-																		<div class="col-md-8 text-start">
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Id:</strong>
-																				</p>
-																				<p class="col-md-4 text-dark">${u.id}</p>
-																			</div>
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Name:</strong>
-																				</p>
-																				<p class="col-md-4 text-dark">${u.lastName }${u.firstName }</p>
-																			</div>
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Date of birthday:</strong>
-																				</p>
-																				<p class="col-md-4 text-dark">${u.dob}</p>
-																			</div>
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Email:</strong>
-																				</p>
-																				<p class="col-md-4 text-dark">${u.email }</p>
-																			</div>
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Phone:</strong>
-																				</p>
-																				<p class="col-md-4 text-dark">${u.phone }</p>
-																			</div>
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Create date:</strong>
-																				</p>
-																				<p class="col-md-4 text-dark">
-																					<fmt:formatDate pattern="dd-MM-yyyy"
-																						value="${u.createDate}" />
-																				</p>
-																			</div>
-																			<div class="row">
-																				<p class="col-md-4 text-dark">
-																					<strong>Role:</strong>
-																				</p>
-																				<div class="form-group col-md-6 ">
-																					<select class="form-select" name="role">
-																						<option class="text-capitalize" value="${0 }"
-																							${(u.roles==0)?'selected':'' }>Admin</option>
-																						<option class="text-capitalize" value="${1 }"
-																							${(u.roles==1)?'selected':''}
-																							${sessionScope.user.id == u.id ? 'disabled' : '' }>User</option>
-																					</select>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<c:if test="${u.roles == 1 }">
-																		<h3 class="text-center text-dark mt-5">Purchase
-																			History</h3>
-																		<div style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
-																			<button id="see-more-button-${u.id }" type="button"
-																				data-customer-id="${u.id}"
-																				data-url="${pageContext.servletContext.contextPath }/admin/users"
-																				class="btn btn-primary w-auto justify-content-center align-items-center">See
-																				More</button>
-																		</div>
-																		<div class="row mt-5 " id="purchaseHistory${u.id }"></div>
-																	</c:if>
-																</div>
-																<!-- Modal footer -->
-																<div class="modal-footer">
-																	<button type="submit"
-																		class="submit btn btn-success w-auto my-2 px-5">Submit</button>
-																	<button type="button" class="btn btn-danger"
-																		data-bs-dismiss="modal">Close</button>
-																</div>
-															</form>
-														</div>
-													</div>
-												</div> <!-- End Product dialog box --></td>
+												</c:choose></td>
 										</tr>
 									</c:forEach>
 
@@ -450,12 +443,182 @@
 	</form>
 	<!-- End delete user -->
 
+	<div class="modal " id="showProfile" style="background: rgba(0,0,0,0.4);">
+		<div class="modal-dialog modal-lg " style="max-width: 50%;">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Edit user</h4>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('showProfile').style.display='none';"></button>
+				</div>
+				<!-- Modal body -->
+				<form action="${pageContext.servletContext.contextPath}/admin/users"
+					method="post">
+					<input type="hidden" value="edit_role" name="action"> <input
+						type="hidden" name="user_id" id="user_id">
+					<div class="modal-body row" style="overflow-x: hidden;">
+						<h3 class="text-center text-dark">Customer Information</h3>
+						<div class="row mt-5 ">
+							<div class="col-md-3">
+								<img alt="..."
+									src="${pageContext.servletContext.contextPath}/assets/images/user-avatar.png"
+									class="avatar avatar-sm rounded-circle me-2"
+									style="width: 100px; height: auto">
+							</div>
+							<div class="col-md-8 text-start">
+								<div class="row mt-5">
+									<p class="col-md-4 text-dark">
+										<strong>Name:</strong>
+									</p>
+									<input name="name" id="name_edit" class="form-control"
+										value="${u.lastName} ${u.firstName}" type="text"
+										required="required" />
+								</div>
+								<div class="row mt-5">
+									<p class="col-md-4 text-dark">
+										<strong>Date of birthday:</strong>
+									</p>
+									<input name="dob" id="dob_edit" class="form-control" value="${u.dob}"
+										type="date" required="required" />
+								</div>
+								<div class="row mt-5">
+									<p class="col-md-4 text-dark">
+										<strong>Email:</strong>
+									</p>
+									<input name="email" id="email_edit" class="form-control" value="${u.email}"
+										type="email" required />
+								</div>
+								<div class="row mt-5">
+									<p class="col-md-4 text-dark">
+										<strong>Phone:</strong>
+									</p>
+									<input name="phone" id="phone_edit" class="form-control" value="${u.phone}"
+										type="tel" pattern="^\s*\d(?:\s*\d){9}\s*$" required />
+								</div>
+								<div class="row mt-5">
+									<p class="col-md-4 text-dark">
+										<strong>Address:</strong>
+									</p>
+									<div class="form-group">
+										<label for="c_country" class="text-black">Country <span
+											class="text-danger">*</span>
+										</label> <select name="p_province" id="p_province"
+											required="required" class="form-control"
+											onchange="setDataId(this.id); fetchDistricts()">
+											<option value="" disabled="disabled" selected hidden="hidden">Select
+												a country</option>
+
+										</select>
+									</div>
+
+									<div class="form-group">
+										<label for="c_country" class="text-black">District <span
+											class="text-danger">*</span>
+										</label> <select name="d_district" id="d_district"
+											required="required" class="form-control"
+											onchange="setDataId(this.id);  fetchWards()">
+											<option value="" disabled="disabled" selected hidden="hidden">Select
+												a district</option>
+
+										</select>
+									</div>
+
+									<div class="form-group">
+										<label for="c_country" class="text-black">Ward<span
+											class="text-danger">*</span></label> <select name="w_ward"
+											id="w_ward" required="required" class="form-control"
+											onchange="ableDetailAddress()">
+											<option value="" disabled="disabled" selected hidden="hidden">Select
+												a ward</option>
+
+										</select>
+									</div>
+
+									<div class="form-group row">
+										<div class="col-md-12">
+											<label for="c_address" class="text-black">Address <span
+												class="text-danger">*</span>
+											</label>
+
+											<div style="position: relative;">
+
+												<input required="required" type="text" class="form-control"
+													id="c_address" name="c_address"
+													placeholder="Apartment, suite, unit etc."
+													autocomplete="off" oninput="getAddressSuggestions()"
+													onfocus="document.getElementById('addressOptions').style.height = 'fit-content'; document.querySelector('.detail-add-notice').classList.remove('show')"
+													onblur=" setTimeout(() => {checkValidAddress(this.value);document.getElementById('addressOptions').style.height = 0; }, 300)" />
+												<div class="loader-container">
+													<div class="dot"></div>
+													<div class="dot"></div>
+													<div class="dot"></div>
+													<div class="dot"></div>
+													<div class="dot"></div>
+												</div>
+											</div>
+											<ul style="margin-bottom: 0" id="addressOptions"></ul>
+											<p class="detail-add-notice">Địa chỉ không chính xác, vui
+												lòng kiểm tra lại địa chỉ</p>
+										</div>
+									</div>
+
+									<input
+										style="height: 0; padding: 0; margin: 0; width: 0; border: none; position: absolute;"
+										type="text" name='address-constraint' required="required"
+										value="true" />
+
+								</div>
+								<div class="row mt-5">
+									<p class="col-md-4 text-dark">
+										<strong>Role:</strong>
+									</p>
+									<div class="form-group col-md-6 ">
+										<select class="form-select" name="role" required>
+											<option class="text-capitalize" value="${0 }"
+												${(u.roles==0)?'selected':'' }>Admin</option>
+											<option class="text-capitalize" value="${1 }"
+												${(u.roles==1)?'selected':''}
+												${sessionScope.user.id == u.id ? 'disabled' : '' }>User</option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<c:if test="${u.roles == 1 }">
+							<h3 class="text-center text-dark mt-5">Purchase History</h3>
+							<div
+								style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
+								<button id="see-more-button-${u.id }" type="button"
+									data-customer-id="${u.id}"
+									data-url="${pageContext.servletContext.contextPath }/admin/users"
+									class="btn btn-primary w-auto justify-content-center align-items-center">See
+									More</button>
+							</div>
+							<div class="row mt-5 " id="purchaseHistory${u.id }"></div>
+						</c:if>
+					</div>
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="submit"
+							class="submit btn btn-success w-auto my-2 px-5">Submit</button>
+						<button type="button" class="btn btn-danger"
+							onclick="document.getElementById('showProfile').style.display='none';">Close</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- End Product dialog box -->
+
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		crossorigin="anonymous"></script>
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
+	<script
+		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js"></script>
 
 </body>
 </html>

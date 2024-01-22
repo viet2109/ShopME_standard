@@ -93,6 +93,30 @@ public class AddressDAO {
 			return false;
 		}
 	}
-	
+	public static Address getByUserId(int userId) {
+		try {
+			String sql = "SELECT at.* FROM customer_addresses ca JOIN address_tables at ON ca.address_id=at.id "
+					+ "WHERE customer_id=? AND defaut=1;\r\n";
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			ResultSet result = statement.executeQuery();
+			Address address = null;
+			while(result.next()) {
+				int id = result.getInt("id");
+				String province = result.getString("province");
+				String district = result.getString("district");
+				String ward = result.getString("ward");
+				String addressDetail = result.getString("address_detail");
+				address = new Address(id, province, district, ward, addressDetail);
+				break;
+			}
+			
+			return address;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
 	
 }
