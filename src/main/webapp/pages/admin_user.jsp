@@ -29,6 +29,14 @@ label[required]::before {
 	content: '* ';
 	color: red; /* Màu sắc của biểu tượng '*' */
 }
+
+.btn.btn-primary {
+	color: #fff;
+	background-color: #5c60f5;
+	border-color: #5c60f5;
+}
+
+}
 #addressOptions {
 	box-shadow: 0 7px 16px rgba(0, 0, 0, 0.2);
 	cursor: pointer;
@@ -110,23 +118,268 @@ label[required]::before {
 	display: block;
 }
 
-@keyframes bounce { 0%, 20%, 50%, 80%, 100% {
-		transform: translateY(0);
-	}
-	40%
-	{
-		transform:translateY(-10px);
-	}
-	60%
-	{
-	transform:translateY(-5px);
-	}
+@
+keyframes bounce { 0%, 20%, 50%, 80%, 100% {
+	transform: translateY(0);
+}
+40
+
+
+
+
+%
+{
+transform
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-10px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+}
+60
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
+{
+transform
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-5px
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;
+}
 }
 </style>
 </head>
 
 <body>
-	<c:set var="page" value="${empty param.page ? 1: param.page }"></c:set>
+	<c:set var="page" value="${requestScope.page }"></c:set>
 	<c:set var="totalUser" value="${totalUser }"></c:set>
 	<c:set var="result" value="${result }"></c:set>
 	<c:set var="totalNewUser" value="${totalNewUser }"></c:set>
@@ -373,34 +626,38 @@ label[required]::before {
 										<tr>
 											<td><img alt="..."
 												src="${pageContext.servletContext.contextPath}/assets/images/user-avatar.png"
-												class="avatar avatar-sm rounded-circle me-2"> <a
-												class="text-heading font-semibold" href="#"
-												data-bs-target="#showProfile"
-												data-bs-toggle="modal"> ${u.lastName} ${u.firstName} </a></td>
+												class="avatar avatar-sm rounded-circle me-2"> <span
+												class="text-heading font-semibold" href="#">
+													${u.lastName} ${u.firstName} </span></td>
 											<td><fmt:formatDate pattern="dd-MM-yyyy"
 													value="${u.dob}" /></td>
 											<td>${u.email}</td>
 											<td>${u.phone}</td>
 											<td>${u.roles !=1 ? 'Admin':'User'}</td>
 
-											<td class="text-end"><c:choose>
+											<td class="text-end d-flex flex-row">
+												<div data-user-id="${u.id}"
+													data-user-name="${u.lastName } ${u.firstName }"
+													data-user-email="${u.email }" data-user-phone="${u.phone }"
+													data-user-dob="${u.dob }"
+													data-user-province="${u.address.country }"
+													data-user-district="${u.address.city }"
+													data-user-ward="${u.address.ward }"
+													data-user-detailAddress="${u.address.detailAddress }"
+													data-user-roles=${u.roles  } 
+													data-user-canEditRole="${sessionScope.user.id == u.id ? 0:1}"
+													data-user-login="${sessionScope.user.id }"
+													onclick="showProfile(this)"
+													class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+													<span class=" pe-2"> <i class="bi bi-pencil"></i>
+													</span> <span>Edit</span>
+												</div> <c:choose>
 
 													<c:when
 														test="${sessionScope.user.id == u.id and u.roles != 1}">
 													</c:when>
 
 													<c:otherwise>
-														<div data-user-id="${u.id}"  data-user-name="${u.lastName } ${u.firstName }"
-														 data-user-email="${u.email }" data-user-phone="${u.phone }"
-														data-user-dob="${u.dob }" data-user-province="${u.address.country }"
-														data-user-district="${u.address.city }"
-														data-user-ward="${u.address.ward }"
-														data-user-detailAddress="${u.address.detailAddress }"
-														 onclick="showProfile(this)"
-															class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
-															<span class=" pe-2"> <i class="bi bi-pencil"></i>
-														</span> <span>Edit</span>
-														</div>
 														<button type="button"
 															onclick="showDeleteConfirmation('delete_user','delete_input',this)"
 															data-id="${u.id}"
@@ -409,7 +666,8 @@ label[required]::before {
 														</button>
 													</c:otherwise>
 
-												</c:choose></td>
+												</c:choose>
+											</td>
 										</tr>
 									</c:forEach>
 
@@ -424,7 +682,7 @@ label[required]::before {
 								<jsp:param
 									value="${MathUtils.roundUp(fn:length(totalUser),DynamicPagination.totalUserOfPage)}"
 									name="totalPage" />
-								<jsp:param value="${param.page}" name="currentPage" />
+								<jsp:param value="${page}" name="currentPage" />
 							</jsp:include>
 						</div>
 					</div>
@@ -443,173 +701,7 @@ label[required]::before {
 	</form>
 	<!-- End delete user -->
 
-	<div class="modal " id="showProfile" style="background: rgba(0,0,0,0.4);">
-		<div class="modal-dialog modal-lg " style="max-width: 50%;">
-			<div class="modal-content">
-
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">Edit user</h4>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" onclick="document.getElementById('showProfile').style.display='none';"></button>
-				</div>
-				<!-- Modal body -->
-				<form action="${pageContext.servletContext.contextPath}/admin/users"
-					method="post">
-					<input type="hidden" value="edit_role" name="action"> <input
-						type="hidden" name="user_id" id="user_id">
-					<div class="modal-body row" style="overflow-x: hidden;">
-						<h3 class="text-center text-dark">Customer Information</h3>
-						<div class="row mt-5 ">
-							<div class="col-md-3">
-								<img alt="..."
-									src="${pageContext.servletContext.contextPath}/assets/images/user-avatar.png"
-									class="avatar avatar-sm rounded-circle me-2"
-									style="width: 100px; height: auto">
-							</div>
-							<div class="col-md-8 text-start">
-								<div class="row mt-5">
-									<p class="col-md-4 text-dark">
-										<strong>Name:</strong>
-									</p>
-									<input name="name" id="name_edit" class="form-control"
-										value="${u.lastName} ${u.firstName}" type="text"
-										required="required" />
-								</div>
-								<div class="row mt-5">
-									<p class="col-md-4 text-dark">
-										<strong>Date of birthday:</strong>
-									</p>
-									<input name="dob" id="dob_edit" class="form-control" value="${u.dob}"
-										type="date" required="required" />
-								</div>
-								<div class="row mt-5">
-									<p class="col-md-4 text-dark">
-										<strong>Email:</strong>
-									</p>
-									<input name="email" id="email_edit" class="form-control" value="${u.email}"
-										type="email" required />
-								</div>
-								<div class="row mt-5">
-									<p class="col-md-4 text-dark">
-										<strong>Phone:</strong>
-									</p>
-									<input name="phone" id="phone_edit" class="form-control" value="${u.phone}"
-										type="tel" pattern="^\s*\d(?:\s*\d){9}\s*$" required />
-								</div>
-								<div class="row mt-5">
-									<p class="col-md-4 text-dark">
-										<strong>Address:</strong>
-									</p>
-									<div class="form-group">
-										<label for="c_country" class="text-black">Country <span
-											class="text-danger">*</span>
-										</label> <select name="p_province" id="p_province"
-											required="required" class="form-control"
-											onchange="setDataId(this.id); fetchDistricts()">
-											<option value="" disabled="disabled" selected hidden="hidden">Select
-												a country</option>
-
-										</select>
-									</div>
-
-									<div class="form-group">
-										<label for="c_country" class="text-black">District <span
-											class="text-danger">*</span>
-										</label> <select name="d_district" id="d_district"
-											required="required" class="form-control"
-											onchange="setDataId(this.id);  fetchWards()">
-											<option value="" disabled="disabled" selected hidden="hidden">Select
-												a district</option>
-
-										</select>
-									</div>
-
-									<div class="form-group">
-										<label for="c_country" class="text-black">Ward<span
-											class="text-danger">*</span></label> <select name="w_ward"
-											id="w_ward" required="required" class="form-control"
-											onchange="ableDetailAddress()">
-											<option value="" disabled="disabled" selected hidden="hidden">Select
-												a ward</option>
-
-										</select>
-									</div>
-
-									<div class="form-group row">
-										<div class="col-md-12">
-											<label for="c_address" class="text-black">Address <span
-												class="text-danger">*</span>
-											</label>
-
-											<div style="position: relative;">
-
-												<input required="required" type="text" class="form-control"
-													id="c_address" name="c_address"
-													placeholder="Apartment, suite, unit etc."
-													autocomplete="off" oninput="getAddressSuggestions()"
-													onfocus="document.getElementById('addressOptions').style.height = 'fit-content'; document.querySelector('.detail-add-notice').classList.remove('show')"
-													onblur=" setTimeout(() => {checkValidAddress(this.value);document.getElementById('addressOptions').style.height = 0; }, 300)" />
-												<div class="loader-container">
-													<div class="dot"></div>
-													<div class="dot"></div>
-													<div class="dot"></div>
-													<div class="dot"></div>
-													<div class="dot"></div>
-												</div>
-											</div>
-											<ul style="margin-bottom: 0" id="addressOptions"></ul>
-											<p class="detail-add-notice">Địa chỉ không chính xác, vui
-												lòng kiểm tra lại địa chỉ</p>
-										</div>
-									</div>
-
-									<input
-										style="height: 0; padding: 0; margin: 0; width: 0; border: none; position: absolute;"
-										type="text" name='address-constraint' required="required"
-										value="true" />
-
-								</div>
-								<div class="row mt-5">
-									<p class="col-md-4 text-dark">
-										<strong>Role:</strong>
-									</p>
-									<div class="form-group col-md-6 ">
-										<select class="form-select" name="role" required>
-											<option class="text-capitalize" value="${0 }"
-												${(u.roles==0)?'selected':'' }>Admin</option>
-											<option class="text-capitalize" value="${1 }"
-												${(u.roles==1)?'selected':''}
-												${sessionScope.user.id == u.id ? 'disabled' : '' }>User</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-						<c:if test="${u.roles == 1 }">
-							<h3 class="text-center text-dark mt-5">Purchase History</h3>
-							<div
-								style="width: 100%; display: flex; justify-content: center; margin-top: 10px;">
-								<button id="see-more-button-${u.id }" type="button"
-									data-customer-id="${u.id}"
-									data-url="${pageContext.servletContext.contextPath }/admin/users"
-									class="btn btn-primary w-auto justify-content-center align-items-center">See
-									More</button>
-							</div>
-							<div class="row mt-5 " id="purchaseHistory${u.id }"></div>
-						</c:if>
-					</div>
-					<!-- Modal footer -->
-					<div class="modal-footer">
-						<button type="submit"
-							class="submit btn btn-success w-auto my-2 px-5">Submit</button>
-						<button type="button" class="btn btn-danger"
-							onclick="document.getElementById('showProfile').style.display='none';">Close</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	<!-- End Product dialog box -->
+	<jsp:include page="../components/edit_user_modal.jsp"></jsp:include>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -618,7 +710,7 @@ label[required]::before {
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js?version=1"></script>
 
 </body>
 </html>

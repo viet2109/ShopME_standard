@@ -125,4 +125,24 @@ public class MathUtils {
         Cart cart = new Cart();
         cart.getProduct_selected().entrySet().stream().anyMatch(entry ->  entry.getValue() == 0);
     }
+    public static Map<String, String> parseFormData(String formData) {
+		Map<String, String> map = new HashMap<>();
+
+		formData = formData.replaceAll("[{}\"]", "");
+
+		// Phân tách các cặp key-value bằng dấu phẩy
+		String[] pairs = formData.split(",");
+
+		for (String pair : pairs) {
+			// Phân tách key và value bằng dấu hai chấm (:)
+			String[] keyValue = pair.split(":");
+			if (keyValue.length == 2) {
+				String key = keyValue[0].trim(); // Loại bỏ khoảng trắng
+				String value = keyValue[1].trim(); // Loại bỏ khoảng trắng
+				map.put(key, value);
+			}
+		}
+
+		return map;
+	}
 }

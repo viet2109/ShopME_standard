@@ -23,7 +23,7 @@ function checkStatus() {
 		const type = tag.className === 'show-pass' ? 'password' : 'text';
 		tag.parentNode.getElementsByTagName('input')[0].type = type;
 	}
-
+	console.log('admin.js: ', status)
 	if (status == "success") {
 		swal("Congrats", "You have register successfully !", "success");
 	} else if (status == "failed") {
@@ -36,6 +36,22 @@ function checkStatus() {
 	} else if (status == "phone_exist") {
 		phone_number.style.borderBottomColor = 'red';
 		swal("Sorry", "The phone has already exist!", "error");
+	} else if (status == "update_failed_user") {
+		swal("Sorry", "Unable to update user information!", "error");
+	}else if (status == "update_success_user") {
+		swal("Congrats", "Update user information successfully!", "success");
+	}else if (status == "insert_failed_category") {
+		swal("Sorry", "Unable to insert category!", "error");
+	}else if (status == "insert_success_category") {
+		swal("Congrats", "Insert category successfully!", "success");
+	}else if (status == "insert_failed_product") {
+		swal("Sorry", "Unable to insert product!", "error");
+	}else if (status == "insert_success_product") {
+		swal("Congrats", "Insert product successfully!", "success");
+	}else if (status == "update_product_failed") {
+		swal("Sorry", "Unable to update product information!", "error");
+	}else if (status == "update_product_success") {
+		swal("Congrats", "Update product information successfully!", "success");
 	}
 }
 
@@ -135,10 +151,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /*Lấy dữ liệu order của user*/
 /* fetch data orders of user */
-function onButtonSeeMoreClick(customerId) {
-	const buttonId = 'see-more-button-' + customerId;
+function onButtonSeeMoreClick() {
+	const buttonId = 'see-more-button';
 	const elem = document.getElementById(buttonId);
 	const url = "http://localhost:8080" + elem.getAttribute('data-url');
+	const customerId = elem.getAttribute('data-user-id');
 	/* const url = "http://localhost:8080/ShopMe_standard/admin/users"; */
 	fetch(url, {
 		method: 'POST',
@@ -153,7 +170,7 @@ function onButtonSeeMoreClick(customerId) {
 
 
 			console.log(data)
-			displayDataInTable(data, customerId);
+			displayDataInTable(data);
 		})
 		.catch(error => {
 			console.error('Error:', error);
@@ -161,19 +178,16 @@ function onButtonSeeMoreClick(customerId) {
 }
 
 window.addEventListener("load", (event) => {
-	const buttons = document.querySelectorAll('[id^="see-more-button-"]');
-
-	buttons.forEach(button => {
-		const customerId = button.getAttribute('data-customer-id');
-
-		button.addEventListener("click", () => onButtonSeeMoreClick(customerId));
-	});
+	const button = document.querySelector('#see-more-button');
+	button.addEventListener("click", () => onButtonSeeMoreClick());
+	
 });
 
-function displayDataInTable(data, customerId) {
+function displayDataInTable(data) {
 	/*  const tableBody = document.getElementById('purchase-history-body'); */
-	const purchaseHistoryDiv = document.getElementById('purchaseHistory' + customerId);
+	const purchaseHistoryDiv = document.getElementById('purchaseHistory');
 	// Xóa dữ liệu cũ trong bảng
+
 	if (data.length > 0) {
 		// Nếu có dữ liệu, hiển thị bảng
 		purchaseHistoryDiv.innerHTML = ''; // Xóa bất kỳ thông báo nào cũ

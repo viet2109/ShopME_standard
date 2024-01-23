@@ -23,7 +23,7 @@
 </head>
 
 <body>
-	<c:set var="page" value="${empty param.page ? 1: param.page }"></c:set>
+	<c:set var="page" value="${requestScope.page }"></c:set>
 	<c:set var="totalOrder" value="${totalOrder}"></c:set>
 	<c:set var="result" value="${result }"></c:set>
 	<c:set var="totalNewOrder" value="${totalNewOrder }"></c:set>
@@ -270,7 +270,7 @@
 								<jsp:param
 									value="${MathUtils.roundUp(fn:length(totalOrder),DynamicPagination.totalOrderOfPage)}"
 									name="totalPage" />
-								<jsp:param value="${param.page}" name="currentPage" />
+								<jsp:param value="${page}" name="currentPage" />
 							</jsp:include>
 						</div>
 					</div>
