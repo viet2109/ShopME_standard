@@ -13,14 +13,14 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry exported="true" kind="lib" path="C:/Program Files/Apache Software Foundation/Tomcat 10.1/lib/mysql-connector-j-8.0.32.jar">
+	<classpathentry exported="true" kind="lib" path="D:/Download/mysql-connector-j-8.1.0/mysql-connector-j-8.1.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="C:/Users/PC/Documents/SQL Server Management Studio/servlet-api-5.0.16.jar">
+	<classpathentry exported="true" kind="lib" path="D:/Download/servlet-api.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="https://jakarta.ee/specifications/servlet/6.0/apidocs/"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>

@@ -285,7 +285,7 @@
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/tiny-slider.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=1"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=4"></script>
 	<script type="text/javascript">
 
 const delete_product = document.querySelector('#delete_product');
@@ -313,7 +313,7 @@ function showSweetAlert(button) {
 	}).then((result) => {
 		if (result.isConfirmed) {
 
-			delete_input.value = button.dataset.user;
+			delete_input.value = button.dataset.product;
 			delete_product.submit();
 			localStorage.setItem('delete', "true");
 
@@ -325,10 +325,14 @@ const updateProduct = (product_id, quantity, selected) => {
 	document.getElementById("update_input_quantity").value = quantity;
 	document.getElementById("update_input_selected").value = selected;
 	document.getElementById("update_input_id").value = product_id;
-	document.getElementById("update_product").submit();
+	
+	
+		document.getElementById("update_product").submit();
 
 
-}</script>
+
+}
+</script>
 
 </body>
 

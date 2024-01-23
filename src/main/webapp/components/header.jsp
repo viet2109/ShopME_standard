@@ -248,7 +248,7 @@ svg {
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/tiny-slider.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/custom.js"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=4"></script>
 
 	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 	<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>

@@ -78,11 +78,16 @@
 	};
 	sitePlusMinus();
 	const updateProduct = (product_id, quantity, selected) => {
+
 		document.getElementById("update_input_quantity").value = quantity;
 		document.getElementById("update_input_selected").value = selected;
 		document.getElementById("update_input_id").value = product_id;
 
+
+
 		document.getElementById("update_product").submit();
+
+
 
 
 	}
@@ -92,15 +97,19 @@
 function checkAllInputs(checked) {
 	// Lấy danh sách tất cả các input có id bắt đầu bằng "check-product-"
 	var inputs = document.querySelectorAll('[id^="check-product-"]');
-	console.log(checked)
 
 	// Lặp qua danh sách input và đặt giá trị checked cho mỗi input
-	inputs.forEach(function(input) {
+	inputs.forEach(function(input, index) {
 		input.checked = checked;
 		// Tạo và kích hoạt sự kiện change
-        var event = new Event('change');
-        input.dispatchEvent(event);
-        
+		setTimeout(() => {
+	
+			var event = new Event('change');
+			input.dispatchEvent(event);
+			
+			
+		}, index*10)
+
 	});
 }
 
