@@ -32,29 +32,30 @@ import Utils.BCrypt;
 @WebServlet("/admin/users")
 public class AdminUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public AdminUser() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public AdminUser() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		LocalDate date = LocalDate.now();
-		
-		int page = request.getParameter("page")==null ? 1 : Integer.parseInt(request.getParameter("page"));
+
+		int page = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
 		List<User> totalUser = UserDAO.getAll();
 		List<User> result = UserDAO.getUsersByOffset(page);
 		List<User> totalNewUser = UserDAO.getUsersByDateCurrent();
 		double revenueOfMonth = OrderDAO.revenueOfMonth(date.getMonthValue(), date.getYear());
-		double revenueOfQuarter = OrderDAO.revenueOfQuarter(((date.getMonthValue()-1)/3)+1, date.getYear());
-		
-		
+		double revenueOfQuarter = OrderDAO.revenueOfQuarter(((date.getMonthValue() - 1) / 3) + 1, date.getYear());
+
 		request.setAttribute("page", page);
 		request.setAttribute("totalUser", totalUser);
 		request.setAttribute("result", result);
@@ -65,43 +66,47 @@ public class AdminUser extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
 		int user_id = 0;
-		if(action == null) {
+		String status = null;
+		if (action == null) {
 			BufferedReader reader = request.getReader();
 			StringBuilder requestBody = new StringBuilder();
 			String line;
-			 while ((line = reader.readLine()) != null) {
-		            requestBody.append(line);
-		        }
-			 Map<String, String> requestData = parseFormData(requestBody.toString());
-		      user_id = Integer.parseInt(requestData.get("customerId"));
-		      action = requestData.get("action");
+			while ((line = reader.readLine()) != null) {
+				requestBody.append(line);
+			}
+			Map<String, String> requestData = Utils.MathUtils.parseFormData(requestBody.toString());
+			System.out.println("adminUser: "+requestData);
+			user_id = Integer.parseInt(requestData.get("customerId"));
+			action = requestData.get("action");
 		}
-		
-		if("purchase_history".equals(action)) {
+
+		if ("purchase_history".equals(action)) {
 			List<Order> ordersOfUser = OrderDAO.getByUserId(user_id);
-			
+
 			request.setAttribute("ordersOfUser", ordersOfUser);
 			// Build JSON manually
-	        StringBuilder jsonBuilder = Utils.MathUtils.ConvertOrderToJson(ordersOfUser);
+			StringBuilder jsonBuilder = Utils.MathUtils.ConvertOrderToJson(ordersOfUser);
 
-	        // Set response type to JSON
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
+			// Set response type to JSON
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
 
-	        // Write JSON data to the response
-	        response.getWriter().write(jsonBuilder.toString());
+			// Write JSON data to the response
+			response.getWriter().write(jsonBuilder.toString());
 			return;
 		}
-		if(action.equals("edit_role")) {
+		if (action.equals("edit_user")) {
 			user_id = Integer.parseInt(request.getParameter("user_id"));
-			
-			String firstName = request.getParameter("name").substring(request.getParameter("name").indexOf(" ")+1);
+
+			String firstName = request.getParameter("name").substring(request.getParameter("name").indexOf(" ") + 1);
 			String lastName = request.getParameter("name").split(" ")[0];
 			Date dob = Date.valueOf(request.getParameter("dob"));
 			String email = request.getParameter("email");
@@ -111,7 +116,7 @@ public class AdminUser extends HttpServlet {
 			String ward = request.getParameter("w_ward");
 			String detailAddress = request.getParameter("c_address");
 			int role = Integer.parseInt(request.getParameter("role"));
-			
+			System.out.println("adminUser: "+country+"; roles="+role);
 			Address address = new Address(country, city, ward, detailAddress);
 			User user = new User();
 			user.setId(user_id);
@@ -124,31 +129,37 @@ public class AdminUser extends HttpServlet {
 			user.setRoles(role);
 			
 			boolean isSuccess = UserDAO.update(user);
+			if (isSuccess)
+				status = "update_success_user";
+			else
+				status = "update_failed_user";
+			request.setAttribute("status", status);
+			System.out.println("AdminUser.java: "+isSuccess+"; status="+status);
 			doGet(request, response);
 			return;
 		}
-		if(action.equals("delete")) {
+		if (action.equals("delete")) {
 			user_id = Integer.parseInt(request.getParameter("user_id"));
 			boolean isSuccess = UserDAO.delete(user_id);
-			if(!isSuccess)request.setAttribute("status", "delete_failed");
+			if (!isSuccess)
+				request.setAttribute("status", "delete_failed");
 			doGet(request, response);
 			return;
 		}
-		
-		
-		if(action.equals("insert_user")) {
+
+		if (action.equals("insert_user")) {
 			String firstName = request.getParameter("firstName");
 			String lastName = request.getParameter("lastName");
 			String email = request.getParameter("email");
 			String phone = request.getParameter("contact");
-			Date date = Date.valueOf( request.getParameter("dob"));
+			Date date = Date.valueOf(request.getParameter("dob"));
 			String user_pass = request.getParameter("pass");
 			String user_re__pass = request.getParameter("re_pass");
 			String password = BCrypt.hashpw(user_pass, BCrypt.gensalt());
 			int roles = Integer.parseInt(request.getParameter("roles"));
 
 			User user = new User(firstName, lastName, email, phone, date, password, roles);
-			
+
 			if (UserDAO.isExistEmail(email)) {
 				request.setAttribute("status", "email_exist");
 				request.setAttribute("firstName", firstName);
@@ -162,7 +173,7 @@ public class AdminUser extends HttpServlet {
 				doGet(request, response);
 				return;
 			}
-			
+
 			if (UserDAO.isExistPhone(phone)) {
 				request.setAttribute("status", "phone_exist");
 				request.setAttribute("firstName", firstName);
@@ -176,7 +187,6 @@ public class AdminUser extends HttpServlet {
 				doGet(request, response);
 				return;
 			}
-			
 
 			if (UserDAO.createNewUser(user)) {
 
@@ -208,24 +218,5 @@ public class AdminUser extends HttpServlet {
 
 		}
 	}
-	private Map<String, String> parseFormData(String formData) {
-		Map<String, String> map = new HashMap<>();
 
-		 formData = formData.replaceAll("[{}\"]", "");
-
-	        // Phân tách các cặp key-value bằng dấu phẩy
-	        String[] pairs = formData.split(",");
-
-	        for (String pair : pairs) {
-	            // Phân tách key và value bằng dấu hai chấm (:)
-	            String[] keyValue = pair.split(":");
-	            if (keyValue.length == 2) {
-	                String key = keyValue[0].trim(); // Loại bỏ khoảng trắng
-	                String value = keyValue[1].trim(); // Loại bỏ khoảng trắng
-	                map.put(key, value);
-	            }
-	        }
-
-	        return map;
-    }
 }

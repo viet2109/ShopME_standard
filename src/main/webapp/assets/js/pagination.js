@@ -28,9 +28,10 @@ pg.onclick = (e) => {
 
 	const ele = e.target;
 
-
+	console.log(ele)
 	if (ele.dataset.page) {
 		const pageNumber = parseInt(e.target.dataset.page, 10);
+		console.log(pageNumber);
 
 		valuePage.curPage = pageNumber;
 		curPage.value = pageNumber;
@@ -89,7 +90,6 @@ function pagination() {
 
 	let active = "";
 	for (let pos = 1; pos <= totalPages; pos++) {
-		console.log();
 		active = pos === curPage ? "active" : "";
 
 		// truncate
@@ -134,12 +134,12 @@ function renderPage(index, active = "") {
 	const param = new URLSearchParams(window.location.search);
 
 	// param products page
-	if (param.get('page') != null) {
+	
 		param.set('page', index);
-	}
+	
 
 	// param product detail page
-	else if (param.get('id') != null) {
+	 if (param.get('id') != null) {
 		param.set('comment_page', index);
 
 	}
@@ -149,7 +149,7 @@ function renderPage(index, active = "") {
 
 
 	const result = ` <li class="pg-item ${active}" data-page="${index}">
-	        <a class="pg-link" href="${path}?${newParam}" >${index}</a>
+	        <a data-page="${index}" class="pg-link" href="${path}?${newParam}" >${index}</a>
 	    </li>`
 	return result;
 }
@@ -241,20 +241,17 @@ function handleButton(element) {
 function handleButtonLeft() {
 
 	if (valuePage.totalPages === 1) {
-		console.log("not prev")
 		btnPrevPg.disabled = true;
 		btnFirstPg.disabled = true;
 		btnNextPg.disabled = true;
 		btnLastPg.disabled = true;
 	}
 	else if (valuePage.curPage === 1) {
-		console.log("not prev")
 		btnPrevPg.disabled = true;
 		btnFirstPg.disabled = true;
 		btnNextPg.disabled = false;
 		btnLastPg.disabled = false;
 	} else {
-		console.log("can prev")
 		btnPrevPg.disabled = false;
 		btnFirstPg.disabled = false;
 	}
@@ -262,19 +259,16 @@ function handleButtonLeft() {
 function handleButtonRight() {
 
 	if (valuePage.totalPages === 1) {
-		console.log("not prev")
 		btnPrevPg.disabled = true;
 		btnFirstPg.disabled = true;
 		btnNextPg.disabled = true;
 		btnLastPg.disabled = true;
 	} else if (valuePage.curPage === valuePage.totalPages) {
-		console.log("not next")
 		btnNextPg.disabled = true;
 		btnLastPg.disabled = true;
 		btnPrevPg.disabled = false;
 		btnFirstPg.disabled = false;
 	} else {
-		console.log("can next ")
 		btnNextPg.disabled = false;
 		btnLastPg.disabled = false;
 	}

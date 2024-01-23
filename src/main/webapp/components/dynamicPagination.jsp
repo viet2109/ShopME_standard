@@ -200,7 +200,7 @@ h1 {
 				type="number" id="delta" min="1" max="5" value="1" />
 		</div>
 	</div>
-	<script type="text/javascript" src="${pageContext.servletContext.contextPath}/assets/js/pagination.js?version=1"></script>
+	<script type="text/javascript" src="${pageContext.servletContext.contextPath}/assets/js/pagination.js?version=2"></script>
 	
 </body>
 </html>

@@ -20,34 +20,36 @@
 	rel="stylesheet">
 <script
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-	<style>
-	#productSeller {
-		animation-duration:5s;
-		animation-name:slidein;
-		animation-iteration-count: infinite; /* Lặp vô hạn */
-        white-space: nowrap; /* Ngăn chữ xuống hàng */
-        overflow: hidden; /* Ẩn nội dung vượt quá kích thước */
-        text-overflow: ellipsis; /* Hiển thị dấu ba chấm (...) khi chữ vượt quá */ 
-	}
+<style>
+#productSeller {
+	animation-duration: 5s;
+	animation-name: slidein;
+	animation-iteration-count: infinite; /* Lặp vô hạn */
+	white-space: nowrap; /* Ngăn chữ xuống hàng */
+	overflow: hidden; /* Ẩn nội dung vượt quá kích thước */
+	text-overflow: ellipsis;
+	/* Hiển thị dấu ba chấm (...) khi chữ vượt quá */
+}
+
+@
+keyframes slidein {from { margin-left:100%;
 	
-     @keyframes slidein {
-     	from {
-     		margin-left: 100%;
-     	}
-        to {
-            margin-left: -150%;
-        }
-    }
-    
-    label[required]::before {
-            content: '* ';
-            color: red; /* Màu sắc của biểu tượng '*' */
-        }
+}
+
+to {
+	margin-left: -150%;
+}
+
+}
+label[required]::before {
+	content: '* ';
+	color: red; /* Màu sắc của biểu tượng '*' */
+}
 </style>
 </head>
 
 <body>
-	<c:set var="page" value="${empty param.page ? 1: param.page }"></c:set>
+	<c:set var="page" value="${requestScope.page }"></c:set>
 	<c:set var="totalProduct" value="${totalProduct}"></c:set>
 	<c:set var="result" value="${result}"></c:set>
 	<c:set var="categories" value="${categories}"></c:set>
@@ -55,7 +57,6 @@
 	<c:set var="revenueOfMonth" value="${revenueOfMonth }"></c:set>
 	<c:set var="revenueOfQuarter" value="${revenueOfQuarter }"></c:set>
 	<c:set var="productBestSale" value="${productBestSale }"></c:set>
-
 	<input type="hidden" id="status" value="${status }">
 
 	<div
@@ -106,10 +107,12 @@
 							<div class="card shadow border-0">
 								<div class="card-body">
 									<div class="row">
-										<div class="col overflow-hidden text-overflow-ellipsis white-space-nowrap">
+										<div
+											class="col overflow-hidden text-overflow-ellipsis white-space-nowrap">
 											<span
 												class="h6 font-semibold text-muted text-sm d-block mb-2">BestSeller
-												product</span> <span id="productSeller" class="h3 font-bold mb-0 overflow-hidden text-nowrap text-truncate text-capitalize">${productBestSale.name }</span>
+												product</span> <span id="productSeller"
+												class="h3 font-bold mb-0 overflow-hidden text-nowrap text-truncate text-capitalize">${productBestSale.name }</span>
 										</div>
 										<div class="col-auto">
 											<div
@@ -207,8 +210,9 @@
 							<div class="my-2 px-5">
 								<div class="row">
 									<div class="form-group col-md-3">
-										<label class="control-label" required>Product's name:</label> <input
-											class="form-control" type="text" name="productName" required>
+										<label class="control-label" required>Product's name:</label>
+										<input class="form-control" type="text" name="productName"
+											required>
 									</div>
 									<div class="form-group col-md-3">
 										<label class="control-label" required>Category:</label> <select
@@ -231,8 +235,8 @@
 									</div>
 								</div>
 								<div class="form-group col-md-6">
-									<label for="fileInput" class="control-label" required>Choose a
-										file:</label> <input type="file" class="form-control" id="image"
+									<label for="fileInput" class="control-label" required>Choose
+										a file:</label> <input type="file" class="form-control" id="image"
 										name="image" required>
 								</div>
 								<div class="row">
@@ -253,7 +257,7 @@
 
 					<div class="card shadow border-0 mb-7">
 						<div class="card-header">
-							<h5 class="mb-0">Applications</h5>
+							<h5 class="mb-0">Applications ${status }</h5>
 						</div>
 						<div class="table-responsive">
 							<table class="table table-hover table-nowrap">
@@ -294,12 +298,13 @@
 												class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
 													<span class=" pe-2"> <i class="bi bi-pencil"></i>
 												</span> <span>Edit</span>
-											</a> <button
-														type="button" onclick="showDeleteConfirmation('delete_product', 'delete_product_input', this)"
-														class="btn btn-sm btn-square btn-neutral text-danger-hover"
-														data-id="${p.id }">
-														<i class="bi bi-trash"></i>
-													</button> <!-- Start Product dialog box -->
+											</a>
+												<button type="button"
+													onclick="showDeleteConfirmation('delete_product', 'delete_product_input', this)"
+													class="btn btn-sm btn-square btn-neutral text-danger-hover"
+													data-id="${p.id }">
+													<i class="bi bi-trash"></i>
+												</button> <!-- Start Product dialog box -->
 												<div class="modal " id="myModal-${p.id }">
 													<div class="modal-dialog modal-dialog-scrollable modal-lg "
 														style="max-width: 50%;">
@@ -316,16 +321,18 @@
 																action="${pageContext.servletContext.contextPath}/admin/products"
 																method="post" enctype="multipart/form-data">
 																<input type="hidden" name="action" value="edit_product">
-																<input type="text"
-																	class="d-none" value="${p.id }" name="product_id">
+																<input type="text" class="d-none" value="${p.id }"
+																	name="product_id">
 																<div class="modal-body row" style="overflow-x: hidden;">
 																	<div class="form-group col-md-6 ">
 																		<label class="form-label d-flex justify-content-start">Product
-																			name:</label> <input type="text" class="form-control"
+																			name<span class="text-danger">*</span>
+																		</label> <input type="text" class="form-control"
 																			name="productName" value="${p.name }">
 																	</div>
 																	<div class="form-group col-md-6 ">
-																		<label class="form-label d-flex justify-content-start">Category:</label>
+																		<label class="form-label d-flex justify-content-start">Category<span
+									class="text-danger">*</span></label>
 																		<select class="form-select" name="category">
 																			<c:forEach var="category" items="${categories }">
 																				<option class="text-capitalize"
@@ -335,24 +342,28 @@
 																		</select>
 																	</div>
 																	<div class="form-group col-md-6">
-																		<label class="form-label d-flex justify-content-start">Price:</label>
+																		<label class="form-label d-flex justify-content-start">Price<span
+									class="text-danger">*</span></label>
 																		<input type="number" class="form-control" name="price"
 																			value="${p.price }" step="0.01">
 																	</div>
 																	<div class="form-group col-md-6">
 																		<label class="form-label d-flex justify-content-start">Percent
-																			sale:</label> <input type="number" class="form-control"
-																			name="percentPrice" value="${p.percentSale }" step="0.01">
+																			sale<span
+									class="text-danger">*</span></label> <input type="number" class="form-control"
+																			name="percentPrice" value="${p.percentSale }"
+																			step="0.01">
 																	</div>
 																	<div class="form-group d-flex flex-column">
 																		<label for="fileInput"
 																			class="form-label d-flex justify-content-start">Choose
-																			a file:${p.image }</label> <input type="file"
-																			class="form-control" id="fileInput"
-																			name="image" value="">
+																			a file<span
+									class="text-danger">*</span></label> <input type="file" class="form-control"
+																			id="fileInput" name="image" value="">
 																	</div>
 																	<div class="form-group">
-																		<label class="form-label d-flex justify-content-start">Descriptions:</label>
+																		<label class="form-label d-flex justify-content-start">Descriptions<span
+									class="text-danger">*</span></label>
 																		<div class="form-floating">
 																			<textarea class="form-control"
 																				placeholder="Product description"
@@ -388,7 +399,8 @@
 								<jsp:param
 									value="${MathUtils.roundUp(fn:length(totalProduct),DynamicPagination.totalProductOfPage)}"
 									name="totalPage" />
-								<jsp:param value="${param.page}" name="currentPage" />
+								<jsp:param value="${page}" name="currentPage" />
+
 							</jsp:include>
 
 						</div>
@@ -416,9 +428,10 @@
 						method="post">
 						<input type="hidden" name="action" value="insert_category" />
 						<div class="mb-3 mt-3">
-							<label for="categoryNameInput" class="form-lable">Category's
+							<label for="categoryNameInput" class="form-lable" required>Category's
 								name</label> <input type="text" class="form-control"
-								id="categoryNameInput" name="categoryNameInput" />
+								id="categoryNameInput" name="categoryNameInput"
+								required="required" />
 						</div>
 						<div class="d-flex justify-content-end">
 							<button type="submit" class="btn btn-success mx-2">Save</button>
@@ -480,10 +493,10 @@
 			type="hidden" name="delete_category_input" id="delete_category_input" />
 	</form>
 	<form id="delete_product"
-	action="${pageContext.servletContext.contextPath}/admin/products"
-	method="post">
-	<input type="hidden" name="action" value="delete_product" /> <input
-		type="hidden" name="delete_category_input" id="delete_product_input" />
+		action="${pageContext.servletContext.contextPath}/admin/products"
+		method="post">
+		<input type="hidden" name="action" value="delete_product" /> <input
+			type="hidden" name="delete_category_input" id="delete_product_input" />
 	</form>
 
 	<script
@@ -493,25 +506,18 @@
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
 	<script type="text/javascript">
-	    const isDeleted = localStorage.getItem("delete");
+		const isDeleted = localStorage.getItem("delete");
 
-	    if (localStorage.getItem("delete") === 'true') {
-			if(status == "delete_failed"){
-				Swal.fire(
-						'Cannot Delete!',
-						'Record cannot be deleted.',
-						'error'
-					);
-			}else{
-			Swal.fire(
-				'Deleted!',
-				'Record has been successfully deleted.',
-				'success'
-			);
+		if (localStorage.getItem("delete") === 'true') {
+			if (status == "delete_failed") {
+				Swal.fire('Cannot Delete!', 'Record cannot be deleted.',
+						'error');
+			} else {
+				Swal.fire('Deleted!', 'Record has been successfully deleted.',
+						'success');
 			}
 			localStorage.removeItem("delete");
 		}
-	    
 	</script>
 </body>
 </html>

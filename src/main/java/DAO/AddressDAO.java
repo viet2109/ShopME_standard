@@ -62,6 +62,7 @@ public class AddressDAO {
 	
 	public static boolean addNewAddress(Address address) {
 		try {
+			System.out.println("AddressDAO: "+address);
 			String sql = "insert into address_tables (province, district, ward, address_detail) values(?,?,?,?)";
 			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
 			statement.setString(1, address.getCountry());
@@ -110,7 +111,8 @@ public class AddressDAO {
 				address = new Address(id, province, district, ward, addressDetail);
 				break;
 			}
-			
+			result.close();
+			statement.close();
 			return address;
 
 		} catch (Exception e) {
@@ -119,4 +121,27 @@ public class AddressDAO {
 		}
 	}
 	
+	public static boolean updateDefautCustomerAddresses(int userId, int addressId) {
+		try {
+			String sql = "CALL UpdateCustomerAddressDefault(?, ?);";
+			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			statement.setInt(1, userId);
+			statement.setInt(2, addressId);
+			int result = statement.executeUpdate();
+			if(result >= 0) return true;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+		return false;
+	}
+	
+//	public static void main(String[] args) {
+//		new DBConnection();
+//		Address a = AddressDAO.getByid(16);
+//		a.setId(0);
+//		int check = AddressDAO.getIdByAddress(a);
+//		
+//	}
 }
