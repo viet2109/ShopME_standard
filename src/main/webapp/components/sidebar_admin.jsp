@@ -16,7 +16,6 @@
 </head>
 <body>
 	<c:set var="currentPath" value="${requestScope['jakarta.servlet.forward.servlet_path']}"></c:set>
-
 	<nav
 		class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
 		id="navbarVertical">

@@ -132,8 +132,13 @@ public class ProductDAO {
 			if(result > 0) return true;
 			statement.close();
 		} catch (SQLException e) {
-			
-			e.printStackTrace();
+			if ("45000".equals(e.getSQLState())) {
+
+				// Xử lý khi gặp lỗi "Cannot delete user with orders"
+
+				return false;
+			} else
+				e.printStackTrace();
 			return false;
 		}
 		return false;

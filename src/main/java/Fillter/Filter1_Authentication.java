@@ -69,7 +69,6 @@ public class Filter1_Authentication extends HttpFilter implements Filter {
 				});
 			});
 
-
 			httpResponse.getWriter()
 						.write("<html><body>" + "<form id='redirectForm' action='" +loginLink + "' method='post'>"
 								+ data + "</form>" + "<script>document.getElementById('redirectForm').submit();</script>"

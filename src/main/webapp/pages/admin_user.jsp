@@ -25,7 +25,7 @@
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="alert/dist/sweetalert.css">
 <style type="text/css">
-label[required]::before {
+label[required]::after {
 	content: '* ';
 	color: red; /* Màu sắc của biểu tượng '*' */
 }
@@ -525,7 +525,7 @@ translateY
 					<div class="card shadow border-0 mb-7" id="createItem"
 						style="display: none;">
 						<form class="row"
-							action="${pageContext.servletContext.contextPath}/admin/users"
+							action="${pageContext.servletContext.contextPath}/admin/users?page=${page}"
 							method="post" id="create-user-form">
 							<input type="hidden" name="action" value="insert_user">
 							<div class="my-2 ms-5">
@@ -534,28 +534,28 @@ translateY
 							<div class="my-2 px-5">
 								<div class="row">
 									<div class="form-group col-md-6">
-										<label class="control-label" required>First name:</label> <input
+										<label class="control-label" required>First name</label> <input
 											class="form-control" placeholder="Enter first name"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="text" name="firstName" id="firstName"
 											value="${firstName }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Last name:</label> <input
+										<label class="control-label" required>Last name</label> <input
 											class="form-control" placeholder="Enter last name"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="text" name="lastName" id="lastName"
 											value="${lastName }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Email:</label> <input
+										<label class="control-label" required>Email</label> <input
 											class="form-control" placeholder="Enter email"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="email" name="email" id="email"
 											value="${email }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Phone:</label> <input
+										<label class="control-label" required>Phone</label> <input
 											class="form-control" placeholder="Enter phone"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="text" name="contact" id="contact"
@@ -578,11 +578,11 @@ translateY
 										</div>
 										<div class="radio">
 											<label><input type="radio" name="roles" value="1"
-												required ${(u.roles==0)?'selected':'' }>Customer</label>
+												required ${(u.roles==0)?'selecte':'' }>Customer</label>
 										</div>
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Password:</label> <input
+										<label class="control-label" required>Password</label> <input
 											class="form-control" placeholder="Enter password"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="password" name="pass" id="pass"
@@ -590,7 +590,7 @@ translateY
 									</div>
 									<div class="form-group col-md-6">
 										<label class="control-label" required>Repeat your
-											password:</label> <input class="form-control" type="password"
+											password</label> <input class="form-control" type="password"
 											placeholder="Enter repeat your password" required
 											type="password" name="re_pass" id="re_pass"
 											value="${re_pass }">
@@ -701,7 +701,9 @@ translateY
 	</form>
 	<!-- End delete user -->
 
-	<jsp:include page="../components/edit_user_modal.jsp"></jsp:include>
+	<jsp:include page="../components/edit_user_modal.jsp">
+		<jsp:param value="${page }" name="page"/>
+	</jsp:include>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -710,7 +712,7 @@ translateY
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js?version=1"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js?version=2"></script>
 
 </body>
 </html>

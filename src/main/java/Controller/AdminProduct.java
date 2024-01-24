@@ -54,16 +54,16 @@ public class AdminProduct extends HttpServlet {
 		double revenueOfMonth = OrderDAO.revenueOfMonth(date.getMonthValue(), date.getYear());
 		double revenueOfQuarter = OrderDAO.revenueOfQuarter(((date.getMonthValue() - 1) / 3) + 1, date.getYear());
 		Product productBestSale = ProductDAO.getBestSale(1).get(0);
+		
 
-		request.setAttribute("page", request.getParameter("page") == null ? 1 : page);
+		request.setAttribute("page", page);
 		request.setAttribute("totalProduct", totalProduct);
 		request.setAttribute("result", result);
 		request.setAttribute("categories", categories);
 		request.setAttribute("revenueOfMonth", revenueOfMonth);
 		request.setAttribute("revenueOfQuarter", revenueOfQuarter);
 		request.setAttribute("productBestSale", productBestSale);
-		request.getRequestDispatcher("/pages/admin_product.jsp?page=" + URLEncoder.encode("1", "UTF-8"))
-				.forward(request, response);
+		request.getRequestDispatcher("/pages/admin_product.jsp").forward(request, response);
 	}
 
 	/**

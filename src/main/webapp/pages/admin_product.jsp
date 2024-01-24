@@ -31,8 +31,7 @@
 	/* Hiển thị dấu ba chấm (...) khi chữ vượt quá */
 }
 
-@
-keyframes slidein {from { margin-left:100%;
+@keyframes slidein {from { margin-left:100%;
 	
 }
 
@@ -41,7 +40,7 @@ to {
 }
 
 }
-label[required]::before {
+label[required]::after {
 	content: '* ';
 	color: red; /* Màu sắc của biểu tượng '*' */
 }
@@ -112,7 +111,7 @@ label[required]::before {
 											<span
 												class="h6 font-semibold text-muted text-sm d-block mb-2">BestSeller
 												product</span> <span id="productSeller"
-												class="h3 font-bold mb-0 overflow-hidden text-nowrap text-truncate text-capitalize">${productBestSale.name }</span>
+												class="h3 font-bold mb-0 text-capitalize">${productBestSale.name }</span>
 										</div>
 										<div class="col-auto">
 											<div
@@ -190,7 +189,7 @@ label[required]::before {
 					<div class="card shadow border-0 mb-7" id="createItem"
 						style="display: none;">
 						<form class="row"
-							action="${pageContext.servletContext.contextPath}/admin/products"
+							action="${pageContext.servletContext.contextPath}/admin/products?page=${page}"
 							method="post" enctype="multipart/form-data">
 							<input type="hidden" value="add_product" name="action">
 							<div class="my-2 ms-5">
@@ -200,7 +199,7 @@ label[required]::before {
 							<div class="row my-2 px-5">
 								<div class="col">
 									<a data-bs-toggle="modal" data-bs-target="#addCategoryModal"
-										class="btn d-inline-flex btn-sm btn-neutral border-base mx-1">
+										class="btn btn-primary d-inline-flex btn-sm border-base mx-1">
 										<span class=" pe-2"> <i class="bi bi-plus-circle-fill"></i>
 									</span> <span>Add Category</span>
 									</a>
@@ -210,12 +209,12 @@ label[required]::before {
 							<div class="my-2 px-5">
 								<div class="row">
 									<div class="form-group col-md-3">
-										<label class="control-label" required>Product's name:</label>
+										<label class="control-label" required>Product's name</label>
 										<input class="form-control" type="text" name="productName"
 											required>
 									</div>
 									<div class="form-group col-md-3">
-										<label class="control-label" required>Category:</label> <select
+										<label class="control-label" required>Category</label> <select
 											class="form-select" name="category">
 											<option selected>--Open this category menu--</option>
 											<c:forEach var="category" items="${categories }">
@@ -224,23 +223,23 @@ label[required]::before {
 										</select>
 									</div>
 									<div class="form-group col-md-3">
-										<label class="control-label" required>Price:</label> <input
+										<label class="control-label" required>Price</label> <input
 											class="form-control" type="number" step="0.01" name="price"
 											required>
 									</div>
 									<div class="form-group col-md-3">
-										<label class="control-label" required>Percent price:</label> <input
+										<label class="control-label" required>Percent price</label> <input
 											class="form-control" type="number" step="0.01"
 											name="percentPrice" required>
 									</div>
 								</div>
 								<div class="form-group col-md-6">
 									<label for="fileInput" class="control-label" required>Choose
-										a file:</label> <input type="file" class="form-control" id="image"
+										a file</label> <input type="file" class="form-control" id="image"
 										name="image" required>
 								</div>
 								<div class="row">
-									<label class="control-label" required>Descriptions:</label>
+									<label class="control-label" required>Descriptions</label>
 									<div class="form-floating">
 										<textarea class="form-control"
 											placeholder="Product description" id="floatingTextarea"
@@ -318,7 +317,7 @@ label[required]::before {
 															</div>
 															<!-- Modal body -->
 															<form
-																action="${pageContext.servletContext.contextPath}/admin/products"
+																action="${pageContext.servletContext.contextPath}/admin/products?page=${page}"
 																method="post" enctype="multipart/form-data">
 																<input type="hidden" name="action" value="edit_product">
 																<input type="text" class="d-none" value="${p.id }"
@@ -332,8 +331,8 @@ label[required]::before {
 																	</div>
 																	<div class="form-group col-md-6 ">
 																		<label class="form-label d-flex justify-content-start">Category<span
-									class="text-danger">*</span></label>
-																		<select class="form-select" name="category">
+																			class="text-danger">*</span></label> <select
+																			class="form-select" name="category">
 																			<c:forEach var="category" items="${categories }">
 																				<option class="text-capitalize"
 																					value="${category.id }"
@@ -343,27 +342,27 @@ label[required]::before {
 																	</div>
 																	<div class="form-group col-md-6">
 																		<label class="form-label d-flex justify-content-start">Price<span
-									class="text-danger">*</span></label>
-																		<input type="number" class="form-control" name="price"
-																			value="${p.price }" step="0.01">
+																			class="text-danger">*</span></label> <input type="number"
+																			class="form-control" name="price" value="${p.price }"
+																			step="0.01">
 																	</div>
 																	<div class="form-group col-md-6">
 																		<label class="form-label d-flex justify-content-start">Percent
-																			sale<span
-									class="text-danger">*</span></label> <input type="number" class="form-control"
+																			sale<span class="text-danger">*</span>
+																		</label> <input type="number" class="form-control"
 																			name="percentPrice" value="${p.percentSale }"
 																			step="0.01">
 																	</div>
 																	<div class="form-group d-flex flex-column">
 																		<label for="fileInput"
 																			class="form-label d-flex justify-content-start">Choose
-																			a file<span
-									class="text-danger">*</span></label> <input type="file" class="form-control"
+																			a file<span class="text-danger">*</span>
+																		</label> <input type="file" class="form-control"
 																			id="fileInput" name="image" value="">
 																	</div>
 																	<div class="form-group">
 																		<label class="form-label d-flex justify-content-start">Descriptions<span
-									class="text-danger">*</span></label>
+																			class="text-danger">*</span></label>
 																		<div class="form-floating">
 																			<textarea class="form-control"
 																				placeholder="Product description"
@@ -374,7 +373,7 @@ label[required]::before {
 																	<!-- Modal footer -->
 																	<div class="modal-footer">
 																		<button type="submit"
-																			class="submit btn btn-success w-auto my-2 px-5">Submit</button>
+																			class="submit btn btn-success w-auto my-2 px-5" >Submit</button>
 																		<button type="button" class="btn btn-danger"
 																			data-bs-dismiss="modal">Close</button>
 																	</div>
@@ -504,7 +503,7 @@ label[required]::before {
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		crossorigin="anonymous"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/admin.js?version=1"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/admin.js?version=2"></script>
 	<script type="text/javascript">
 		const isDeleted = localStorage.getItem("delete");
 
