@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,10 +27,10 @@
 							<!-- Actions -->
 							<div class="col-sm-6 col-12 text-sm-end">
 								<div class="mx-n1">
-									 <a href="#" class="btn d-inline-flex btn-sm btn-primary mx-1">
+									<div class="btn d-inline-flex btn-sm btn-primary mx-1" onclick="toggleVisibility('${param.createItem}')">
 										<span class=" pe-2"> <i class="bi bi-plus"></i>
 									</span> <span>Create</span>
-									</a> 
+									</div> 
 								</div>
 							</div>
 						</div>
@@ -37,6 +38,17 @@
 					</div>
 				</div>
 			</header>
-			
+	<script src="https://kit.fontawesome.com/68d5e1d296.js" crossorigin="anonymous"></script>
+	<script type="text/javascript">
+		function toggleVisibility(targetId) {
+		    var targetDiv = document.getElementById(targetId);
+	
+		    if (targetDiv.style.display === 'none') {
+		      targetDiv.style.display = 'block';
+		    } else {
+		      targetDiv.style.display = 'none';
+		    }
+		  }
+	</script>
 </body>
 </html>

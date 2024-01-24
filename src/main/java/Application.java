@@ -50,6 +50,8 @@ public class Application implements ServletContextListener, HttpSessionListener,
 			}
 		}
 		AbandonedConnectionCleanupThread.checkedShutdown();
+		
+		
 	}
 
 	@Override

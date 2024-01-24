@@ -53,7 +53,7 @@ public class LogIn extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		
 		HttpSession session = request.getSession();
 		Map<String, String[]> paramaterMap = request.getParameterMap();
 		String user_name_phone = request.getParameter("username");
@@ -85,6 +85,7 @@ public class LogIn extends HttpServlet {
 		if (request.getParameter("originalUri") != null) {
 			String url = request.getParameter("originalUri");
 			String method = request.getParameter("method");
+			System.out.println("LogIn: "+url+"; "+method);
 			
 			StringBuffer data = new StringBuffer();
 			paramaterMap.forEach((key, value) -> {

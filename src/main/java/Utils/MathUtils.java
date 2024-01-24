@@ -9,10 +9,12 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import Fillter.*;
 import Model.Cart;
+import Model.Order;
 import Model.Product;
 
 public class MathUtils {
@@ -93,10 +95,54 @@ public class MathUtils {
 
         return locationBuilder.toString().trim();
     }
+	
+	public static StringBuilder ConvertOrderToJson(List<Order> orders) {
+		StringBuilder jsonBuilder = new StringBuilder("[");
+        for (Order order : orders) {
+            jsonBuilder.append("{")
+                       .append("\"id\":").append(order.getId()).append(",")
+                       .append("\"customerName\":\"").append(order.getReceiver().getLastName()).append(" ").append(order.getReceiver().getFirstName()).append("\",")
+                       .append("\"date\":\"").append(order.getOrderDate()).append("\",")
+                       .append("\"total\":").append(order.totalOrder()).append(",")
+                       .append("\"payment\":\"").append(order.getPayment().getName()).append("\"")
+                       .append("},");
+        }
+        if (orders.size() > 0) {
+            jsonBuilder.deleteCharAt(jsonBuilder.length() - 1); // Remove the last comma
+        }
+        jsonBuilder.append("]");
+        return jsonBuilder;
+        }
+	public static boolean isAllSelectedCart(Cart cart) {
+		boolean result = cart.getProduct_selected().entrySet().stream().allMatch(entry ->  {
+			
+			return entry.getValue() == 1;
+		});
+		return result;
+	}
 
     public static void main(String[] args) {
-        java.sql.Date date = java.sql.Date.valueOf(LocalDate.now());
-        java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf(java.time.LocalDateTime.now());
-        System.out.println(timestamp);
+        Cart cart = new Cart();
+        cart.getProduct_selected().entrySet().stream().anyMatch(entry ->  entry.getValue() == 0);
     }
+    public static Map<String, String> parseFormData(String formData) {
+		Map<String, String> map = new HashMap<>();
+
+		formData = formData.replaceAll("[{}\"]", "");
+
+		// Phân tách các cặp key-value bằng dấu phẩy
+		String[] pairs = formData.split(",");
+
+		for (String pair : pairs) {
+			// Phân tách key và value bằng dấu hai chấm (:)
+			String[] keyValue = pair.split(":");
+			if (keyValue.length == 2) {
+				String key = keyValue[0].trim(); // Loại bỏ khoảng trắng
+				String value = keyValue[1].trim(); // Loại bỏ khoảng trắng
+				map.put(key, value);
+			}
+		}
+
+		return map;
+	}
 }

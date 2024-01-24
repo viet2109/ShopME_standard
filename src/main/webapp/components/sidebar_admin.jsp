@@ -13,17 +13,17 @@
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
 <body>
-	
-	
+
+
 	<nav
 		class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
 		id="navbarVertical">
 		<div class="container-fluid">
 			<!-- Toggler -->
 			<button class="navbar-toggler ms-n2" type="button"
-				data-bs-toggle="collapse"
-				aria-controls="sidebarCollapse" aria-expanded="false"
-				aria-label="Toggle navigation" onclick="showCollapse()">
+				data-bs-toggle="collapse" aria-controls="sidebarCollapse"
+				aria-expanded="false" aria-label="Toggle navigation"
+				onclick="showCollapse()">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<!-- Brand -->
@@ -63,16 +63,6 @@
 			<div class="collapse navbar-collapse" id="sidebarCollapse">
 				<!-- Navigation -->
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#"> <i
-							class="bi bi-house"></i> Dashboard
-					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"> <i
-							class="bi bi-bar-chart"></i> Analitycs
-					</a></li>
-
-					<li class="nav-item"><a class="nav-link" href="#"> <i
-							class="bi bi-bookmarks"></i> Collections
-					</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="${pageContext.servletContext.contextPath}/admin/users?page=1">
 							<i class="bi bi-people"></i> Users
@@ -89,22 +79,21 @@
 
 							</div> Products
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="#"> <i
-							class="bi bi-file-text"></i> Posts
+					<li class="nav-item"><a class="nav-link"
+						href="${pageContext.servletContext.contextPath}/admin/orders?page=1">
+							<i class="fa-solid fa-clipboard-list"></i></i> Orders
 					</a></li>
 				</ul>
 				<!-- Divider -->
 				<hr class="navbar-divider my-5">
 				<!-- Navigation -->
-	
-				<input type="hidden" id='servlet' value="${pageContext.servletContext.contextPath}">
-			
+
+				<input type="hidden" id='servlet'
+					value="${pageContext.servletContext.contextPath}">
+
 				<!-- User (md) -->
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link" href="#"> <i
-							class="bi bi-person-square"></i> Account
-					</a></li>
-					
+
 					<li class="nav-item"><a class="nav-link" href="#"
 						onclick="confirmLogout()"> <i class="bi bi-box-arrow-left"></i>
 							Logout
@@ -142,7 +131,7 @@
 			document.getElementById('sidebarCollapse').classList.toggle('show')
 		}
 		</script>
-		
-		
+
+
 </body>
 </html>

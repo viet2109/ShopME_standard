@@ -87,6 +87,12 @@ public class Address {
 				&& Objects.equals(detailAddress, other.detailAddress) && id == other.id
 				&& Objects.equals(ward, other.ward);
 	}
+
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", country=" + country + ", city=" + city + ", ward=" + ward + ", detailAddress="
+				+ detailAddress + "]";
+	}
 	
 	
 	
