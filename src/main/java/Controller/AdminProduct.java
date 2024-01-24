@@ -102,21 +102,28 @@ public class AdminProduct extends HttpServlet {
 			int categoryId = Integer.parseInt(request.getParameter("category"));
 			float price = Float.parseFloat(request.getParameter("price"));
 			float percentSale = Float.parseFloat(request.getParameter("percentPrice"));
-			Part image = request.getPart("image");
-			String description = request.getParameter("description");
-			Product product = null;
-			try {
-				product = new Product(productName, categoryId, description, price, percentSale,
-						new SerialBlob(image.getInputStream().readAllBytes()));
-			} catch (SQLException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			Part image= request.getPart("image");
+			
+			if (isImage(image)) {
+				String description = request.getParameter("description");
+				Product product = null;
+				try {
+					
+					product = new Product(productName, categoryId, description, price, percentSale,
+							new SerialBlob(image.getInputStream().readAllBytes()));
+				} catch (SQLException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				boolean result = ProductDAO.insert(product);
+				if (result)
+					status = "insert_success_product";
+				else
+					status = "insert_failed_product";
 			}
-			boolean result = ProductDAO.insert(product);
-			if (result)
-				status = "insert_success_product";
-			else
-				status = "insert_failed_product";
+			
 			request.setAttribute("status", status);
 			doGet(request, response);
 			return;
@@ -169,5 +176,12 @@ public class AdminProduct extends HttpServlet {
 		}
 
 	}
+	
+    
+ // Phương thức kiểm tra xem một Part có phải là file ảnh hay không
+    private boolean isImage(Part part) {
+        String contentType = part.getContentType();
+        return contentType.startsWith("image/");
+    }
 
 }

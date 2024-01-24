@@ -235,7 +235,7 @@ label[required]::after {
 								</div>
 								<div class="form-group col-md-6">
 									<label for="fileInput" class="control-label" required>Choose
-										a file</label> <input type="file" class="form-control" id="image"
+										a file</label> <input type="file" accept="image/*" class="form-control" id="image"
 										name="image" required>
 								</div>
 								<div class="row">
@@ -357,7 +357,7 @@ label[required]::after {
 																		<label for="fileInput"
 																			class="form-label d-flex justify-content-start">Choose
 																			a file<span class="text-danger">*</span>
-																		</label> <input type="file" class="form-control"
+																		</label> <input type="file" accept="image/*" class="form-control"
 																			id="fileInput" name="image" value="">
 																	</div>
 																	<div class="form-group">

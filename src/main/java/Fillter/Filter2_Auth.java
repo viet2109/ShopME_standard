@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
  * Servlet Filter implementation class Auth
  */
 @WebFilter(filterName = "Filter2_auth-filter", urlPatterns = { "/login", "/pages/login.jsp", "/register",
-		"/pages/registration.jsp" })
+		"/pages/registration.jsp", "/forgotPassword", "/newPassword", "/ValidateOtp" ,"/pages/forgotPassword.jsp", "/pages/newPassword.jsp", "/pages/EnterOtp.jsp" })
 public class Filter2_Auth extends HttpFilter implements Filter {
 
 	/**
@@ -49,13 +49,14 @@ public class Filter2_Auth extends HttpFilter implements Filter {
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		// place your code here
-	
+		System.out.println("Filter 2");
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession();
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		User user = (User) session.getAttribute("user");
+		System.out.println(user);
 		if (user != null) {
-			httpResponse.sendRedirect("home");
+			httpResponse.sendRedirect(httpRequest.getServletContext().getContextPath()+"/home");
 
 		}
 		// pass the request along the filter chain
