@@ -27,7 +27,11 @@
 <link
 	href="${pageContext.servletContext.contextPath}/assets/css/page.css?version=7"
 	rel="stylesheet">
-
+<link
+	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
+	rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
 <body>
 
@@ -87,30 +91,30 @@
 					style="align-items: center;">
 					<c:if test="${user != null}">
 						<span style="margin-right: 6px; color: #fff"><fmt:message
-								key="nav.welcome"></fmt:message>,
-							${user.firstName}</span>
+								key="nav.welcome"></fmt:message>, ${user.firstName}</span>
 					</c:if>
-					<li id="auth" style="margin-right: 6px"><a class="nav-link" href="#"><img
+					<li id="auth" style="margin-right: 6px"><a class="nav-link"
+						href="#"><img
 							src="${pageContext.servletContext.contextPath}/assets/images/user.svg"></a></li>
 
-					
 
-					<li id="lang" style="cursor: pointer;width: 40px; text-align: center;"><svg style="fill: #fff"
-							xmlns="http://www.w3.org/2000/svg" height="18" width="18"
-							viewBox="0 0 512 512">
+
+					<li id="lang"
+						style="cursor: pointer; width: 40px; text-align: center;"><svg
+							style="fill: #fff" xmlns="http://www.w3.org/2000/svg" height="18"
+							width="18" viewBox="0 0 512 512">
 							<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.-->
 							<path
 								d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 20.9 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z" /></svg></li>
-					
+
 					<c:if test="${user!=null}">
-						<li id="cart-list"><a
-						style="position: relative;"
+						<li id="cart-list"><a style="position: relative;"
 							class="nav-link"
 							href="${pageContext.servletContext.contextPath}/cart"><img
 								src="${pageContext.servletContext.contextPath}/assets/images/cart.svg">
-								
-									<div class="number-item-cart">${fn:length(sessionScope.cart.product_quantity)}</div>
-								</a></li>
+
+								<div class="number-item-cart">${fn:length(sessionScope.cart.product_quantity)}</div>
+						</a></li>
 					</c:if>
 
 				</ul>
@@ -128,23 +132,24 @@
 
 
 
-			<a href="${pageContext.servletContext.contextPath}/language?lang=en_US"
+			<a
+				href="${pageContext.servletContext.contextPath}/language?lang=en_US"
 				style="display: inline-flex; align-items: center; position: relative; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 1rem; padding-right: 1rem; align-items: center; border-bottom-width: 1px; border-color: #E5E7EB; width: 100%; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; text-decoration: none; color: #fff; height: 50px"
 				onmouseover="this.style.backgroundColor = 'gray'"
-				onmouseout="this.style.backgroundColor = 'transparent'">
-
-				English <svg
+				onmouseout="this.style.backgroundColor = 'transparent'"> English
+				<svg
 					style="margin-left: 8px; ${'en_US' eq lang?'':'display: none'};fill:#fff  "
 					xmlns="http://www.w3.org/2000/svg" height="16" width="14"
 					viewBox="0 0 448 512">
 					<path
 						d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z" /></svg>
 
-			</a> <a href="${pageContext.servletContext.contextPath}/language?lang=vi_VN"
+			</a> <a
+				href="${pageContext.servletContext.contextPath}/language?lang=vi_VN"
 				style="display: inline-flex; align-items: center; position: relative; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 1rem; padding-right: 1rem; align-items: center; border-bottom-width: 1px; border-color: #E5E7EB; width: 100%; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; text-decoration: none; color: #fff; height: 50px"
 				onmouseover="this.style.backgroundColor = 'gray'"
-				onmouseout="this.style.backgroundColor = 'transparent'">
-				Việt Nam <svg
+				onmouseout="this.style.backgroundColor = 'transparent'"> Việt
+				Nam <svg
 					style="margin-left: 8px; ${'vi_VN' eq lang?'':'display: none'}; fill:#fff "
 					xmlns="http://www.w3.org/2000/svg" height="16" width="14"
 					viewBox="0 0 448 512">
@@ -204,7 +209,8 @@ svg {
 
 				<c:when test="${user!=null}">
 
-					<a href="${pageContext.servletContext.contextPath}/logout"
+					<a style="display: none;"
+						href="${pageContext.servletContext.contextPath}/logout"
 						style="display: inline-flex; position: relative; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 1rem; padding-right: 1rem; align-items: center; border-bottom-width: 1px; border-color: #E5E7EB; width: 100%; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; text-decoration: none; color: #fff; height: 50px"
 						onmouseover="this.style.backgroundColor = 'gray'"
 						onmouseout="this.style.backgroundColor = 'transparent'"> <!-- style="margin-right: 0.625rem; width: 0.75rem; height: 0.75rem;"> -->
@@ -216,10 +222,12 @@ svg {
 						<fmt:message key="menu.setting"></fmt:message>
 					</a>
 
-					<a href="${pageContext.servletContext.contextPath}/logout"
+					<div style="cursor: pointer; line-height: 30px; padding: 10px"
+						onclick="confirmLogout('${pageContext.servletContext.contextPath}/logout')"
 						style="display: inline-flex; position: relative; padding-top: 0.5rem; padding-bottom: 0.5rem; padding-left: 1rem; padding-right: 1rem; align-items: center; border-bottom-width: 1px; border-color: #E5E7EB; width: 100%; font-size: 0.875rem; line-height: 1.25rem; font-weight: 500; text-decoration: none; color: #fff; height: 50px"
 						onmouseover="this.style.backgroundColor = 'gray'"
-						onmouseout="this.style.backgroundColor = 'transparent'"> <!-- style="margin-right: 0.625rem; width: 0.75rem; height: 0.75rem;"> -->
+						onmouseout="this.style.backgroundColor = 'transparent'">
+						<!-- style="margin-right: 0.625rem; width: 0.75rem; height: 0.75rem;"> -->
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
 							style="margin-right: 0.625rem; width: 0.75rem; height: 0.75rem; rotate: 180deg; fill: #fff">
 						<!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -227,7 +235,7 @@ svg {
 						<path
 								d="M217.9 105.9L340.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L217.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1L32 320c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM352 416l64 0c17.7 0 32-14.3 32-32l0-256c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32l64 0c53 0 96 43 96 96l0 256c0 53-43 96-96 96l-64 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z" /></svg>
 						<fmt:message key="menu.logout"></fmt:message>
-					</a>
+					</div>
 
 				</c:when>
 			</c:choose>
@@ -250,7 +258,10 @@ svg {
 		src="${pageContext.servletContext.contextPath}/assets/js/tiny-slider.js"></script>
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/custom.js?version=4"></script>
-
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+		crossorigin="anonymous"></script>
 	<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
 	<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
 	<script>
@@ -276,6 +287,23 @@ svg {
 		
 		
 		
+			function confirmLogout(hrefValue) {
+				event.preventDefault();
+				  Swal.fire({
+					    title: 'Are you sure?',
+					    text: "You will be able to log out app!",
+					    icon: 'warning',
+					    showCancelButton: true,
+					    confirmButtonColor: '#3085d6',
+					    cancelButtonColor: '#d33',
+					    confirmButtonText: 'Log out'
+					  }).then((result) => {
+					    if (result.isConfirmed) {
+					    	
+					      window.location.href = hrefValue;
+					    }
+					  })
+			}
 		
 		window.addEventListener("DOMContentLoaded", (e) => {
 			const load_main = document.getElementById("load-main");

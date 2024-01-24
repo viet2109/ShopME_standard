@@ -49,6 +49,54 @@ body {
 	outline: 0;
 	box-shadow: 0 0 0 0px #28a745
 }
+
+#load-main {
+	display: none;
+}
+
+#load-main.load {
+	display: block;
+}
+.spinner-box {
+	position: fixed;
+	z-index: 5;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.circle-border {
+	width: 150px;
+	height: 150px;
+	padding: 3px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	background: rgb(63, 249, 220);
+	background: linear-gradient(0deg, rgba(63, 249, 220, 0.1) 33%, rgba(63, 249, 220, 1) 100%);
+	animation: spin .8s linear 0s infinite;
+}
+
+.circle-core {
+	width: 100%;
+	height: 100%;
+	background-color: #1d2630;
+	border-radius: 50%;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0);
+	}
+
+	to {
+		transform: rotate(359deg);
+	}
+}
 </style>
 </head>
 <body oncontextmenu='return false' class='snippet-body'>
@@ -80,17 +128,30 @@ body {
 					<div class="card-footer">
 						<button class="btn btn-success" type="submit">Get New
 							Password</button>
-						<button class="btn btn-danger" type="submit">Back to
-							Login</button>
+						<a href="${pageContext.servletContext.contextPath}/login" class="btn btn-danger" >Back to
+							Login</a>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+		<div id="load-main">
+
+		<div class="spinner-box">
+			<div class="circle-border">
+				<div class="circle-core"></div>
+			</div>
+		</div>
+	</div>
 	<script type='text/javascript'
 		src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js'></script>
-	<script type='text/javascript' src=''></script>
-	<script type='text/javascript' src=''></script>
-	<script type='text/Javascript'></script>
+	<script type='text/javascript'>
+	
+	window.addEventListener("beforeunload", (e) => {
+		const load_main = document.getElementById("load-main");
+		load_main.classList.add("load");
+	})
+	</script>
+	
 </body>
 </html>

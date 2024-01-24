@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import DAO.UserDAO;
 import Database.DBConnection;
 import Utils.BCrypt;
 import jakarta.servlet.RequestDispatcher;
@@ -34,14 +35,9 @@ public class NewPassword extends HttpServlet {
 		if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
 			String hasPass = BCrypt.hashpw(confPassword, BCrypt.gensalt());
 			try {
-				
-				
-				PreparedStatement pst = DBConnection.connection.prepareStatement("update customers set passwd = ? where email = ? ");
-				pst.setString(1, hasPass);
-				pst.setString(2, (String) session.getAttribute("email"));
 
-				int rowCount = pst.executeUpdate();
-				if (rowCount > 0) {
+				boolean changePass = UserDAO.updatePass((String) session.getAttribute("email"), hasPass);
+				if (changePass) {
 					request.setAttribute("status", "resetSuccess");
 					dispatcher = request.getRequestDispatcher("/pages/login.jsp");
 				} else {

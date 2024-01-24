@@ -19,7 +19,7 @@ import jakarta.servlet.annotation.WebFilter;
 /**
  * Servlet Filter implementation class AuthAuthorization
  */
-@WebFilter(filterName = "Filter2_auth-authorization", urlPatterns = {"/admin/*", "/pages/admin_user.jsp", "/pages/admin_product.jsp"})
+@WebFilter(filterName = "Filter2_auth-authorization", urlPatterns = {"/admin/*", "/pages/admin_user.jsp", "/pages/admin_product.jsp", "/pages/admin_order.jsp"})
 public class Filter2_AuthAuthorization extends HttpFilter implements Filter {
        
     /**

@@ -357,5 +357,20 @@ public class UserDAO {
 		}
 		return receiver;
 	}
+	
+	public static boolean updatePass(String email, String hassPass) {
+		try {
+			PreparedStatement pst = DBConnection.connection.prepareStatement("update customers set passwd = ? where email = ? ");
+			pst.setString(1, hassPass);
+			pst.setString(2, email);
+			int rowCount = pst.executeUpdate();
+			return rowCount>0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 
+	}
+	
 }

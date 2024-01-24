@@ -111,7 +111,7 @@
 
 							</div>
 							<a href="${pageContext.servletContext.contextPath}/forgotPassword" class="forgot-pass">Quên mật khẩu?</a>
-							<div class="form-group form-button">
+							<div class="form-group form-button" style="display: flex;justify-content: center;">
 								<input type="submit" name="signin" id="signin"
 									class="form-submit" value="<fmt:message key="button.login"></fmt:message>" />
 							</div>

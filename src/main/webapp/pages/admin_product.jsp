@@ -48,7 +48,7 @@ label[required]::after {
 </head>
 
 <body>
-	<c:set var="page" value="${requestScope.page }"></c:set>
+	<c:set var="page" value="${requestScope.page}"></c:set>
 	<c:set var="totalProduct" value="${totalProduct}"></c:set>
 	<c:set var="result" value="${result}"></c:set>
 	<c:set var="categories" value="${categories}"></c:set>
