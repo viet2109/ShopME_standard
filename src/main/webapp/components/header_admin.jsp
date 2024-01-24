@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/admin.css">
+	href="${pageContext.servletContext.contextPath}/assets/css/admin.css?version=4">
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">

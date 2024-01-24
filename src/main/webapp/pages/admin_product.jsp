@@ -463,7 +463,7 @@ label[required]::before {
 										</a>
 											<button type="button"
 												onclick="showDeleteConfirmation('delete_category', 'delete_category_input', this)"
-												data-id="${category.id }"
+												data-id="${category.id}"
 												class="btn btn-sm btn-square btn-neutral text-danger-hover ">
 												<i class="bi bi-trash"></i>
 											</button></td>
@@ -504,7 +504,7 @@ label[required]::before {
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		crossorigin="anonymous"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/admin.js?version=1"></script>
 	<script type="text/javascript">
 		const isDeleted = localStorage.getItem("delete");
 

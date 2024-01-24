@@ -72,7 +72,6 @@ public class AdminProduct extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String categoryNameInput = request.getParameter("categoryNameInput");
 
 		String action = request.getParameter("action");
 		String status = null;

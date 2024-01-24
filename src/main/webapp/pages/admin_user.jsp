@@ -14,7 +14,7 @@
 <title>Responsive Bootstrap Dashboard and Admin Template -
 	ByteWebster</title>
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/admin.css">
+	href="${pageContext.servletContext.contextPath}/assets/css/admin.css?version=1">
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">
