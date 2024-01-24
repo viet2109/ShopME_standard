@@ -83,7 +83,6 @@ public class AdminUser extends HttpServlet {
 				requestBody.append(line);
 			}
 			Map<String, String> requestData = Utils.MathUtils.parseFormData(requestBody.toString());
-			System.out.println("adminUser: "+requestData);
 			user_id = Integer.parseInt(requestData.get("customerId"));
 			action = requestData.get("action");
 		}
@@ -116,7 +115,6 @@ public class AdminUser extends HttpServlet {
 			String ward = request.getParameter("w_ward");
 			String detailAddress = request.getParameter("c_address");
 			int role = Integer.parseInt(request.getParameter("role"));
-			System.out.println("adminUser: "+country+"; roles="+role);
 			Address address = new Address(country, city, ward, detailAddress);
 			User user = new User();
 			user.setId(user_id);
@@ -134,7 +132,6 @@ public class AdminUser extends HttpServlet {
 			else
 				status = "update_failed_user";
 			request.setAttribute("status", status);
-			System.out.println("AdminUser.java: "+isSuccess+"; status="+status);
 			doGet(request, response);
 			return;
 		}

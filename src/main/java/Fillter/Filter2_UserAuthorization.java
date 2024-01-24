@@ -65,9 +65,12 @@ public class Filter2_UserAuthorization extends HttpFilter implements Filter {
 		String contextPath = ((HttpServletRequest) request).getContextPath();
 		String requestURI = ((HttpServletRequest) request).getRequestURI();
 		String servletPath = requestURI.substring(contextPath.length());
+		
+		System.out.println("filter_user-authorization: "+contextPath+requestURI+servletPath);
         
 		if (user != null && user.getRoles() == 0 && !shouldExcludeUrl(servletPath)) {
 			httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+			System.out.println("filter_user-authorization: Lỗi gì đó đó");
 			return;
 		}
 		// pass the request along the filter chain

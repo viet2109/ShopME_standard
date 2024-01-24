@@ -45,6 +45,7 @@ public class AdminOrder extends HttpServlet {
 		List<Order> totalNewOrder = OrderDAO.getOrdersByDateCurrent();
 		double revenueOfMonth = OrderDAO.revenueOfMonth(date.getMonthValue(), date.getYear());
 		double revenueOfQuarter = OrderDAO.revenueOfQuarter(((date.getMonthValue()-1)/3)+1, date.getYear());
+		System.out.println("Test");
 		
 		request.setAttribute("totalOrder", totalOrder);
 		request.setAttribute("result", result);

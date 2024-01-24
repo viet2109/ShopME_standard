@@ -56,6 +56,7 @@ public class Filter2_AuthAuthorization extends HttpFilter implements Filter {
 		
 		if (user.getRoles() == 1) {
 			httpResponse.sendError(HttpServletResponse.SC_NOT_FOUND);
+			System.out.println("Filter2_auth-authorization: Lỗi user có roles=1");
 			return;
 		}
 		// pass the request along the filter chain

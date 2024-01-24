@@ -25,7 +25,7 @@
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <link rel="stylesheet" href="alert/dist/sweetalert.css">
 <style type="text/css">
-label[required]::before {
+label[required]::after {
 	content: '* ';
 	color: red; /* Màu sắc của biểu tượng '*' */
 }
@@ -534,28 +534,28 @@ translateY
 							<div class="my-2 px-5">
 								<div class="row">
 									<div class="form-group col-md-6">
-										<label class="control-label" required>First name:</label> <input
+										<label class="control-label" required>First name</label> <input
 											class="form-control" placeholder="Enter first name"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="text" name="firstName" id="firstName"
 											value="${firstName }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Last name:</label> <input
+										<label class="control-label" required>Last name</label> <input
 											class="form-control" placeholder="Enter last name"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="text" name="lastName" id="lastName"
 											value="${lastName }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Email:</label> <input
+										<label class="control-label" required>Email</label> <input
 											class="form-control" placeholder="Enter email"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="email" name="email" id="email"
 											value="${email }">
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Phone:</label> <input
+										<label class="control-label" required>Phone</label> <input
 											class="form-control" placeholder="Enter phone"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="text" name="contact" id="contact"
@@ -578,11 +578,11 @@ translateY
 										</div>
 										<div class="radio">
 											<label><input type="radio" name="roles" value="1"
-												required ${(u.roles==0)?'selected':'' }>Customer</label>
+												required ${(u.roles==0)?'selecte':'' }>Customer</label>
 										</div>
 									</div>
 									<div class="form-group col-md-6">
-										<label class="control-label" required>Password:</label> <input
+										<label class="control-label" required>Password</label> <input
 											class="form-control" placeholder="Enter password"
 											onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 											required type="password" name="pass" id="pass"
@@ -590,7 +590,7 @@ translateY
 									</div>
 									<div class="form-group col-md-6">
 										<label class="control-label" required>Repeat your
-											password:</label> <input class="form-control" type="password"
+											password</label> <input class="form-control" type="password"
 											placeholder="Enter repeat your password" required
 											type="password" name="re_pass" id="re_pass"
 											value="${re_pass }">
@@ -710,7 +710,7 @@ translateY
 	<script
 		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js?version=1"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/admin_user.js?version=2"></script>
 
 </body>
 </html>

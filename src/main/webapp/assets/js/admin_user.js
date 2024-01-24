@@ -308,7 +308,6 @@ function showProfile(e) {
 	var showInfoUser = document.querySelectorAll('#showInfoUser input,select');
 	var showInfoUserContainer = document.getElementById('showInfoUser');
 	var showPurchaseHistory = document.getElementById('showPurchaseHistory');
-			console.log('hidden class');
 	if(e.dataset.userCaneditrole == 0){
 		console.log('hidden class');
 		showInfoUserContainer.classList.add('hidden');
@@ -326,8 +325,10 @@ function showProfile(e) {
 	}
 	if(e.dataset.userRoles == 0){
 		showPurchaseHistory.classList.add('d-none');
+		showInfoUserContainer.classList.add('d-none');
 	}else{
 		showPurchaseHistory.classList.remove('d-none');
+		showInfoUserContainer.classList.remove('d-none');
 		
 	}
 	document.getElementById('see-more-button').setAttribute("data-user-id", e.dataset.userId);
