@@ -86,7 +86,8 @@
 				<ul class="custom-navbar-cta navbar-nav mb-2 mb-md-0 ms-5"
 					style="align-items: center;">
 					<c:if test="${user != null}">
-						<span style="margin-right: 6px; color: #fff">Welcome,
+						<span style="margin-right: 6px; color: #fff"><fmt:message
+								key="nav.welcome"></fmt:message>,
 							${user.firstName}</span>
 					</c:if>
 					<li id="auth" style="margin-right: 6px"><a class="nav-link" href="#"><img

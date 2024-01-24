@@ -189,7 +189,7 @@ label[required]::after {
 					<div class="card shadow border-0 mb-7" id="createItem"
 						style="display: none;">
 						<form class="row"
-							action="${pageContext.servletContext.contextPath}/admin/products"
+							action="${pageContext.servletContext.contextPath}/admin/products?page=${page}"
 							method="post" enctype="multipart/form-data">
 							<input type="hidden" value="add_product" name="action">
 							<div class="my-2 ms-5">
@@ -317,7 +317,7 @@ label[required]::after {
 															</div>
 															<!-- Modal body -->
 															<form
-																action="${pageContext.servletContext.contextPath}/admin/products"
+																action="${pageContext.servletContext.contextPath}/admin/products?page=${page}"
 																method="post" enctype="multipart/form-data">
 																<input type="hidden" name="action" value="edit_product">
 																<input type="text" class="d-none" value="${p.id }"
@@ -373,7 +373,7 @@ label[required]::after {
 																	<!-- Modal footer -->
 																	<div class="modal-footer">
 																		<button type="submit"
-																			class="submit btn btn-success w-auto my-2 px-5">Submit</button>
+																			class="submit btn btn-success w-auto my-2 px-5" >Submit</button>
 																		<button type="button" class="btn btn-danger"
 																			data-bs-dismiss="modal">Close</button>
 																	</div>
@@ -462,7 +462,7 @@ label[required]::after {
 										</a>
 											<button type="button"
 												onclick="showDeleteConfirmation('delete_category', 'delete_category_input', this)"
-												data-id="${category.id }"
+												data-id="${category.id}"
 												class="btn btn-sm btn-square btn-neutral text-danger-hover ">
 												<i class="bi bi-trash"></i>
 											</button></td>
@@ -503,7 +503,7 @@ label[required]::after {
 		integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
 		crossorigin="anonymous"></script>
 	<script
-		src="${pageContext.servletContext.contextPath}/assets/js/admin.js"></script>
+		src="${pageContext.servletContext.contextPath}/assets/js/admin.js?version=2"></script>
 	<script type="text/javascript">
 		const isDeleted = localStorage.getItem("delete");
 

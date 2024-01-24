@@ -9,3 +9,13 @@
 .txt-cet {
 	text-align: center;
 }
+
+.nav-link.act::before {
+	content:"";
+	width: 10px;
+	height: 10px;
+	border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    border-left: 13px solid #3b5d50;
+    margin-right: 20px;
+}

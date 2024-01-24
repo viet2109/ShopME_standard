@@ -1,3 +1,4 @@
+<%@page import="java.time.LocalDate"%>
 <%@page import="java.sql.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -103,7 +104,7 @@
 								<input onblur="handleOnBlur(this)" onfocus="handleOnFocus(this)"
 									required type="date" placeholder="MM/DD/YYYY"
 									onfocus="(this.type='date')" onblur="(this.type='text')"
-									name="dob" id="dob" value="${date}" />
+									name="dob" id="dob" value="${date}" max="${LocalDate.now()}"/>
 							</div>
 
 							<div class="form-group">

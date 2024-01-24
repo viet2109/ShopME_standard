@@ -7,6 +7,10 @@
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<c:set var="lang" value="${lang}" scope="session"></c:set>
+<fmt:setLocale value="${lang}" />
+<fmt:setBundle basename="Utils.text" />
 <!doctype html>
 <html lang="en">
 <head>
@@ -117,7 +121,8 @@
 
 				<div class="form-group" style="margin: 40px 0 20px 0">
 					<label for="c_diff_country" class="text-black"
-						style="font-size: 17px; font-weight: 600; margin-bottom: 8px">Price
+						style="font-size: 17px; font-weight: 600; margin-bottom: 8px"><fmt:message
+								key="text.price"></fmt:message>
 					</label>
 
 					<!-- select input -->
@@ -130,24 +135,28 @@
 								style="display: inline-block; visibility: hidden;" type="radio"
 								class="radio" id="under" name="price" value="0-500"
 								${not empty min_price?Integer.valueOf(min_price)==0?'checked': '':'' } />
-								<label for="under">Dưới 500</label>
+								<label for="under"><fmt:message
+								key="text.under"></fmt:message> 500</label>
 							</label> <label class="option" for="between" style="width: 100%">
 								<input style="display: inline-block; visibility: hidden;"
 								type="radio" class="radio" id="between" name="price"
 								value="500-1000"
 								${not empty min_price?Integer.valueOf(min_price)==500?'checked': '':'' } />
-								<label for="between">Từ 500 - 1000</label>
+								<label for="between"><fmt:message
+								key="text.from"></fmt:message> 500 - 1000</label>
 							</label> <label class="option" for="on" style="width: 100%"> <input
 								style="display: inline-block; visibility: hidden;" type="radio"
 								class="radio" id="on" name="price" value="1000-xxxx"
 								${not empty min_price?Integer.valueOf(min_price)==1000?'checked': '':'' } />
-								<label for="on">Trên 1000</label>
+								<label for="on"><fmt:message
+								key="text.above"></fmt:message> 1000</label>
 							</label>
 
 
 						</div>
 
-						<div class="selected">Select price</div>
+						<div class="selected"><fmt:message
+								key="text.select_price"></fmt:message></div>
 					</div>
 
 				</div>
@@ -155,7 +164,8 @@
 
 				<div class="form-group" style="margin: 40px 0 20px 0">
 					<label for="c_diff_country" class="text-black"
-						style="font-size: 17px; font-weight: 600; margin-bottom: 8px">Rate
+						style="font-size: 17px; font-weight: 600; margin-bottom: 8px"><fmt:message
+								key="text.rate"></fmt:message>
 					</label>
 
 					<section
@@ -370,7 +380,8 @@
 					style="width: 100%; display: flex; justify-content: center; margin-top: 40px">
 					<button type="submit"
 						style="border: none; width: 100%; height: 52px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #3b5d50; color: #fff; cursor: pointer; font-weight: 600;">
-						Filter
+						<fmt:message
+								key="text.filter"></fmt:message>
 						<svg class="filter-icon" xmlns="http://www.w3.org/2000/svg"
 							height="1.5em" viewBox="0 0 512 512">
 						<style>

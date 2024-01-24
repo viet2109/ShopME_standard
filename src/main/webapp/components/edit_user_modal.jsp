@@ -30,7 +30,7 @@
 						onclick="document.getElementById('showProfile').style.display='none';"></button>
 				</div>
 				<!-- Modal body -->
-				<form action="${pageContext.servletContext.contextPath}/admin/users"
+				<form action="${pageContext.servletContext.contextPath}/admin/users?page=${param.page}"
 					method="post">
 					<input type="hidden" value="edit_user" name="action"> <input
 						type="hidden" name="user_id" id="user_id">

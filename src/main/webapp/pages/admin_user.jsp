@@ -14,7 +14,7 @@
 <title>Responsive Bootstrap Dashboard and Admin Template -
 	ByteWebster</title>
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/admin.css">
+	href="${pageContext.servletContext.contextPath}/assets/css/admin.css?version=1">
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">
@@ -525,7 +525,7 @@ translateY
 					<div class="card shadow border-0 mb-7" id="createItem"
 						style="display: none;">
 						<form class="row"
-							action="${pageContext.servletContext.contextPath}/admin/users"
+							action="${pageContext.servletContext.contextPath}/admin/users?page=${page}"
 							method="post" id="create-user-form">
 							<input type="hidden" name="action" value="insert_user">
 							<div class="my-2 ms-5">
@@ -701,7 +701,9 @@ translateY
 	</form>
 	<!-- End delete user -->
 
-	<jsp:include page="../components/edit_user_modal.jsp"></jsp:include>
+	<jsp:include page="../components/edit_user_modal.jsp">
+		<jsp:param value="${page }" name="page"/>
+	</jsp:include>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

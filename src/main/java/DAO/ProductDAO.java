@@ -121,13 +121,16 @@ public class ProductDAO {
 		return list.subList(0, limit>list.size()?list.size():limit);
 	}
 	public static boolean delete(int id) {
-		String sql = "DELETE FROM products WHERE id = ?;";
+		System.out.println(id);
+		String sql = "DELETE FROM products WHERE id = ?";
 		try {
 			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
+			
 			statement.setInt(1, id);
+			
 			int result = statement.executeUpdate();
+			if(result > 0) return true;
 			statement.close();
-			if(result >= 0) return true;
 		} catch (SQLException e) {
 			if ("45000".equals(e.getSQLState())) {
 

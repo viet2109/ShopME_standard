@@ -118,12 +118,11 @@ function showDeleteConfirmation(formId, inputId, button) {
 		if (result.isConfirmed) {
 			// Sử dụng datasetKey để lấy giá trị từ thuộc tính data-* của button
 			deleteInput.value = button.dataset.id;
-			console.log('Test')
-
+			
+			
+			
 			deleteForm.submit();
-			console.log('Test sau khi submit')
 			localStorage.setItem('delete', "true");
-			console.log('Test', localStorage)
 		}
 	});
 }
@@ -249,4 +248,6 @@ function displayDataInTable(data) {
 
 	}
 }
+
+	
 

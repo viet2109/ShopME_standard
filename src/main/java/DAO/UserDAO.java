@@ -269,19 +269,14 @@ public class UserDAO {
 			PreparedStatement statement = DBConnection.connection.prepareStatement(sql);
 			statement.setInt(1, id);
 			int result = statement.executeUpdate();
-			statement.close();
+		
 			if (result >= 0)
 				return true;
 
 			statement.close();
 		} catch (SQLException e) {
-			if ("45000".equals(e.getSQLState())) {
-
-				// Xử lý khi gặp lỗi "Cannot delete user with orders"
-
-				return false;
-			} else
-				e.printStackTrace();
+			
+			e.printStackTrace();
 			return false;
 		}
 		return false;

@@ -1,11 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+		<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/admin.css">
+	href="${pageContext.servletContext.contextPath}/assets/css/admin.css?version=1">
 <link
 	href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
 	rel="stylesheet">
@@ -13,8 +15,7 @@
 	src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
 <body>
-
-
+	<c:set var="currentPath" value="${requestScope['jakarta.servlet.forward.servlet_path']}"></c:set>
 	<nav
 		class="navbar show navbar-vertical h-lg-screen navbar-expand-lg px-0 py-3 navbar-light bg-white border-bottom border-bottom-lg-0 border-end-lg"
 		id="navbarVertical">
@@ -63,11 +64,14 @@
 			<div class="collapse navbar-collapse" id="sidebarCollapse">
 				<!-- Navigation -->
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link"
+				
+				
+				
+					<li class="nav-item"><a class="nav-link ${fn:containsIgnoreCase(currentPath, 'users') ? 'act':'' }"
 						href="${pageContext.servletContext.contextPath}/admin/users?page=1">
-							<i class="bi bi-people"></i> Users
+							<i class="bi bi-people"></i> <div style="margin-left: -6px">Users</div>
 					</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link ${fn:containsIgnoreCase(currentPath, 'products') ? 'act':'' }"
 						href="${pageContext.servletContext.contextPath}/admin/products?page=1">
 							<div style="min-width: 1.875rem">
 								<svg xmlns="http://www.w3.org/2000/svg" height="1em"
@@ -77,11 +81,11 @@
 									<path
 										d="M64 160C64 89.3 121.3 32 192 32H448c70.7 0 128 57.3 128 128v33.6c-36.5 7.4-64 39.7-64 78.4v48H128V272c0-38.7-27.5-71-64-78.4V160zM544 272c0-20.9 13.4-38.7 32-45.3c5-1.8 10.4-2.7 16-2.7c26.5 0 48 21.5 48 48V448c0 17.7-14.3 32-32 32H576c-17.7 0-32-14.3-32-32H96c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V272c0-26.5 21.5-48 48-48c5.6 0 11 1 16 2.7c18.6 6.6 32 24.4 32 45.3v48 32h32H512h32V320 272z" /></svg>
 
-							</div> Products
+							</div> <div style="margin-left: -6px">Products</div>
 					</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item"><a class="nav-link ${fn:containsIgnoreCase(currentPath, 'orders') ? 'act':'' }"
 						href="${pageContext.servletContext.contextPath}/admin/orders?page=1">
-							<i class="fa-solid fa-clipboard-list"></i></i> Orders
+							<i class="fa-solid fa-clipboard-list"></i></i> <div style="margin-left: -8px">Orders</div>
 					</a></li>
 				</ul>
 				<!-- Divider -->
