@@ -148,4 +148,14 @@
     <servlet-name>SeeMoer</servlet-name>
     <url-pattern>/SeeMoer</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ForgotPass</display-name>
+    <servlet-name>ForgotPass</servlet-name>
+    <servlet-class>Controller.ForgotPass</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ForgotPass</servlet-name>
+    <url-pattern>/ForgotPass</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -21,7 +21,7 @@
 
 <!-- Main css -->
 <link rel="stylesheet"
-	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=6">
+	href="${pageContext.servletContext.contextPath}/assets/css/auth.css?version=7">
 </head>
 <body>
 	<c:set var="product_id" value="${param.id }" />
@@ -110,6 +110,7 @@
 								</label>
 
 							</div>
+							<a href="${pageContext.servletContext.contextPath}/forgotPassword" class="forgot-pass">Quên mật khẩu?</a>
 							<div class="form-group form-button">
 								<input type="submit" name="signin" id="signin"
 									class="form-submit" value="<fmt:message key="button.login"></fmt:message>" />

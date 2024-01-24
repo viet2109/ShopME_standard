@@ -712,4 +712,15 @@ label.valid:after {
 	margin-right: 7px;
 }
 
+.forgot-pass {
+	display: flex;
+	justify-content: flex-end;
+	cursor: pointer;
+	color: #333;
+	text-decoration: none;
+}
+
+.forgot-pass:hover {
+	text-decoration: underline;
+}
 /*# sourceMappingURL=style.css.map */
